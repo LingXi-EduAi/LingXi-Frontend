@@ -94,7 +94,7 @@ const sales = {
           </div>
         </div>
         <!-- 学情分析饼图部分 -->
-        <div class="row">
+        <div class="row mt-2">
           <div class="col-lg-12 mb-lg">
             <div class="card z-index-2">
               <div class="p-3 pb-0 card-header">
