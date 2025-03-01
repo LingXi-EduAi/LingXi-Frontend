@@ -7,12 +7,17 @@ import RTL from "../views/Rtl.vue";
 import Profile from "../views/Profile.vue";
 import Signup from "../views/Signup.vue";
 import Signin from "../views/Signin.vue";
+import Start from "@/views/Start.vue";
 
 const routes = [
   {
     path: "/",
     name: "/",
-    redirect: "/dashboard-default",
+    redirect: "/start",
+  },{
+    path: "/start",
+    name: "开始",
+    component: Start,
   },
   {
     path: "/dashboard-default",
