@@ -9,7 +9,7 @@ const props = defineProps({
   },
   height: {
     type: String,
-    default: "300",
+    default: "200",
   },
   title: {
     type: String,
@@ -56,7 +56,7 @@ onMounted(() => {
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      cutout: '70%',
+      cutout: '50%',
       plugins: {
         legend: {
           position: 'bottom', // 修改为底部位置
@@ -76,7 +76,7 @@ onMounted(() => {
                   text: `${label}${extra}`,
                   fillStyle: dataset.backgroundColor[index],
                   strokeStyle: dataset.backgroundColor[index],
-                  lineWidth: 0,
+                  lineWidth: 4,
                   hidden: isNaN(dataset.data[index]) || dataset.data[index] === null,
                   index: index
                 };
@@ -94,7 +94,7 @@ onMounted(() => {
       // 添加布局调整以确保图例有足够空间
       layout: {
         padding: {
-          bottom: 20 // 为底部图例留出空间
+          bottom: 5 // 为底部图例留出空间
         }
       }
     }

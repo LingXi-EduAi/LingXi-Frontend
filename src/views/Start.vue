@@ -251,7 +251,7 @@ const sales = {
 }
 
 .chart-item {
-  min-width: 300px;
+  width: 300px;
   margin-right: 20px;
 }
 </style>
