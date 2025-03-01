@@ -24,7 +24,7 @@ const getRoute = () => {
       <li class="nav-item">
         <sidenav-item
             to="/start"
-            :class="getRoute() === 'dashboard-default' ? 'active' : ''"
+            :class="getRoute() === 'start' ? 'active' : ''"
             :navText="isRTL ? 'بداية .' : '开始'"
         >
           <template v-slot:icon>
@@ -35,8 +35,8 @@ const getRoute = () => {
 
       <li class="nav-item">
         <sidenav-item
-            to="/homework"
-            :class="getRoute() === 'tables' ? 'active' : ''"
+            to="/homeworkHub"
+            :class="getRoute() === 'homework' ? 'active' : ''"
             :navText="isRTL ? 'مركز العمليات' : '作业中心'"
         >
           <template v-slot:icon>
@@ -47,24 +47,24 @@ const getRoute = () => {
 
       <li class="nav-item">
         <sidenav-item
-            to="/billing"
-            :class="getRoute() === 'billing' ? 'active' : ''"
+            to="/syllabus"
+            :class="getRoute() === 'syllabus' ? 'active' : ''"
             :navText="isRTL ? 'خطة التدريس' : '教学方案'"
         >
           <template v-slot:icon>
-            <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
+            <i class="ni ni-app text-info text-sm opacity-10"></i>
           </template>
         </sidenav-item>
       </li>
 
       <li class="nav-item">
         <sidenav-item
-            to="/billing"
-            :class="getRoute() === 'billing' ? 'active' : ''"
+            to="/coursewareHub"
+            :class="getRoute() === 'coursewareHub' ? 'active' : ''"
             :navText="isRTL ? 'كورس مركز' : '课件中心'"
         >
           <template v-slot:icon>
-            <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
+            <i class="ni ni-collection text-info text-sm opacity-10"></i>
           </template>
         </sidenav-item>
       </li>
