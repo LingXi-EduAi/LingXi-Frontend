@@ -86,12 +86,12 @@ defineProps({
         </div>
         <div :class="classContent">
           <div class="numbers">
-            <p
-              class="mb-0 text-sm text-uppercase font-weight-bold"
+            <h5
+              class="mb-0 text-2xl text-uppercase font-weight-bold"
               :class="title.color"
             >
               {{ typeof title === "string" ? title : title.text }}
-            </p>
+            </h5>
             <h5 :class="`mb-0 font-weight-bolder ${value.color}`">
               {{
                 (value && typeof value === "string") ||
