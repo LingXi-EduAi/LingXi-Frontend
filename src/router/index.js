@@ -8,6 +8,7 @@ import Profile from "../views/Profile.vue";
 import Signup from "../views/Signup.vue";
 import Signin from "../views/Signin.vue";
 import Start from "@/views/Start.vue";
+import Homework from "@/views/Homework.vue";
 
 const routes = [
   {
@@ -18,6 +19,10 @@ const routes = [
     path: "/start",
     name: "开始",
     component: Start,
+  }, {
+    path: "/homework",
+    name: "作业中心",
+    component: Homework,
   },
   {
     path: "/dashboard-default",

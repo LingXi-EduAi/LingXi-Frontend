@@ -35,14 +35,12 @@ const getRoute = () => {
 
       <li class="nav-item">
         <sidenav-item
-            to="/tables"
+            to="/homework"
             :class="getRoute() === 'tables' ? 'active' : ''"
-            :navText="isRTL ? 'واجب' : '作业'"
+            :navText="isRTL ? 'مركز العمليات' : '作业中心'"
         >
           <template v-slot:icon>
-            <i
-                class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"
-            ></i>
+            <i class="ni ni-single-copy-04 text-danger text-sm opacity-10"></i>
           </template>
         </sidenav-item>
       </li>
@@ -51,7 +49,7 @@ const getRoute = () => {
         <sidenav-item
             to="/billing"
             :class="getRoute() === 'billing' ? 'active' : ''"
-            :navText="isRTL ? 'جمع' : '收藏'"
+            :navText="isRTL ? 'خطة التدريس' : '教学方案'"
         >
           <template v-slot:icon>
             <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
