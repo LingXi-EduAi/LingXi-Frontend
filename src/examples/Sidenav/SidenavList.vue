@@ -107,6 +107,7 @@ const getRoute = () => {
             class="text-xs ps-4 text-uppercase font-weight-bolder opacity-6"
             :class="isRTL ? 'me-4' : 'ms-2'"
         >
+          账户设置
         </h6>
       </li>
 
