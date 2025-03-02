@@ -71,48 +71,24 @@ const getRoute = () => {
 
       <li class="nav-item">
         <sidenav-item
-            to="/billing"
-            :class="getRoute() === 'billing' ? 'active' : ''"
+            to="/analytics"
+            :class="getRoute() === 'analytics' ? 'active' : ''"
             :navText="isRTL ? 'تحليل الحالة التعليمية' : '学情分析'"
         >
           <template v-slot:icon>
-            <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
+            <i class="ni ni-world-2 text-danger text-sm opacity-10"></i>
           </template>
         </sidenav-item>
       </li>
 
       <li class="nav-item">
         <sidenav-item
-            to="/billing"
-            :class="getRoute() === 'billing' ? 'active' : ''"
+            to="/nook"
+            :class="getRoute() === 'nook' ? 'active' : ''"
             :navText="isRTL ? 'زاوية التعلم' : '学习角'"
         >
           <template v-slot:icon>
             <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
-          </template>
-        </sidenav-item>
-      </li>
-
-      <li class="nav-item">
-        <sidenav-item
-            to="/virtual-reality"
-            :class="getRoute() === 'virtual-reality' ? 'active' : ''"
-            :navText="isRTL ? 'الواقع الافتراضي' : 'Virtual Reality'"
-        >
-          <template v-slot:icon>
-            <i class="ni ni-app text-info text-sm opacity-10"></i>
-          </template>
-        </sidenav-item>
-      </li>
-
-      <li class="nav-item">
-        <sidenav-item
-            to="/rtl-page"
-            :class="getRoute() === 'rtl-page' ? 'active' : ''"
-            navText="RTL"
-        >
-          <template v-slot:icon>
-            <i class="ni ni-world-2 text-danger text-sm opacity-10"></i>
           </template>
         </sidenav-item>
       </li>
@@ -131,7 +107,6 @@ const getRoute = () => {
             class="text-xs ps-4 text-uppercase font-weight-bolder opacity-6"
             :class="isRTL ? 'me-4' : 'ms-2'"
         >
-          ACCOUNT PAGES
         </h6>
       </li>
 
@@ -139,7 +114,7 @@ const getRoute = () => {
         <sidenav-item
             to="/profile"
             :class="getRoute() === 'profile' ? 'active' : ''"
-            :navText="isRTL ? 'حساب تعريفي' : 'Profile'"
+            :navText="isRTL ? 'حساب تعريفي' : '个人设置'"
         >
           <template v-slot:icon>
             <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
