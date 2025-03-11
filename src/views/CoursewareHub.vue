@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <div class="py-2 container-fluid">
+  <div class="container-fluid">
     <div class="row mt-2">
       <div class="col-lg-12 mb-lg">
         <div class="card z-index-2">
