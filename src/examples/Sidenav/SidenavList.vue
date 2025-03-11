@@ -122,30 +122,6 @@ const getRoute = () => {
           </template>
         </sidenav-item>
       </li>
-
-      <li class="nav-item">
-        <sidenav-item
-            to="/signin"
-            :class="getRoute() === 'signin' ? 'active' : ''"
-            :navText="isRTL ? 'تسجيل الدخول' : 'Sign In'"
-        >
-          <template v-slot:icon>
-            <i class="ni ni-single-copy-04 text-danger text-sm opacity-10"></i>
-          </template>
-        </sidenav-item>
-      </li>
-
-      <li class="nav-item">
-        <sidenav-item
-            to="/signup"
-            :class="getRoute() === 'signup' ? 'active' : ''"
-            :navText="isRTL ? 'اشتراك' : 'Sign Up'"
-        >
-          <template v-slot:icon>
-            <i class="ni ni-collection text-info text-sm opacity-10"></i>
-          </template>
-        </sidenav-item>
-      </li>
     </ul>
   </div>
 
