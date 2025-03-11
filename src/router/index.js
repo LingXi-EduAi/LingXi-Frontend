@@ -27,7 +27,7 @@ const routes = [
         component: HomeworkHub,
     }, {
         path: "/syllabus",
-        name: "课程大纲",
+        name: "教学方案",
         component: Syllabus,
     }, {
         path: "/coursewareHub",
