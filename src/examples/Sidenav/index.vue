@@ -31,15 +31,16 @@ const darkMode = computed(() => store.state.darkMode);
         id="iconSidenav"
       ></i>
 
-      <router-link class="m-0 navbar-brand" to="/">
-        <div class="d-flex align-items-center">
-          <img
-            :src="darkMode || sidebarType === 'bg-default' ? logoWhite : logo"
-            class="navbar-brand-img h-90"
-            alt="main_logo"
-          />
-          <span class="ms-2 font-weight-bold" style="font-size: x-large;">灵犀教育</span>
-        </div>
+      <router-link
+        class="d-block h-100 w-100"
+        to="/"
+        style="max-width: 200px; padding: 1rem;">
+        <img
+          :src="darkMode || sidebarType === 'bg-default' ? logoWhite : logo"
+          class="h-100 w-100"
+          style="object-fit: contain;"
+          alt="main_logo"
+        />
       </router-link>
     </div>
 
