@@ -32,7 +32,7 @@
 
 .iframe-container {
   width: 100%;
-  height: calc(100vh - 150px); /* 动态计算高度，减去顶部和底部的大约空间 */
+  height: calc(100vh - 140px); /* 动态计算高度，减去顶部和底部的大约空间 */
   position: relative;
 }
 
