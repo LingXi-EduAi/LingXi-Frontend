@@ -11,6 +11,7 @@ import Start from "@/views/Start.vue";
 import HomeworkHub from "@/views/HomeworkHub.vue";
 import CoursewareHub from "@/views/CoursewareHub.vue";
 import Syllabus from "@/views/Syllabus.vue";
+import Analytics from "@/views/Analytics.vue";
 
 const routes = [
     {
@@ -34,41 +35,38 @@ const routes = [
         name: "课件中心",
         component: CoursewareHub,
     }, {
+        path: "/analytics",
+        name: "学情分析",
+        component: Analytics,
+    }, {
         path: "/dashboard-default",
         name: "Dashboard",
         component: Dashboard,
-    },
-    {
+    }, {
         path: "/tables",
         name: "Tables",
         component: Tables,
-    },
-    {
+    }, {
         path: "/billing",
         name: "Billing",
         component: Billing,
-    },
-    {
+    }, {
         path: "/virtual-reality",
         name: "Virtual Reality",
         component: VirtualReality,
-    },
-    {
+    }, {
         path: "/rtl-page",
         name: "RTL",
         component: RTL,
-    },
-    {
+    }, {
         path: "/profile",
         name: "Profile",
         component: Profile,
-    },
-    {
+    }, {
         path: "/signin",
         name: "Signin",
         component: Signin,
-    },
-    {
+    }, {
         path: "/signup",
         name: "Signup",
         component: Signup,
