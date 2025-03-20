@@ -232,6 +232,7 @@ const handleError = (error) => {
   padding: 0.75rem 1.25rem;
   border-radius: 0.375rem;
   font-size: 0.875rem;
+  color: white;
 }
 
 .spinner-border {
