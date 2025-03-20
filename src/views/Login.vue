@@ -62,7 +62,7 @@ const handleLogin = async () => {
       storage.setItem("authToken", response.data.data);
 
       // 跳转到仪表盘
-      await router.push("/dashboard");
+      await router.push("/");
     } else {
       errorMessage.value = response.data.msg || "登录失败";
     }
