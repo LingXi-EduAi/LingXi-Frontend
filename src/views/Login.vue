@@ -49,7 +49,8 @@ const handleLogin = async () => {
     }
 
     // API请求
-    const response = await axios.post("http://localhost:5678/token/login", {
+    console.log(axios.defaults.baseURL); // 应该输出 https://api.example.com
+    const response = await axios.post("/token/login", {
       userId: userId.value,
       password: password.value
     });
