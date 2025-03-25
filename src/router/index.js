@@ -12,6 +12,7 @@ import HomeworkHub from "@/views/HomeworkHub.vue";
 import CoursewareHub from "@/views/CoursewareHub.vue";
 import Syllabus from "@/views/Syllabus.vue";
 import Analytics from "@/views/Analytics.vue";
+import ClassManagement from "@/views/ClassManagement.vue";
 
 const routes = [
     {
@@ -70,7 +71,11 @@ const routes = [
         path: "/signup",
         name: "Signup",
         component: Signup,
-    },
+    }, {
+        path: '/class-management',
+        name: '班级管理',
+        component: ClassManagement,
+    }
 ];
 
 const router = createRouter({
