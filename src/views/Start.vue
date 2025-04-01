@@ -1,4 +1,5 @@
 <script setup>
+import { useRouter } from 'vue-router';
 import MiniStatisticsCard from "@/examples/Cards/MiniStatisticsCard.vue";
 import CategoriesList from "./components/CategoriesList.vue";
 import ReportsDoughnutChart from "@/examples/Charts/ReportsDoughnutChart.vue";
@@ -37,6 +38,11 @@ const sales = {
     flag: BR,
   },
 };
+
+const router = useRouter();
+const navigateToClassManagement = () => {
+  router.push('/class-management')
+};
 </script>
 
 <template>
@@ -46,14 +52,16 @@ const sales = {
         <div class="row">
           <div class="col-lg-3 col-md-6 col-12">
             <mini-statistics-card
-                title="新建/加入班级"
+                title="班级管理"
                 value=""
                 description="遇见学习新伙伴"
                 :icon="{
                 component: 'ni ni-money-coins',
                 background: 'bg-gradient-primary',
                 shape: 'rounded-circle',
-              }"
+                }"
+                @click="navigateToClassManagement"
+                style="cursor: pointer;"
             />
           </div>
           <div class="col-lg-3 col-md-6 col-12">
