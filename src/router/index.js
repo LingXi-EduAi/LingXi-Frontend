@@ -14,6 +14,7 @@ import Syllabus from "@/views/Syllabus.vue";
 import Analytics from "@/views/Analytics.vue";
 import ClassManagement from "@/views/ClassManagement.vue";
 import TeachingAssistant from "@/views/TeachingAssistant.vue";
+import ClassGroupingManagement from "@/views/ClassGroupingManagement.vue";
 
 const routes = [
     {
@@ -80,7 +81,11 @@ const routes = [
         path: '/class-management',
         name: '班级管理',
         component: ClassManagement,
-    }
+    }, {
+        path: "/class-grouping",
+        name: "分班模板管理",
+        component: ClassGroupingManagement,
+    },
 ];
 
 const router = createRouter({
