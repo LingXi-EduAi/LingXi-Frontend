@@ -13,6 +13,7 @@ import CoursewareHub from "@/views/CoursewareHub.vue";
 import Syllabus from "@/views/Syllabus.vue";
 import Analytics from "@/views/Analytics.vue";
 import ClassManagement from "@/views/ClassManagement.vue";
+import TeachingAssistant from "@/views/TeachingAssistant.vue";
 
 const routes = [
     {
@@ -39,6 +40,10 @@ const routes = [
         path: "/analytics",
         name: "学情分析",
         component: Analytics,
+    }, {
+        path: "/teaching-assistant",
+        name: "助教",
+        component: TeachingAssistant,
     }, {
         path: "/dashboard-default",
         name: "Dashboard",
