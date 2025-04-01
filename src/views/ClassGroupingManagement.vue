@@ -158,15 +158,6 @@ onMounted(() => {
                 background: 'bg-gradient-warning',
                 shape: 'rounded-circle',
               }"
-              @click="showModal = true; isEditMode = false; formData = {
-                id: '',
-                name: '',
-                classRule: '',
-                classCondition: '',
-                volume: 10,
-                state: '1',
-                version: 1
-              }"
             />
           </div>
         </div>
