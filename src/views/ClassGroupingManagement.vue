@@ -1,85 +1,45 @@
 <script setup>
 import MiniStatisticsCard from "@/examples/Cards/MiniStatisticsCard.vue";
 import { ref, onMounted } from "vue";
-import axios from "axios";
-import { useRouter } from "vue-router";
+import { request } from "@/utils/request";
 
-const router = useRouter();
 const errorMessage = ref("");
-
-// 获取token并构建带token的URL
-const buildUrlWithToken = (baseUrl) => {
-  const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
-  if (!token) {
-    errorMessage.value = "未登录或登录已过期";
-    router.push("/login");
-    return baseUrl;
-  }
-  return `${baseUrl}?token=${token}`;
-};
-
-// 统一错误处理 (与Login.vue保持一致)
-const handleError = (error) => {
-  if (error.response) {
-    const status = error.response.status;
-    switch (status) {
-      case 401:
-        errorMessage.value = "身份验证失败";
-        router.push("/login");
-        break;
-      case 403:
-        errorMessage.value = "无权限访问此资源";
-        break;
-      default:
-        errorMessage.value = error.response.data.msg || "请求失败";
-    }
-  } else if (error.request) {
-    errorMessage.value = "无法连接到服务器";
-  } else {
-    errorMessage.value = "发生未知错误";
-  }
-  console.error("请求错误:", error);
-};
 
 // 获取分班模板列表
 const fetchGroupings = async () => {
   try {
-    const url = buildUrlWithToken("/classGrouping/list");
-    const response = await axios.post(url, {});
-    classGroupings.value = response.data.data.list || [];
+    const response = await request.post("/classGrouping/list", {});
+    classGroupings.value = response.data.list || [];
   } catch (error) {
-    handleError(error);
+    errorMessage.value = error.message;
   }
 };
 
 // 获取模板详情
 const fetchGroupingDetail = async (id) => {
   try {
-    const url = buildUrlWithToken("/classGrouping/detail");
-    const response = await axios.post(url, { id });
-    currentGrouping.value = response.data.data;
-    formData.value = { ...response.data.data };
+    const response = await request.post("/classGrouping/detail", { id });
+    currentGrouping.value = response.data;
+    formData.value = { ...response.data };
     isEditMode.value = true;
     showModal.value = true;
   } catch (error) {
-    handleError(error);
+    errorMessage.value = error.message;
   }
 };
 
 // 提交表单（新增/编辑）
 const submitForm = async () => {
   try {
-    const url = buildUrlWithToken(
-      isEditMode.value ? "/classGrouping/edit" : "/classGrouping/add"
-    );
-    const response = await axios.post(url, formData.value);
+    const url = isEditMode.value ? "/classGrouping/edit" : "/classGrouping/add";
+    const response = await request.post(url, formData.value);
     
-    if (response.data.status === 200) {
+    if (response.status === 200) {
       showModal.value = false;
       await fetchGroupings();
     }
   } catch (error) {
-    handleError(error);
+    errorMessage.value = error.message;
   }
 };
 
