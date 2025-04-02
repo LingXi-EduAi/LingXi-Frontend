@@ -7,6 +7,7 @@ import Navbar from "@/examples/PageLayout/Navbar.vue";
 import ArgonInput from "@/components/ArgonInput.vue";
 import ArgonSwitch from "@/components/ArgonSwitch.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
+import { request } from "@/utils/request";
 
 const store = useStore();
 const router = useRouter();
@@ -45,11 +46,11 @@ const handleLogin = async () => {
     // 输入验证
     if (!userId.value || !password.value) {
       errorMessage.value = "请输入用户ID和密码";
+      isLoading.value = false;
       return;
     }
 
     // API请求
-    console.log(axios.defaults.baseURL); // 应该输出 https://api.example.com
     const response = await axios.post("/token/login", {
       userId: userId.value,
       password: password.value
@@ -60,6 +61,16 @@ const handleLogin = async () => {
       // 保存token
       const storage = rememberMe.value ? localStorage : sessionStorage;
       storage.setItem("authToken", response.data.data);
+
+      // 获取用户信息
+      try {
+        const userInfoResponse = await request.post("/customer/detail", {});
+        if (userInfoResponse.status === 200) {
+          storage.setItem("userInfo", JSON.stringify(userInfoResponse.data));
+        }
+      } catch (error) {
+        console.error("获取用户信息失败:", error);
+      }
 
       // 跳转到仪表盘
       await router.push("/");
@@ -103,11 +114,8 @@ const handleError = (error) => {
   <div class="container top-0 position-sticky z-index-sticky">
     <div class="row">
       <div class="col-12">
-        <navbar
-          isBlur="blur  border-radius-lg my-3 py-2 start-0 end-0 mx-4 shadow"
-          :darkMode="true"
-          isBtn="bg-gradient-success"
-        />
+        <navbar isBlur="blur  border-radius-lg my-3 py-2 start-0 end-0 mx-4 shadow" :darkMode="true"
+          isBtn="bg-gradient-success" />
       </div>
     </div>
   </div>
@@ -132,28 +140,14 @@ const handleError = (error) => {
                   <form @submit.prevent="handleLogin">
                     <!-- 用户ID输入 -->
                     <div class="mb-3">
-                      <argon-input
-                        v-model.trim="userId"
-                        id="userId"
-                        type="text"
-                        placeholder="用户ID"
-                        name="userId"
-                        size="lg"
-                        :disabled="isLoading"
-                      />
+                      <argon-input v-model.trim="userId" id="userId" type="text" placeholder="用户ID" name="userId"
+                        size="lg" :disabled="isLoading" />
                     </div>
 
                     <!-- 密码输入 -->
                     <div class="mb-3">
-                      <argon-input
-                        v-model.trim="password"
-                        id="password"
-                        type="password"
-                        placeholder="密码"
-                        name="password"
-                        size="lg"
-                        :disabled="isLoading"
-                      />
+                      <argon-input v-model.trim="password" id="password" type="password" placeholder="密码"
+                        name="password" size="lg" :disabled="isLoading" />
                     </div>
 
                     <!-- 记住我开关 -->
@@ -166,14 +160,8 @@ const handleError = (error) => {
 
                     <!-- 登录按钮 -->
                     <div class="text-center">
-                      <argon-button
-                        class="mt-4"
-                        variant="gradient"
-                        color="success"
-                        fullWidth
-                        size="lg"
-                        :disabled="isLoading"
-                      >
+                      <argon-button class="mt-4" variant="gradient" color="success" fullWidth size="lg"
+                        :disabled="isLoading">
                         <span v-if="isLoading">
                           <span class="spinner-border spinner-border-sm" role="status"></span>
                           登录中...
@@ -188,10 +176,7 @@ const handleError = (error) => {
                 <div class="px-1 pt-0 text-center card-footer px-lg-2">
                   <p class="mx-auto mb-4 text-sm">
                     没有账户？
-                    <router-link
-                      to="/register"
-                      class="text-success text-gradient font-weight-bold"
-                    >
+                    <router-link to="/register" class="text-success text-gradient font-weight-bold">
                       立即注册
                     </router-link>
                   </p>
@@ -201,15 +186,13 @@ const handleError = (error) => {
 
             <!-- 右侧背景图 -->
             <div
-              class="top-0 my-auto text-center col-6 d-lg-flex d-none h-100 pe-0 position-absolute end-0 justify-content-center flex-column"
-            >
+              class="top-0 my-auto text-center col-6 d-lg-flex d-none h-100 pe-0 position-absolute end-0 justify-content-center flex-column">
               <div
                 class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center overflow-hidden"
                 style="
                   background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signin-ill.jpg');
                   background-size: cover;
-                "
-              >
+                ">
                 <span class="mask bg-gradient-success opacity-6"></span>
                 <h2 class="mt-5 text-white font-weight-bolder position-relative">
                   "智能教育平台"

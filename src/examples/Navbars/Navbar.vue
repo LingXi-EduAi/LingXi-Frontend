@@ -3,6 +3,7 @@ import { computed, ref } from "vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 import Breadcrumbs from "../Breadcrumbs.vue";
+import { onMounted } from "vue";
 
 const showMenu = ref(false);
 const store = useStore();
@@ -26,6 +27,16 @@ const closeMenu = () => {
     showMenu.value = false;
   }, 100);
 };
+
+const userName = ref(null);
+
+onMounted(() => {
+  // 从localStorage或sessionStorage中获取用户信息
+  const userInfo = JSON.parse(localStorage.getItem("userInfo") || sessionStorage.getItem("userInfo"));
+  if (userInfo) {
+    userName.value = userInfo.name || userInfo.userId;
+  }
+});
 </script>
 <template>
   <nav
@@ -70,7 +81,7 @@ const closeMenu = () => {
             >
               <i class="fa fa-user" :class="isRTL ? 'ms-sm-2' : 'me-sm-2'"></i>
               <span v-if="isRTL" class="d-sm-inline d-none">يسجل دخول</span>
-              <span v-else class="d-sm-inline d-none">Sign In</span>
+              <span v-else class="d-sm-inline d-none">{{ userName || '登录' }}</span>
             </router-link>
           </li>
           <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
