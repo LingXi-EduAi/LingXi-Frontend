@@ -89,6 +89,10 @@ const routes = [
         path: "/class-adding",
         name: "添加班级",
         component: () => import("@/views/ClassAdding.vue"),
+    }, {
+        path: "/ai-quiz",
+        name: "AI测验",
+        component: () => import("@/views/AIQuiz.vue"),
     }
 ];
 
