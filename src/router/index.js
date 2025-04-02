@@ -82,10 +82,14 @@ const routes = [
         name: '班级管理',
         component: ClassManagement,
     }, {
-        path: "/class-grouping",
+        path: "/class-grouping-management",
         name: "分班模板管理",
         component: ClassGroupingManagement,
-    },
+    }, {
+        path: "/class-adding",
+        name: "添加班级",
+        component: () => import("@/views/ClassAdding.vue"),
+    }
 ];
 
 const router = createRouter({
