@@ -43,6 +43,15 @@ const router = useRouter();
 const navigateToClassManagement = () => {
   router.push('/class-management')
 };
+const navigateToNewNote = () => {
+  router.push('/new-note')
+};
+const navigateToCoursewareCenter = () => {
+  router.push('/courseware-center')
+};
+const navigateToTeachingPlan = () => {
+  router.push('/teaching-plan')
+};
 </script>
 
 <template>
@@ -74,6 +83,8 @@ const navigateToClassManagement = () => {
                 background: 'bg-gradient-danger',
                 shape: 'rounded-circle',
               }"
+                @click="navigateToNewNote"
+                style="cursor: pointer;"
             />
           </div>
           <div class="col-lg-3 col-md-6 col-12">
@@ -86,18 +97,22 @@ const navigateToClassManagement = () => {
                 background: 'bg-gradient-success',
                 shape: 'rounded-circle',
               }"
+                @click="navigateToCoursewareCenter"
+                style="cursor: pointer;"
             />
           </div>
           <div class="col-lg-3 col-md-6 col-12">
             <mini-statistics-card
-                title="学情分析"
+                title="教学方案"
                 value=""
-                description="智能分析学生学情"
+                description="教学方案制定"
                 :icon="{
                 component: 'ni ni-cart',
                 background: 'bg-gradient-warning',
                 shape: 'rounded-circle',
               }"
+                @click="navigateToTeachingPlan"
+                style="cursor: pointer;"
             />
           </div>
         </div>

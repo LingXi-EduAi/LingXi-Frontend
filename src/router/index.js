@@ -1,20 +1,4 @@
 import {createRouter, createWebHistory} from "vue-router";
-import Dashboard from "../views/Dashboard.vue";
-import Tables from "../views/Tables.vue";
-import Billing from "../views/Billing.vue";
-import VirtualReality from "../views/VirtualReality.vue";
-import RTL from "../views/Rtl.vue";
-import Profile from "../views/Profile.vue";
-import Signup from "../views/Signup.vue";
-import Login from "../views/Login.vue";
-import Start from "@/views/Start.vue";
-import HomeworkHub from "@/views/HomeworkHub.vue";
-import CoursewareHub from "@/views/CoursewareHub.vue";
-import Syllabus from "@/views/Syllabus.vue";
-import Analytics from "@/views/Analytics.vue";
-import ClassManagement from "@/views/ClassManagement.vue";
-import TeachingAssistant from "@/views/TeachingAssistant.vue";
-import ClassGroupingManagement from "@/views/ClassGroupingManagement.vue";
 
 const routes = [
     {
@@ -24,67 +8,47 @@ const routes = [
     }, {
         path: "/start",
         name: "开始",
-        component: Start,
+        component: () => import("@/views/Start.vue"),
     }, {
-        path: "/homeworkHub",
+        path: "/homework-hub",
         name: "作业中心",
-        component: HomeworkHub,
+        component: () => import("@/views/HomeworkHub.vue"),
     }, {
-        path: "/syllabus",
+        path: "/teaching-plan",
         name: "教学方案",
-        component: Syllabus,
+        component: () => import("@/views/Syllabus.vue"),
     }, {
-        path: "/coursewareHub",
+        path: "/courseware-hub",
         name: "课件中心",
-        component: CoursewareHub,
+        component: () => import("@/views/CoursewareHub.vue"),
     }, {
         path: "/analytics",
         name: "学情分析",
-        component: Analytics,
+        component: () => import("@/views/Analytics.vue"),
     }, {
         path: "/teaching-assistant",
         name: "助教",
-        component: TeachingAssistant,
-    }, {
-        path: "/dashboard-default",
-        name: "Dashboard",
-        component: Dashboard,
-    }, {
-        path: "/tables",
-        name: "Tables",
-        component: Tables,
-    }, {
-        path: "/billing",
-        name: "Billing",
-        component: Billing,
-    }, {
-        path: "/virtual-reality",
-        name: "Virtual Reality",
-        component: VirtualReality,
-    }, {
-        path: "/rtl-page",
-        name: "RTL",
-        component: RTL,
+        component: () => import("@/views/TeachingAssistant.vue"), 
     }, {
         path: "/profile",
-        name: "Profile",
-        component: Profile,
+        name: "账户",
+        component: () => import("@/views/Profile.vue"),
     }, {
-        path: "/signin",
-        name: "Signin",
-        component: Login,
+        path: "/login",
+        name: "登录",
+        component: () => import("@/views/Login.vue"),
     }, {
         path: "/signup",
-        name: "Signup",
-        component: Signup,
+        name: "注册",
+        component: () => import("@/views/Signup.vue"),
     }, {
         path: '/class-management',
         name: '班级管理',
-        component: ClassManagement,
+        component: () => import("@/views/ClassManagement.vue"),
     }, {
         path: "/class-grouping-management",
         name: "分班模板管理",
-        component: ClassGroupingManagement,
+        component: () => import("@/views/ClassGroupingManagement.vue"),
     }, {
         path: "/class-adding",
         name: "添加班级",

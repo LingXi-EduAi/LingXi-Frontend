@@ -176,7 +176,7 @@ const handleError = (error) => {
                 <div class="px-1 pt-0 text-center card-footer px-lg-2">
                   <p class="mx-auto mb-4 text-sm">
                     没有账户？
-                    <router-link to="/register" class="text-success text-gradient font-weight-bold">
+                    <router-link to="/signup" class="text-success text-gradient font-weight-bold">
                       立即注册
                     </router-link>
                   </p>
