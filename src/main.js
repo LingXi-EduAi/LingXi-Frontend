@@ -6,8 +6,10 @@ import "./assets/css/nucleo-icons.css";
 import "./assets/css/nucleo-svg.css";
 import ArgonDashboard from "./argon-dashboard";
 import axios from 'axios';
+import { BASE_API } from './config/api';
 
-axios.defaults.baseURL = 'http://cb4g547e.dongtaiyuming.net:80'
+// 使用配置文件中的 BASE_API
+axios.defaults.baseURL = BASE_API;
 
 const appInstance = createApp(App);
 appInstance.use(store);

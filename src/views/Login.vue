@@ -7,7 +7,6 @@ import Navbar from "@/examples/PageLayout/Navbar.vue";
 import ArgonInput from "@/components/ArgonInput.vue";
 import ArgonSwitch from "@/components/ArgonSwitch.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
-import { request } from "@/utils/request";
 
 const store = useStore();
 const router = useRouter();
@@ -19,6 +18,9 @@ const password = ref("");
 const rememberMe = ref(false);
 const errorMessage = ref("");
 const isLoading = ref(false);
+
+// 引入新的请求方法
+import { baseRequest } from "../utils/api";
 
 // 生命周期钩子
 onBeforeMount(() => {
@@ -62,9 +64,9 @@ const handleLogin = async () => {
       const storage = rememberMe.value ? localStorage : sessionStorage;
       storage.setItem("authToken", response.data.data);
 
-      // 获取用户信息
+      // 获取用户信息 - 使用新的 baseRequest
       try {
-        const userInfoResponse = await request.post("/customer/detail", {});
+        const userInfoResponse = await baseRequest.post("/customer/detail", {});
         if (userInfoResponse.status === 200) {
           storage.setItem("userInfo", JSON.stringify(userInfoResponse.data));
         }

@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
@@ -40,11 +39,21 @@ export const handleError = (error) => {
   return errorMessage;
 };
 
-// 封装带token的请求方法
+/**
+ * @deprecated 此方法已弃用，请使用 baseRequest 或 aiRequest 代替
+ * 导出旧的 request 对象以保持兼容性
+ * 建议在新代码中使用 baseRequest 或 aiRequest
+ */
 export const request = {
+  /**
+   * @deprecated 此方法已弃用，请使用 baseRequest.post 或 aiRequest.post 代替
+   */
   async post(url, data) {
+    console.warn('警告: request.post 方法已弃用，请使用 baseRequest.post 或 aiRequest.post 代替');
     try {
       const tokenUrl = buildUrlWithToken(url);
+      // 这里使用 import 的 axios 实例，保持向后兼容
+      const axios = (await import('axios')).default;
       const response = await axios.post(tokenUrl, data);
       return response.data;
     } catch (error) {
