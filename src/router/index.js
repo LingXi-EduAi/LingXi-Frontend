@@ -47,7 +47,7 @@ const routes = [
         component: () => import("@/views/ClassManagement.vue"),
     }, {
         path: "/class-grouping-management",
-        name: "分班模板管理",
+        name: "分组模板管理",
         component: () => import("@/views/ClassGroupingManagement.vue"),
     }, {
         path: "/class-adding",
