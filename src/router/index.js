@@ -4,7 +4,15 @@ const routes = [
     {
         path: "/",
         name: "/",
-        redirect: "/start",
+        redirect: "/role-selection",
+    }, {
+        path: "/role-selection",
+        name: "角色选择",
+        component: () => import("@/views/RoleSelection.vue"),
+    }, {
+        path: "/student-start",
+        name: "学生首页",
+        component: () => import("@/views/StudentStart.vue"),
     }, {
         path: "/start",
         name: "开始",
@@ -57,6 +65,10 @@ const routes = [
         path: "/ai-quiz",
         name: "AI测验",
         component: () => import("@/views/AIQuiz.vue"),
+    }, {
+        path: "/learning-materials",
+        name: "学习资料",
+        component: () => import("@/views/LearningMaterials.vue"),
     }
 ];
 
