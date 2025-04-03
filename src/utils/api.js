@@ -21,10 +21,14 @@ export const baseRequest = {
     }
   },
   
-  async post(url, data = {}) {
+  async post(url, data = {}, config = {}) {
     try {
       const tokenUrl = buildUrlWithToken(url);
-      const response = await baseAPI.post(tokenUrl, data);
+      // 如果有查询参数，添加到 URL 中
+      const finalUrl = config.params 
+        ? `${tokenUrl}${tokenUrl.includes('?') ? '&' : '?'}${new URLSearchParams(config.params).toString()}`
+        : tokenUrl;
+      const response = await baseAPI.post(finalUrl, data);
       return response.data;
     } catch (error) {
       const message = handleError(error);
