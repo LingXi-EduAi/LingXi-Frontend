@@ -1,22 +1,91 @@
 <script setup>
-import { onBeforeMount, onMounted, onBeforeUnmount } from "vue";
+import { onBeforeMount, onMounted, onBeforeUnmount, ref } from "vue";
 import { useStore } from "vuex";
+import { baseRequest } from "@/utils/api"; // 导入 baseRequest
 
 import setNavPills from "@/assets/js/nav-pills.js";
 import setTooltip from "@/assets/js/tooltip.js";
-import ProfileCard from "./components/ProfileCard.vue";
 import ArgonInput from "@/components/ArgonInput.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
 
 const body = document.getElementsByTagName("body")[0];
-
 const store = useStore();
+
+// 用户信息
+const userInfo = ref({
+  id: "",
+  userId: "",
+  name: "",
+  age: "",
+  phoneNumber: "",
+  email: "",
+  createTime: "",
+  state: "",
+  version: ""
+});
+
+// 编辑状态的用户信息
+const editUserInfo = ref({});
+
+// 加载状态
+const isLoading = ref(false);
+// 消息提示
+const message = ref("");
+const isSuccess = ref(true);
+
+// 获取用户信息
+const getUserInfo = async () => {
+  isLoading.value = true;
+  try {
+    const response = await baseRequest.post("/customer/detail", {});
+    if (response.status === 200) {
+      userInfo.value = response.data;
+      // 复制一份用于编辑
+      editUserInfo.value = { ...response.data };
+    } else {
+      message.value = response.msg || "获取用户信息失败";
+      isSuccess.value = false;
+    }
+  } catch (error) {
+    console.error("获取用户信息失败:", error);
+    message.value = error.message || "获取用户信息失败";
+    isSuccess.value = false;
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+// 保存用户信息
+const saveUserInfo = async () => {
+  isLoading.value = true;
+  try {
+    const response = await baseRequest.post("/customer/edit", editUserInfo.value);
+    if (response.status === 200) {
+      message.value = "保存成功";
+      isSuccess.value = true;
+      // 重新获取用户信息
+      await getUserInfo();
+    } else {
+      message.value = response.msg || "保存失败";
+      isSuccess.value = false;
+    }
+  } catch (error) {
+    console.error("保存用户信息失败:", error);
+    message.value = error.message || "保存失败";
+    isSuccess.value = false;
+  } finally {
+    isLoading.value = false;
+  }
+};
 
 onMounted(() => {
   store.state.isAbsolute = true;
   setNavPills();
   setTooltip();
+  // 获取用户信息
+  getUserInfo();
 });
+
 onBeforeMount(() => {
   store.state.imageLayout = "profile-overview";
   store.state.showNavbar = false;
@@ -24,6 +93,7 @@ onBeforeMount(() => {
   store.state.hideConfigButton = true;
   body.classList.add("profile-overview");
 });
+
 onBeforeUnmount(() => {
   store.state.isAbsolute = false;
   store.state.imageLayout = "default";
@@ -60,8 +130,8 @@ onBeforeUnmount(() => {
             </div>
             <div class="col-auto my-auto">
               <div class="h-100">
-                <h5 class="mb-1">Sayo Kravits</h5>
-                <p class="mb-0 font-weight-bold text-sm">Public Relations</p>
+                <h5 class="mb-1">{{ userInfo.name || '用户名' }}</h5>
+                <p class="mb-0 font-weight-bold text-sm">用户ID: {{ userInfo.userId || '-' }}</p>
               </div>
             </div>
             <div
@@ -121,108 +191,7 @@ onBeforeUnmount(() => {
                           </g>
                         </g>
                       </svg>
-                      <span class="ms-1">App</span>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a
-                      class="px-0 py-1 mb-0 nav-link"
-                      data-bs-toggle="tab"
-                      href="javascript:;"
-                      role="tab"
-                      aria-selected="false"
-                    >
-                      <svg
-                        class="text-dark"
-                        width="16px"
-                        height="16px"
-                        viewBox="0 0 40 44"
-                        version="1.1"
-                        xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink"
-                      >
-                        <title>document</title>
-                        <g
-                          stroke="none"
-                          stroke-width="1"
-                          fill="none"
-                          fill-rule="evenodd"
-                        >
-                          <g
-                            transform="translate(-1870.000000, -591.000000)"
-                            fill="#FFFFFF"
-                            fill-rule="nonzero"
-                          >
-                            <g transform="translate(1716.000000, 291.000000)">
-                              <g transform="translate(154.000000, 300.000000)">
-                                <path
-                                  class="color-background"
-                                  d="M40,40 L36.3636364,40 L36.3636364,3.63636364 L5.45454545,3.63636364 L5.45454545,0 L38.1818182,0 C39.1854545,0 40,0.814545455 40,1.81818182 L40,40 Z"
-                                  opacity="0.603585379"
-                                />
-                                <path
-                                  class="color-background"
-                                  d="M30.9090909,7.27272727 L1.81818182,7.27272727 C0.814545455,7.27272727 0,8.08727273 0,9.09090909 L0,41.8181818 C0,42.8218182 0.814545455,43.6363636 1.81818182,43.6363636 L30.9090909,43.6363636 C31.9127273,43.6363636 32.7272727,42.8218182 32.7272727,41.8181818 L32.7272727,9.09090909 C32.7272727,8.08727273 31.9127273,7.27272727 30.9090909,7.27272727 Z M18.1818182,34.5454545 L7.27272727,34.5454545 L7.27272727,30.9090909 L18.1818182,30.9090909 L18.1818182,34.5454545 Z M25.4545455,27.2727273 L7.27272727,27.2727273 L7.27272727,23.6363636 L25.4545455,23.6363636 L25.4545455,27.2727273 Z M25.4545455,20 L7.27272727,20 L7.27272727,16.3636364 L25.4545455,16.3636364 L25.4545455,20 Z"
-                                />
-                              </g>
-                            </g>
-                          </g>
-                        </g>
-                      </svg>
-                      <span class="ms-1">Messages</span>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a
-                      class="px-0 py-1 mb-0 nav-link"
-                      data-bs-toggle="tab"
-                      href="javascript:;"
-                      role="tab"
-                      aria-selected="false"
-                    >
-                      <svg
-                        class="text-dark"
-                        width="16px"
-                        height="16px"
-                        viewBox="0 0 40 40"
-                        version="1.1"
-                        xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink"
-                      >
-                        <title>settings</title>
-                        <g
-                          stroke="none"
-                          stroke-width="1"
-                          fill="none"
-                          fill-rule="evenodd"
-                        >
-                          <g
-                            transform="translate(-2020.000000, -442.000000)"
-                            fill="#FFFFFF"
-                            fill-rule="nonzero"
-                          >
-                            <g transform="translate(1716.000000, 291.000000)">
-                              <g transform="translate(304.000000, 151.000000)">
-                                <polygon
-                                  class="color-background"
-                                  opacity="0.596981957"
-                                  points="18.0883333 15.7316667 11.1783333 8.82166667 13.3333333 6.66666667 6.66666667 0 0 6.66666667 6.66666667 13.3333333 8.82166667 11.1783333 15.315 17.6716667"
-                                />
-                                <path
-                                  class="color-background"
-                                  d="M31.5666667,23.2333333 C31.0516667,23.2933333 30.53,23.3333333 30,23.3333333 C29.4916667,23.3333333 28.9866667,23.3033333 28.48,23.245 L22.4116667,30.7433333 L29.9416667,38.2733333 C32.2433333,40.575 35.9733333,40.575 38.275,38.2733333 L38.275,38.2733333 C40.5766667,35.9716667 40.5766667,32.2416667 38.275,29.94 L31.5666667,23.2333333 Z"
-                                  opacity="0.596981957"
-                                />
-                                <path
-                                  class="color-background"
-                                  d="M33.785,11.285 L28.715,6.215 L34.0616667,0.868333333 C32.82,0.315 31.4483333,0 30,0 C24.4766667,0 20,4.47666667 20,10 C20,10.99 20.1483333,11.9433333 20.4166667,12.8466667 L2.435,27.3966667 C0.95,28.7083333 0.0633333333,30.595 0.00333333333,32.5733333 C-0.0583333333,34.5533333 0.71,36.4916667 2.11,37.89 C3.47,39.2516667 5.27833333,40 7.20166667,40 C9.26666667,40 11.2366667,39.1133333 12.6033333,37.565 L27.1533333,19.5833333 C28.0566667,19.8516667 29.01,20 30,20 C35.5233333,20 40,15.5233333 40,10 C40,8.55166667 39.685,7.18 39.1316667,5.93666667 L33.785,11.285 Z"
-                                />
-                              </g>
-                            </g>
-                          </g>
-                        </g>
-                      </svg>
-                      <span class="ms-1">Settings</span>
+                      <span class="ms-1">个人资料</span>
                     </a>
                   </li>
                 </ul>
@@ -233,96 +202,144 @@ onBeforeUnmount(() => {
       </div>
     </div>
     <div class="py-4 container-fluid">
+      <!-- 消息提示 -->
+      <div v-if="message" :class="['alert', isSuccess ? 'alert-success' : 'alert-danger', 'mb-4']">
+        {{ message }}
+      </div>
+      
       <div class="row">
         <div class="col-md-8">
           <div class="card">
             <div class="card-header pb-0">
               <div class="d-flex align-items-center">
-                <p class="mb-0">Edit Profile</p>
-                <argon-button color="success" size="sm" class="ms-auto"
-                  >Settings</argon-button
-                >
+                <p class="mb-0">编辑个人资料</p>
+                <argon-button color="success" size="sm" class="ms-auto" @click="saveUserInfo" :disabled="isLoading">
+                  {{ isLoading ? '保存中...' : '保存' }}
+                </argon-button>
               </div>
             </div>
             <div class="card-body">
-              <p class="text-uppercase text-sm">User Information</p>
+              <p class="text-uppercase text-sm">基本信息</p>
               <div class="row">
                 <div class="col-md-6">
-                  <label for="example-text-input" class="form-control-label"
-                    >Username</label
-                  >
-                  <argon-input type="text" value="lucky.jesse" />
+                  <label class="form-control-label">用户ID</label>
+                  <argon-input type="text" v-model="editUserInfo.userId" />
                 </div>
                 <div class="col-md-6">
-                  <label for="example-text-input" class="form-control-label"
-                    >Email address</label
-                  >
-                  <argon-input type="email" value="jesse@example.com" />
+                  <label class="form-control-label">姓名</label>
+                  <argon-input type="text" v-model="editUserInfo.name" />
                 </div>
                 <div class="col-md-6">
-                  <label for="example-text-input" class="form-control-label"
-                    >First name</label
-                  >
-                  <input class="form-control" type="text" value="Jesse" />
+                  <label class="form-control-label">年龄</label>
+                  <argon-input type="number" v-model="editUserInfo.age" />
                 </div>
                 <div class="col-md-6">
-                  <label for="example-text-input" class="form-control-label"
-                    >Last name</label
-                  >
-                  <argon-input type="text" value="Lucky" />
+                  <label class="form-control-label">账号类型</label>
+                  <select class="form-control" v-model="editUserInfo.state">
+                    <option value="1">教师</option>
+                    <option value="2">学生</option>
+                    <option value="3">其他</option>
+                  </select>
                 </div>
               </div>
               <hr class="horizontal dark" />
-              <p class="text-uppercase text-sm">Contact Information</p>
+              <p class="text-uppercase text-sm">联系方式</p>
               <div class="row">
-                <div class="col-md-12">
-                  <label for="example-text-input" class="form-control-label"
-                    >Address</label
-                  >
-                  <argon-input
-                    type="text"
-                    value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
-                  />
+                <div class="col-md-6">
+                  <label class="form-control-label">手机号码</label>
+                  <argon-input type="tel" v-model="editUserInfo.phoneNumber" />
                 </div>
-                <div class="col-md-4">
-                  <label for="example-text-input" class="form-control-label"
-                    >City</label
-                  >
-                  <argon-input type="text" value="New York" />
-                </div>
-                <div class="col-md-4">
-                  <label for="example-text-input" class="form-control-label"
-                    >Country</label
-                  >
-                  <argon-input type="text" value="United States" />
-                </div>
-                <div class="col-md-4">
-                  <label for="example-text-input" class="form-control-label"
-                    >Postal code</label
-                  >
-                  <argon-input type="text" value="437300" />
+                <div class="col-md-6">
+                  <label class="form-control-label">电子邮箱</label>
+                  <argon-input type="email" v-model="editUserInfo.email" />
                 </div>
               </div>
               <hr class="horizontal dark" />
-              <p class="text-uppercase text-sm">About me</p>
+              <p class="text-uppercase text-sm">系统信息</p>
               <div class="row">
-                <div class="col-md-12">
-                  <label for="example-text-input" class="form-control-label"
-                    >About me</label
-                  >
-                  <argon-input
-                    type="text"
-                    value="A beautiful Dashboard for Bootstrap 5. It is Free and Open Source."
-                  />
+                <div class="col-md-6">
+                  <label class="form-control-label">创建时间</label>
+                  <div class="form-control bg-light">{{ userInfo.createTime || '-' }}</div>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-control-label">版本</label>
+                  <div class="form-control bg-light">{{ userInfo.version || '-' }}</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <div class="col-md-4">
-          <profile-card />
+          <div class="card card-profile">
+            <img src="../assets/img/bg-profile.jpg" alt="Image placeholder" class="card-img-top">
+            <div class="row justify-content-center">
+              <div class="col-4 col-lg-4 order-lg-2">
+                <div class="mt-n4 mt-lg-n6 mb-4 mb-lg-0">
+                  <a href="javascript:;">
+                    <img src="../assets/img/team-1.jpg" class="rounded-circle img-fluid border border-2 border-white">
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="card-body pt-0">
+              <div class="text-center mt-4">
+                <h5>{{ userInfo.name || '用户名' }}<span class="font-weight-light">, {{ userInfo.age || '-' }}</span></h5>
+                <div class="h6 font-weight-300">
+                  <i class="ni location_pin mr-2"></i>用户ID: {{ userInfo.userId || '-' }}
+                </div>
+                <div class="h6 mt-3">
+                  <i class="ni business_briefcase-24 mr-2"></i>联系方式
+                </div>
+              </div>
+              <div class="mt-3 py-2 border-top text-center">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="d-flex justify-content-center">
+                      <div class="d-grid text-center mx-3">
+                        <span class="text-lg font-weight-bolder">📱</span>
+                        <span class="text-sm text-muted">{{ userInfo.phoneNumber || '-' }}</span>
+                      </div>
+                      <div class="d-grid text-center mx-3">
+                        <span class="text-lg font-weight-bolder">📧</span>
+                        <span class="text-sm text-muted">{{ userInfo.email || '-' }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-3 py-2 border-top">
+                <div class="row align-items-center">
+                  <div class="col-6">
+                    <h6 class="mb-0">创建时间</h6>
+                  </div>
+                  <div class="col-6 text-end">
+                    <span class="text-sm text-muted">{{ userInfo.createTime || '-' }}</span>
+                  </div>
+                </div>
+                <div class="row align-items-center mt-3">
+                  <div class="col-6">
+                    <h6 class="mb-0">账号类型</h6>
+                  </div>
+                  <div class="col-6 text-end">
+                    <span :class="['badge', 
+                      userInfo.state === '1' ? 'bg-primary' : 
+                      userInfo.state === '2' ? 'bg-info' : 'bg-secondary']">
+                      {{ userInfo.state === '1' ? '教师' : 
+                         userInfo.state === '2' ? '学生' : '其他' }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </main>
 </template>
+
+<style scoped>
+.alert {
+  transition: all 0.3s ease;
+}
+</style>
