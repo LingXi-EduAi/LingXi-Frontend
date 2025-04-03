@@ -1,12 +1,13 @@
 <script setup>
 import { ref, onBeforeUnmount, onMounted } from "vue";
+import { AI_API } from "../config/api"; // 导入配置的 AI API 地址
 
 // 聊天数据
 const conversations = ref([]);
 const currentConversationId = ref(null);
 const messages = ref([]);
 const newMessage = ref("");
-const apiKey = "app-biXDlneU8keswQHN4sgMdxl5"; // 替换为您的API密钥
+const apiKey = process.env.VUE_APP_AI_KEY; 
 const userId = "user-123"; // 唯一用户标识符
 let eventSource = null; // 用于处理流式响应
 
@@ -30,8 +31,8 @@ const selectConversation = async (conversationId) => {
   if (!conversationId) return;
   
   try {
-    // 从服务器获取历史消息
-    const response = await fetch(`http://123.207.27.32/v1/conversations/${conversationId}/messages`, {
+    // 使用配置的 AI API 地址
+    const response = await fetch(`${AI_API}/v1/conversations/${conversationId}/messages`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${apiKey}`,
@@ -91,8 +92,8 @@ const sendMessage = async () => {
       eventSource = null;
     }
 
-    // 使用 fetch 发送 POST 请求
-    const response = await fetch(`http://123.207.27.32/v1/chat-messages`, {
+    // 使用配置的 AI API 地址
+    const response = await fetch(`${AI_API}/v1/chat-messages`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${apiKey}`,
