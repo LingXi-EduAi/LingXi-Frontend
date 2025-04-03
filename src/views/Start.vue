@@ -40,18 +40,6 @@ const sales = {
 };
 
 const router = useRouter();
-const navigateToClassManagement = () => {
-  router.push('/class-management')
-};
-const navigateToNewNote = () => {
-  router.push('/new-note')
-};
-const navigateToCoursewareCenter = () => {
-  router.push('/courseware-center')
-};
-const navigateToTeachingPlan = () => {
-  router.push('/teaching-plan')
-};
 </script>
 
 <template>
@@ -69,7 +57,7 @@ const navigateToTeachingPlan = () => {
                 background: 'bg-gradient-primary',
                 shape: 'rounded-circle',
                 }"
-                @click="navigateToClassManagement"
+                @click="router.push('/class-management')"
                 style="cursor: pointer;"
             />
           </div>
@@ -83,7 +71,7 @@ const navigateToTeachingPlan = () => {
                 background: 'bg-gradient-danger',
                 shape: 'rounded-circle',
               }"
-                @click="navigateToNewNote"
+                @click="router.push('/new-note')"
                 style="cursor: pointer;"
             />
           </div>
@@ -97,7 +85,7 @@ const navigateToTeachingPlan = () => {
                 background: 'bg-gradient-success',
                 shape: 'rounded-circle',
               }"
-                @click="navigateToCoursewareCenter"
+                @click="router.push('/courseware-hub')"
                 style="cursor: pointer;"
             />
           </div>
@@ -111,7 +99,7 @@ const navigateToTeachingPlan = () => {
                 background: 'bg-gradient-warning',
                 shape: 'rounded-circle',
               }"
-                @click="navigateToTeachingPlan"
+                @click="router.push('/teaching-plan')"
                 style="cursor: pointer;"
             />
           </div>

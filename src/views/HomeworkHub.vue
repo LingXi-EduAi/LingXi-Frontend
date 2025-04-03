@@ -1,6 +1,7 @@
 <script setup>
 import MiniStatisticsCard from "@/examples/Cards/MiniStatisticsCard.vue";
 import {computed, ref} from "vue";
+import { useRouter } from 'vue-router';
 
 // 选项卡状态管理
 const activeTab = ref('all');
@@ -15,21 +16,21 @@ const tabs = [
 const assignments = ref([
   {
     id: 1,
-    title: "文言文阅读理解练习",
+    title: "古诗词阅读",
     class: "三年一班语文",
     time: "2024/03/10 08:00 ~ 2024/03/15 20:00",
     status: 'progress'
   },
   {
     id: 2,
-    title: "立体几何专题训练",
+    title: "解方程",
     class: "三年一班数学",
     time: "2024/03/18 09:00 ~ 2024/03/25 17:00",
     status: 'pending'
   },
   {
     id: 3,
-    title: "英语语法小测验",
+    title: "第三章单词检测",
     class: "三年一班英语",
     time: "2024/03/05 10:00 ~ 2024/03/08 18:00",
     status: 'ended'
@@ -55,6 +56,7 @@ const statusStyles = {
   pending: {class: 'bg-secondary', text: '未开始'},
   ended: {class: 'bg-danger', text: '已结束'}
 };
+const router = useRouter();
 </script>
 
 <template>
@@ -73,6 +75,8 @@ const statusStyles = {
                 background: 'bg-gradient-primary',
                 shape: 'rounded-circle',
               }"
+                @click="router.push('/assign-homework')"
+                style="cursor: pointer;"
             />
           </div>
           <div class="col-lg-3 col-md-6 col-12">
@@ -85,6 +89,8 @@ const statusStyles = {
                 background: 'bg-gradient-danger',
                 shape: 'rounded-circle',
               }"
+                @click="router.push('/grade-homework')"
+                style="cursor: pointer;"
             />
           </div>
           <div class="col-lg-3 col-md-6 col-12">
@@ -97,6 +103,8 @@ const statusStyles = {
                 background: 'bg-gradient-success',
                 shape: 'rounded-circle',
               }"
+                @click="router.push('/ai-quiz')"
+                style="cursor: pointer;"
             />
           </div>
         </div>

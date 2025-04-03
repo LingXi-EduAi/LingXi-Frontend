@@ -39,11 +39,11 @@ const submitForm = async () => {
     if (userInfo && userInfo.id) {
       formData.value.teacherId = userInfo.id;
     }
-    
+
     console.log("提交的表单数据:", formData.value);
-    
+
     const response = await request.post("/LXClass/edit", formData.value);
-    
+
     if (response.status === 200) {
       showModal.value = false;
       await fetchClasses();
@@ -87,20 +87,20 @@ const fetchClassDetail = async (id) => {
   try {
     const response = await request.post("/LXClass/detail", { id });
     console.log("班级详情响应:", response); // 添加日志查看响应数据结构
-    
+
     if (response.status === 200) {
       let classDetail;
-      
+
       // 处理可能的不同数据结构
       if (response.data.list && response.data.list.length > 0) {
         classDetail = response.data.list[0];
       } else if (response.data) {
         classDetail = response.data;
       }
-      
+
       if (classDetail) {
         currentClass.value = classDetail;
-        formData.value = { 
+        formData.value = {
           id: classDetail.id,
           name: classDetail.name,
           information: classDetail.information || "",
@@ -141,56 +141,33 @@ onMounted(() => {
       <div class="col-lg-12">
         <div class="row">
           <div class="col-lg-3 col-md-6 col-12">
-            <mini-statistics-card
-              title="我的班级"
-              :value="classes.length.toString()"
-              description="当前加入的班级总数"
-              :icon="{
-                component: 'ni ni-books',
-                background: 'bg-gradient-primary',
-                shape: 'rounded-circle',
-              }"
-            />
+            <mini-statistics-card title="我的班级" :value="classes.length.toString()" description="当前加入的班级总数" :icon="{
+              component: 'ni ni-books',
+              background: 'bg-gradient-primary',
+              shape: 'rounded-circle',
+            }" />
           </div>
           <div class="col-lg-3 col-md-6 col-12">
-            <mini-statistics-card
-              title="添加/加入班级"
-              value="点击进入"
-              description="创建新班级或加入已有班级"
-              :icon="{
-                component: 'ni ni-fat-add',
-                background: 'bg-gradient-success',
-                shape: 'rounded-circle',
-              }"
-              @click="goToClassAdding"
-              class="cursor-pointer"
-            />
-          </div>
-          <div class="col-lg-3 col-md-6 col-12">
-            <mini-statistics-card
-              title="分班模板管理"
-              value="点击进入"
-              description="管理班级分组模板"
-              :icon="{
-                component: 'ni ni-settings',
-                background: 'bg-gradient-info',
-                shape: 'rounded-circle',
-              }"
-              @click="goToClassGrouping"
-              class="cursor-pointer"
-            />
-          </div>
-          <div class="col-lg-3 col-md-6 col-12">
-            <mini-statistics-card
-              title="活跃班级"
-              :value="classes.filter(c => c.state === '1').length.toString()"
-              description="当前活跃的班级数量"
-              :icon="{
+            <mini-statistics-card title="活跃班级" :value="classes.filter(c => c.state === '1').length.toString()"
+              description="当前活跃的班级数量" :icon="{
                 component: 'ni ni-check-bold',
                 background: 'bg-gradient-warning',
                 shape: 'rounded-circle',
-              }"
-            />
+              }" />
+          </div>
+          <div class="col-lg-3 col-md-6 col-12">
+            <mini-statistics-card title="添加/加入班级" value="点击进入" description="创建新班级或加入已有班级" :icon="{
+              component: 'ni ni-fat-add',
+              background: 'bg-gradient-success',
+              shape: 'rounded-circle',
+            }" @click="goToClassAdding" class="cursor-pointer" />
+          </div>
+          <div class="col-lg-3 col-md-6 col-12">
+            <mini-statistics-card title="分组模板管理" value="点击进入" description="管理分组模板" :icon="{
+              component: 'ni ni-settings',
+              background: 'bg-gradient-info',
+              shape: 'rounded-circle',
+            }" @click="goToClassGrouping" class="cursor-pointer" />
           </div>
         </div>
 
@@ -226,10 +203,7 @@ onMounted(() => {
                       <td class="text-center align-middle">{{ classItem.version || 1 }}</td>
                       <td class="text-center align-middle">
                         <div class="d-flex align-items-center justify-content-center" style="padding-top: 15px;">
-                          <button 
-                            class="btn btn-sm btn-info"
-                            @click="editClass(classItem)"
-                          >
+                          <button class="btn btn-sm btn-info" @click="editClass(classItem)">
                             编辑
                           </button>
                         </div>
@@ -248,21 +222,12 @@ onMounted(() => {
     </div>
 
     <!-- 编辑模态框 -->
-    <div 
-      class="modal fade"
-      :class="{ show: showModal, 'd-block': showModal }"
-      tabindex="-1"
-      role="dialog"
-    >
+    <div class="modal fade" :class="{ show: showModal, 'd-block': showModal }" tabindex="-1" role="dialog">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">编辑班级信息</h5>
-            <button 
-              type="button" 
-              class="close"
-              @click="showModal = false"
-            >
+            <button type="button" class="close" @click="showModal = false">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -270,39 +235,19 @@ onMounted(() => {
             <form>
               <div class="form-group">
                 <label>班级名称</label>
-                <input 
-                  v-model="formData.name"
-                  type="text" 
-                  class="form-control"
-                  placeholder="请输入班级名称"
-                >
+                <input v-model="formData.name" type="text" class="form-control" placeholder="请输入班级名称">
               </div>
               <div class="form-group">
                 <label>班级信息</label>
-                <textarea
-                  v-model="formData.information"
-                  class="form-control"
-                  rows="3"
-                  placeholder="请输入班级信息"
-                ></textarea>
+                <textarea v-model="formData.information" class="form-control" rows="3" placeholder="请输入班级信息"></textarea>
               </div>
               <div class="form-group">
                 <label>班级公告</label>
-                <textarea
-                  v-model="formData.notice"
-                  class="form-control"
-                  rows="3"
-                  placeholder="请输入班级公告"
-                ></textarea>
+                <textarea v-model="formData.notice" class="form-control" rows="3" placeholder="请输入班级公告"></textarea>
               </div>
               <div class="form-group">
                 <label>分班模板ID</label>
-                <input 
-                  v-model="formData.classGroupingId"
-                  type="text" 
-                  class="form-control"
-                  placeholder="请输入分班模板ID"
-                >
+                <input v-model="formData.classGroupingId" type="text" class="form-control" placeholder="请输入分班模板ID">
               </div>
               <div class="form-group">
                 <label>状态</label>
@@ -313,28 +258,15 @@ onMounted(() => {
               </div>
               <div class="form-group">
                 <label>版本号</label>
-                <input 
-                  v-model.number="formData.version"
-                  type="number" 
-                  class="form-control"
-                  disabled
-                >
+                <input v-model.number="formData.version" type="number" class="form-control" disabled>
               </div>
             </form>
           </div>
           <div class="modal-footer">
-            <button 
-              type="button" 
-              class="btn btn-secondary"
-              @click="showModal = false"
-            >
+            <button type="button" class="btn btn-secondary" @click="showModal = false">
               取消
             </button>
-            <button 
-              type="button" 
-              class="btn btn-primary"
-              @click="submitForm"
-            >
+            <button type="button" class="btn btn-primary" @click="submitForm">
               保存
             </button>
           </div>
@@ -349,19 +281,25 @@ onMounted(() => {
 .modal {
   background-color: rgba(0, 0, 0, 0.5);
 }
+
 .modal-backdrop {
   opacity: 0.5;
 }
-.table th, .table td {
+
+.table th,
+.table td {
   vertical-align: middle !important;
 }
+
 .table thead th {
   font-weight: 600;
   background-color: #f8f9fa;
 }
+
 .table-hover tbody tr:hover {
   background-color: rgba(0, 0, 0, 0.03);
 }
+
 .cursor-pointer {
   cursor: pointer;
 }

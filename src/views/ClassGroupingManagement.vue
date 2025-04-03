@@ -74,9 +74,9 @@ onMounted(() => {
         <div class="row">
           <div class="col-lg-3 col-md-6 col-12">
             <mini-statistics-card
-              title="分班模板总数"
+              title="分组模板总数"
               :value="classGroupings.length.toString()"
-              description="当前系统分班模板数量"
+              description="当前系统模板数量"
               :icon="{
                 component: 'ni ni-books',
                 background: 'bg-gradient-primary',
@@ -88,7 +88,7 @@ onMounted(() => {
             <mini-statistics-card
               title="活跃模板"
               :value="classGroupings.filter(g => g.state === '1').length.toString()"
-              description="当前可用的分班模板"
+              description="当前可用的模板数量"
               :icon="{
                 component: 'ni ni-check-bold',
                 background: 'bg-gradient-success',
@@ -98,9 +98,9 @@ onMounted(() => {
           </div>
           <div class="col-lg-3 col-md-6 col-12">
             <mini-statistics-card
-              title="最大班级容量"
+              title="最大人数容量"
               :value="Math.max(...classGroupings.map(g => g.volume), 0).toString()"
-              description="单个模板最大班级容量"
+              description="单个模板最大人数容量"
               :icon="{
                 component: 'ni ni-single-02',
                 background: 'bg-gradient-info',
@@ -112,7 +112,7 @@ onMounted(() => {
             <mini-statistics-card
               title="最新版本"
               :value="Math.max(...classGroupings.map(g => g.version), 0).toString()"
-              description="分班模板最高版本号"
+              description="分组模板最高版本号"
               :icon="{
                 component: 'ni ni-tag',
                 background: 'bg-gradient-warning',
