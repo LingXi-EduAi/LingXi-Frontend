@@ -24,7 +24,7 @@ const routes = [
     }, {
         path: "/teaching-plan",
         name: "教学方案",
-        component: () => import("@/views/Syllabus.vue"),
+        component: () => import("@/views/TeachingPlan.vue"),
     }, {
         path: "/courseware-hub",
         name: "课件中心",

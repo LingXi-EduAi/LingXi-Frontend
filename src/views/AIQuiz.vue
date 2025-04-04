@@ -1,4 +1,6 @@
 <script setup>
+// 从环境变量中获取 AI API 地址
+const aiApiUrl = process.env.VUE_APP_AI_API;
 </script>
 
 <template>
@@ -8,7 +10,7 @@
         <div class="card z-index-2">
           <div class="iframe-container">
             <iframe
-                src="http://123.207.27.32/completion/WIutJ7kcbxO3B9Ov"
+                :src="`${aiApiUrl}/completion/WIutJ7kcbxO3B9Ov`"
                 frameborder="0"
                 allow="microphone"
             ></iframe>
