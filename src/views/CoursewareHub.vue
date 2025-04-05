@@ -1,23 +1,47 @@
-<script setup>
-</script>
+<script setup></script>
 
 <template>
   <div class="container-fluid">
     <div class="row mt-2">
       <div class="col-lg-12 mb-lg">
         <div class="card z-index-2">
-          <div class="iframe-container">
-            <iframe
-                src="https://aippt.cn/"
-                frameborder="0"
-                allow="microphone"
-            ></iframe>
-          </div>
+          <div class="iframe-container" id="iframe-container"></div>
         </div>
       </div>
     </div>
   </div>
 </template>
+
+<script setup>
+import { DocmeeUI } from "@docmee/sdk-ui";
+import { onMounted } from "vue";
+
+onMounted(() => {
+  // 初始化UI
+  new DocmeeUI({
+    container: document.querySelector("#iframe-container"),
+    page: "creator-v2",
+    token: "ak_uKnjc256r36rr2G1Yp",
+    mode: "light",
+    lang: "zh",
+    padding: "20px",
+    // 从外部传入主题
+    creatorData: {
+      type: 1,
+      // subject: "Ai行业未来10年的发展预测",
+    },
+    // 事件回调
+    onMessage: (message) => {
+      console.log(message);
+      if (message.type === "mounted") {
+        console.log("iframe挂载");
+      } else if (message === "") {
+        // 自己补
+      }
+    },
+  });
+});
+</script>
 
 <style scoped>
 .table-hover tbody tr:hover {
@@ -38,7 +62,7 @@
 
 iframe {
   width: 100%;
-  height: 100%;
+  height: calc(100% - 10px) !important;
   border: none;
   display: block;
 }

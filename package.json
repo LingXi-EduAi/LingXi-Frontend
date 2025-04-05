@@ -20,6 +20,7 @@
     "prettify": "prettier --write ."
   },
   "dependencies": {
+    "@docmee/sdk-ui": "^1.1.18",
     "@popperjs/core": "2.11.8",
     "axios": "^1.8.4",
     "bootstrap": "5.3.3",
