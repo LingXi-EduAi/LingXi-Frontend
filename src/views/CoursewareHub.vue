@@ -25,6 +25,8 @@ onMounted(() => {
     mode: "light",
     lang: "zh",
     padding: "20px",
+    themeColor: "#2dce89",
+    hidePdfWatermark: "true",
     // 从外部传入主题
     creatorData: {
       type: 1,
