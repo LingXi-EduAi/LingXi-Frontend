@@ -19,6 +19,23 @@ onMounted(() => {
       type: 1,
       // subject: "Ai行业未来10年的发展预测",
     },
+    css: `
+      /* 修改进度条颜色为浅绿色 */
+      .hdd-progress-bg.hdd-progress-bg-outer {
+        --progress-line-stroke-color: #E0F5E9 !important;
+      }
+      /* 添加白色字体样式 - 仅适用于特定按钮状态 */
+      .text-primary-content,
+      #generatorFormSubmit.btn-primary,
+      #generatorFormSubmit.btn-primary svg,
+      .absolute.bg-base-100.text-info.rounded-full.px-2.flex.justify-center.items-center.w-max.bg-primary.text-primary-content,
+      .\\!text-primary-content,
+      .btn-primary {
+        color: white !important;
+        fill: white !important;
+        stroke: white !important;
+      }
+    `,
     // 事件回调
     onMessage: (message) => {
       console.log(message);
