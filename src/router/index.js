@@ -1,10 +1,10 @@
-import {createRouter, createWebHistory} from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
     {
         path: "/",
         name: "/",
-        redirect: "/role-selection",
+        redirect: "/start",
     }, {
         path: "/role-selection",
         name: "角色选择",
@@ -36,7 +36,7 @@ const routes = [
     }, {
         path: "/teaching-assistant",
         name: "助教",
-        component: () => import("@/views/TeachingAssistant.vue"), 
+        component: () => import("@/views/TeachingAssistant.vue"),
     }, {
         path: "/profile",
         name: "账户",
@@ -69,6 +69,14 @@ const routes = [
         path: "/learning-materials",
         name: "学习资料",
         component: () => import("@/views/LearningMaterials.vue"),
+    }, {
+        path: "/404",
+        name: "404",
+        component: () => import("@/views/NotFound.vue"),
+    }, {
+        path: "/403",
+        name: "403",
+        component: () => import("@/views/Forbidden.vue"),
     }
 ];
 
