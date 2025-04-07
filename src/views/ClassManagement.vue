@@ -172,7 +172,7 @@ onMounted(() => {
         </div>
 
         <!-- 班级列表 -->
-        <div class="row mt-4">
+        <div class="row mt-2">
           <div class="col-lg-12 mb-lg-0 mb-4">
             <div class="card">
               <div class="p-3 pb-0 card-header">

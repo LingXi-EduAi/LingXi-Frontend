@@ -43,9 +43,9 @@ const questionAnalysis = [
 </script>
 
 <template>
-  <div class="py-4 container-fluid">
+  <div class="py-2 container-fluid">
     <!-- 概览统计卡片 -->
-    <div class="row mb-4">
+    <div class="row mb-2">
       <div class="col-lg-3 col-md-6 col-12">
         <mini-statistics-card
             title="总体完成率"
@@ -130,8 +130,8 @@ const questionAnalysis = [
     </div>
 
     <!-- 第二行：学习进度柱状图和问题分析表格 -->
-    <div class="row mb-4">
-      <div class="col-lg-6">
+    <div class="row mb-2">
+      <div class="col-lg-6 mb-lg-0 mb-4">
         <BarChart
             id="progress-chart"
             title="单元学习进度"
@@ -146,7 +146,7 @@ const questionAnalysis = [
           }"
         />
       </div>
-      <div class="col-lg-6">
+      <div class="col-lg-6 mb-lg-0 mb-4">
         <div class="card h-100">
           <div class="p-3 pb-0 card-header">
             <div class="d-flex justify-content-between">
