@@ -103,7 +103,7 @@ const getTypeColor = (type) => {
     "课件": "warning",
     "音频": "info",
     "实验": "success",
-    "习题": "dark"
+    "习题": "info"
   };
   return typeColors[type] || "secondary";
 };
@@ -140,12 +140,12 @@ const filteredCourseMaterials = computed(() => {
 </script>
 
 <template>
-  <div class="py-4 container-fluid">
-    <div class="row mb-5">
-      <div class="col-12 mb-4">
+  <div class="py-2 container-fluid">
+    <div class="row mb-4">
+      <div class="col-12 mb-3">
         <div class="card">
           <div class="card-header pb-0">
-            <h6 class="mb-0">学习资料中心</h6>
+            <h4 class="mb-2">学习资料中心</h4>
           </div>
           <div class="card-body pt-3">
             <p class="text-sm mb-0">
@@ -154,7 +154,7 @@ const filteredCourseMaterials = computed(() => {
             
             <!-- 搜索和筛选工具栏 -->
             <div class="row mt-4">
-              <div class="col-md-6 col-sm-12 mb-3">
+              <div class="col-md-5 col-sm-12 mb-3">
                 <ArgonInput
                   v-model="searchQuery"
                   placeholder="搜索资料名称或描述..."
@@ -162,7 +162,7 @@ const filteredCourseMaterials = computed(() => {
                   size="lg"
                 />
               </div>
-              <div class="col-md-6 col-sm-12 mb-3">
+              <div class="col-md-7 col-sm-12 mb-3">
                 <div class="d-flex align-items-center">
                   <label class="me-2 text-sm">按类型筛选:</label>
                   <select v-model="selectedType" class="form-select">
@@ -178,17 +178,17 @@ const filteredCourseMaterials = computed(() => {
     </div>
 
     <!-- 文档资料部分 -->
-    <div class="row mb-5">
+    <div class="row mt-2 mb-4">
       <div class="col-12">
-        <div class="card mb-4">
+        <div class="card mb-3">
           <div class="card-header pb-0">
             <div class="d-flex align-items-center">
-              <h6 class="mb-0">文档资料</h6>
+              <h4 class="mb-2">文档资料</h4>
               <span class="ms-2">
                 <ArgonBadge color="primary" size="sm">{{ filteredDocumentMaterials.length }}个资源</ArgonBadge>
               </span>
             </div>
-            <p class="text-sm mb-0 mt-2">
+            <p class="text-sm mb-2 mt-1">
               教学相关的文档资料，包括教学指南、标准和参考资料
             </p>
           </div>
@@ -197,9 +197,9 @@ const filteredCourseMaterials = computed(() => {
               <table class="table align-items-center mb-0">
                 <thead>
                   <tr>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">资料名称</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">类型</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">描述</th>
+                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">资料名称</th>
+                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">类型</th>
+                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">描述</th>
                     <th class="text-secondary opacity-7"></th>
                   </tr>
                 </thead>
@@ -209,7 +209,7 @@ const filteredCourseMaterials = computed(() => {
                       <td>
                         <div class="d-flex px-3 py-1">
                           <div>
-                            <h6 class="mb-0 text-sm">{{ material.title }}</h6>
+                            <h6 class="mb-0 text-sm font-weight-bold">{{ material.title }}</h6>
                           </div>
                         </div>
                       </td>
@@ -217,7 +217,7 @@ const filteredCourseMaterials = computed(() => {
                         <ArgonBadge :color="getTypeColor(material.type)" size="sm">{{ material.type }}</ArgonBadge>
                       </td>
                       <td>
-                        <p class="text-sm text-secondary mb-0">{{ material.description }}</p>
+                        <p class="text-sm text-secondary mb-0 font-weight-normal">{{ material.description }}</p>
                       </td>
                       <td class="align-middle">
                         <router-link :to="material.url" class="text-decoration-none">
@@ -245,17 +245,17 @@ const filteredCourseMaterials = computed(() => {
     </div>
 
     <!-- 课程资料部分 -->
-    <div class="row">
+    <div class="row mt-4">
       <div class="col-12">
-        <div class="card mb-4">
+        <div class="card mb-3">
           <div class="card-header pb-0">
             <div class="d-flex align-items-center">
-              <h6 class="mb-0">课程资料</h6>
+              <h4 class="mb-2">课程资料</h4>
               <span class="ms-2">
                 <ArgonBadge color="warning" size="sm">{{ filteredCourseMaterials.length }}个资源</ArgonBadge>
               </span>
             </div>
-            <p class="text-sm mb-0 mt-2">
+            <p class="text-sm mb-2 mt-1">
               各学科课程相关的教学资料，包括视频、课件和练习材料
             </p>
           </div>
@@ -264,9 +264,9 @@ const filteredCourseMaterials = computed(() => {
               <table class="table align-items-center mb-0">
                 <thead>
                   <tr>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">资料名称</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">类型</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">描述</th>
+                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">资料名称</th>
+                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">类型</th>
+                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">描述</th>
                     <th class="text-secondary opacity-7"></th>
                   </tr>
                 </thead>
@@ -276,7 +276,7 @@ const filteredCourseMaterials = computed(() => {
                       <td>
                         <div class="d-flex px-3 py-1">
                           <div>
-                            <h6 class="mb-0 text-sm">{{ material.title }}</h6>
+                            <h6 class="mb-0 text-sm font-weight-bold">{{ material.title }}</h6>
                           </div>
                         </div>
                       </td>
@@ -284,7 +284,7 @@ const filteredCourseMaterials = computed(() => {
                         <ArgonBadge :color="getTypeColor(material.type)" size="sm">{{ material.type }}</ArgonBadge>
                       </td>
                       <td>
-                        <p class="text-sm text-secondary mb-0">{{ material.description }}</p>
+                        <p class="text-sm text-secondary mb-0 font-weight-normal">{{ material.description }}</p>
                       </td>
                       <td class="align-middle">
                         <router-link :to="material.url" class="text-decoration-none">
@@ -316,6 +316,11 @@ const filteredCourseMaterials = computed(() => {
 <style scoped>
 .card {
   box-shadow: 0 20px 27px 0 rgb(0 0 0 / 5%);
+  transition: all 0.2s ease-in-out;
+}
+
+.card:hover {
+  box-shadow: 0 30px 35px 0 rgb(0 0 0 / 7%);
 }
 
 .table td, .table th {
@@ -333,6 +338,12 @@ const filteredCourseMaterials = computed(() => {
   font-size: 0.875rem;
 }
 
+/* 标题样式 */
+h4 {
+  font-weight: 600;
+  color: #344767;
+}
+
 /* 空状态样式 */
 .empty-state {
   padding: 2rem;
@@ -345,5 +356,30 @@ const filteredCourseMaterials = computed(() => {
   .table-responsive {
     overflow-x: auto;
   }
+}
+
+/* 表格样式增强 */
+.table {
+  margin-bottom: 0;
+}
+
+.table thead th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.table tbody tr {
+  transition: all 0.2s ease;
+}
+
+.table tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+
+
+/* 卡片内容间距调整 */
+.card-body {
+  padding: 1.5rem;
 }
 </style>
