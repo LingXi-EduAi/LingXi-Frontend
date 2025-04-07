@@ -135,8 +135,8 @@ const getRoute = () => {
       </li>
 
       <li class="nav-item">
-        <sidenav-item to="/learning-resource" :class="getRoute() === 'nook' ? 'active' : ''"
-          :navText="isRTL ? 'مصادر التعلم' : '学习资源'">
+        <sidenav-item to="/learning-materials" :class="getRoute() === 'nook' ? 'active' : ''"
+          :navText="isRTL ? 'مصادر التعلم' : '学习资料'">
           <template v-slot:icon>
             <svg width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"
               style="min-width: 20px !important; min-height: 20px !important;">
