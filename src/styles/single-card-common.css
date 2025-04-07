@@ -9,11 +9,15 @@
   overflow: hidden; /* 只处理圆角溢出问题 */
 }
 
-.iframe-container {
+/* 单卡片容器样式，适用于单页面内部填充一个卡片的情形 */
+.single-card-container {
   width: 100%;
-  height: calc(100vh - 140px); /* 动态计算高度，减去顶部和底部的大约空间 */
+  height: calc(100vh - 140px);
   position: relative;
-  overflow: hidden; /* 防止容器自身产生滚动条 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto; /* 允许内容溢出时滚动 */
 }
 
 iframe {

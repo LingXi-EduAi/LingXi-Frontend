@@ -1,12 +1,12 @@
 <script setup>
 import { DocmeeUI } from "@docmee/sdk-ui";
 import { onMounted } from "vue";
-import '@/styles/iframe-common.css';
+import '@/styles/single-card-common.css';
 
 onMounted(() => {
   // 初始化UI
   new DocmeeUI({
-    container: document.querySelector("#iframe-container"),
+    container: document.querySelector("#single-card-container"),
     page: "creator-v2",
     token: "ak_uKnjc256r36rr2G1Yp",
     mode: "light",
@@ -54,7 +54,7 @@ onMounted(() => {
     <div class="row mt-2">
       <div class="col-lg-12 mb-lg">
         <div class="card z-index-2">
-          <div class="iframe-container" id="iframe-container"></div>
+          <div class="single-card-container" id="single-card-container"></div>
         </div>
       </div>
     </div>
