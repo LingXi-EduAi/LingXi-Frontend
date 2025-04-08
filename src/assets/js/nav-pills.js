@@ -124,10 +124,12 @@ export default function setNavPills() {
           for (var j = 1; j <= nodes.indexOf(li); j++) {
             sum += item.querySelector("li:nth-child(" + j + ")").offsetHeight;
           }
-          var moving_div = document.querySelector(".moving-tab");
-          moving_div.style.width =
-            item.querySelector("li:nth-child(1)").offsetWidth + "px";
-          moving_div.style.transform = "translate3d(0px," + sum + "px, 0px)";
+          var moving_div = item.querySelector(".moving-tab");
+          if (moving_div) { // Add null check
+            moving_div.style.width =
+              item.querySelector("li:nth-child(1)").offsetWidth + "px";
+            moving_div.style.transform = "translate3d(0px," + sum + "px, 0px)";
+          }
         }
       });
     } else {
@@ -142,11 +144,14 @@ export default function setNavPills() {
           for (var j = 1; j <= nodes.indexOf(li); j++) {
             sum += item.querySelector("li:nth-child(" + j + ")").offsetWidth;
           }
-          var moving_div = document.querySelector(".moving-tab");
-          moving_div.style.transform = "translate3d(" + sum + "px, 0px, 0px)";
-          moving_div.style.width =
-            item.querySelector("li:nth-child(" + index + ")").offsetWidth +
-            "px";
+          // Fix: Use item.querySelector instead of document.querySelector
+          var moving_div = item.querySelector(".moving-tab");
+          if (moving_div) { // Add null check
+            moving_div.style.transform = "translate3d(" + sum + "px, 0px, 0px)";
+            moving_div.style.width =
+              item.querySelector("li:nth-child(" + index + ")").offsetWidth +
+              "px";
+          }
         }
       });
     }
