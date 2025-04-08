@@ -298,7 +298,10 @@ onMounted(() => {
 .chat-area {
   display: flex;
   flex-direction: column;
-  height: 70vh;
+}
+
+.card {
+  height: calc(100vh - 140px);
 }
 
 .messages {
@@ -356,7 +359,6 @@ onMounted(() => {
 }
 
 .conversation-list {
-  max-height: 70vh;
   overflow-y: auto;
 }
 
