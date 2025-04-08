@@ -1,41 +1,34 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import MiniStatisticsCard from "@/examples/Cards/MiniStatisticsCard.vue";
-import CategoriesList from "./components/CategoriesList.vue";
+import CategoriesList from "../components/CategoriesList.vue";
 import ReportsDoughnutChart from "@/examples/Charts/ReportsDoughnutChart.vue";
-import US from "@/assets/img/icons/flags/US.png";
-import DE from "@/assets/img/icons/flags/DE.png";
-import GB from "@/assets/img/icons/flags/GB.png";
-import BR from "@/assets/img/icons/flags/BR.png";
+import ArgonCheckbox from "@/components/ArgonCheckbox.vue";
 
-const sales = {
-  us: {
-    country: "United States",
-    sales: 2500,
-    value: "$230,900",
-    bounce: "29.9%",
-    flag: US,
+const assignments = {
+  math: {
+    subject: "数学",
+    deadline: "2023-10-15",
+    completed: false,
+    content: "第三章习题1-10，课后思考题",
   },
-  germany: {
-    country: "Germany",
-    sales: "3.900",
-    value: "$440,000",
-    bounce: "40.22%",
-    flag: DE,
+  chinese: {
+    subject: "语文",
+    deadline: "2023-10-14",
+    completed: true,
+    content: "古诗文背诵，阅读理解练习",
   },
-  britain: {
-    country: "Great Britain",
-    sales: "1.400",
-    value: "$190,700",
-    bounce: "23.44%",
-    flag: GB,
+  english: {
+    subject: "英语",
+    deadline: "2023-10-16",
+    completed: false,
+    content: "单元测试卷，听力练习",
   },
-  brasil: {
-    country: "Brasil",
-    sales: "562",
-    value: "$143,960",
-    bounce: "32.14%",
-    flag: BR,
+  science: {
+    subject: "科学",
+    deadline: "2023-10-13",
+    completed: true,
+    content: "实验报告，课后习题",
   },
 };
 
@@ -49,68 +42,68 @@ const router = useRouter();
         <div class="row">
           <div class="col-lg-3 col-md-6 col-12">
             <mini-statistics-card
-                title="班级管理"
+                title="我的课程"
                 value=""
-                description="遇见学习新伙伴"
+                description="查看所有课程内容"
                 :icon="{
-                component: 'ni ni-money-coins',
+                component: 'ni ni-books',
                 background: 'bg-gradient-primary',
                 shape: 'rounded-circle',
                 }"
-                @click="router.push('/class-management')"
+                @click="router.push('/my-courses')"
                 style="cursor: pointer;"
             />
           </div>
           <div class="col-lg-3 col-md-6 col-12">
             <mini-statistics-card
-                title="新建笔记"
+                title="我的作业"
                 value=""
-                description="整理课堂新知识"
+                description="查看和提交作业"
                 :icon="{
-                component: 'ni ni-world',
+                component: 'ni ni-paper-diploma',
                 background: 'bg-gradient-danger',
                 shape: 'rounded-circle',
               }"
-                @click="router.push('/new-note')"
+                @click="router.push('/my-homework')"
                 style="cursor: pointer;"
             />
           </div>
           <div class="col-lg-3 col-md-6 col-12">
             <mini-statistics-card
-                title="课件中心"
+                title="学习资料"
                 value=""
-                description="支持AI智能生成课件"
+                description="浏览课程学习资料"
                 :icon="{
-                component: 'ni ni-paper-diploma',
+                component: 'ni ni-world',
                 background: 'bg-gradient-success',
                 shape: 'rounded-circle',
               }"
-                @click="router.push('/courseware-hub')"
+                @click="router.push('/learning-materials')"
                 style="cursor: pointer;"
             />
           </div>
           <div class="col-lg-3 col-md-6 col-12">
             <mini-statistics-card
-                title="教学方案"
+                title="在线测验"
                 value=""
-                description="教学方案制定"
+                description="参与课程在线测验"
                 :icon="{
-                component: 'ni ni-cart',
+                component: 'ni ni-hat-3',
                 background: 'bg-gradient-warning',
                 shape: 'rounded-circle',
               }"
-                @click="router.push('/teaching-plan')"
+                @click="router.push('/online-quiz')"
                 style="cursor: pointer;"
             />
           </div>
         </div>
-        <!-- 学情分析饼图部分 -->
+        <!-- 学习进度部分 -->
         <div class="row mt-2">
           <div class="col-lg-12 mb-lg">
             <div class="card z-index-2">
               <div class="p-3 pb-0 card-header">
                 <div class="d-flex justify-content-between">
-                  <h4 class="mb-2">学情分析</h4>
+                  <h4 class="mb-2">我的学习进度</h4>
                 </div>
               </div>
               <!-- 添加水平滚动容器 -->
@@ -118,12 +111,12 @@ const router = useRouter();
                 <!-- 第一个饼图 -->
                 <div class="chart-item">
                   <ReportsDoughnutChart
-                      id="sales-distribution-1"
-                      title="三年一班作业完成率"
+                      id="progress-math"
+                      title="数学课程完成率"
                       :chart="{
                       labels: ['已完成', '未完成'],
                       datasets: [{
-                        data: [35, 28],
+                        data: [75, 25],
                         backgroundColor: ['#4BB543', '#FF6B6B']
                       }]
                     }"
@@ -132,26 +125,26 @@ const router = useRouter();
                 <!-- 第二个饼图 -->
                 <div class="chart-item">
                   <ReportsDoughnutChart
-                      id="sales-distribution-2"
-                      title="三年二班作业完成率"
+                      id="progress-chinese"
+                      title="语文课程完成率"
                       :chart="{
                       labels: ['已完成', '未完成'],
                       datasets: [{
-                        data: [34, 38],
+                        data: [60, 40],
                         backgroundColor: ['#4BB543', '#FF6B6B']
                       }]
                     }"
                   />
                 </div>
-                <!-- 可以继续添加更多饼图 -->
+                <!-- 更多饼图 -->
                 <div class="chart-item">
                   <ReportsDoughnutChart
-                      id="sales-distribution-3"
-                      title="三年三班作业完成率"
+                      id="progress-english"
+                      title="英语课程完成率"
                       :chart="{
                       labels: ['已完成', '未完成'],
                       datasets: [{
-                        data: [12, 23],
+                        data: [45, 55],
                         backgroundColor: ['#4BB543', '#FF6B6B']
                       }]
                     }"
@@ -159,12 +152,12 @@ const router = useRouter();
                 </div>
                 <div class="chart-item">
                   <ReportsDoughnutChart
-                      id="sales-distribution-4"
-                      title="三年四班作业完成率"
+                      id="progress-science"
+                      title="科学课程完成率"
                       :chart="{
                       labels: ['已完成', '未完成'],
                       datasets: [{
-                        data: [31, 24],
+                        data: [80, 20],
                         backgroundColor: ['#4BB543', '#FF6B6B']
                       }]
                     }"
@@ -180,40 +173,38 @@ const router = useRouter();
             <div class="card">
               <div class="p-3 pb-0 card-header">
                 <div class="d-flex justify-content-between">
-                  <h4 class="mb-2">作业</h4>
+                  <h4 class="mb-2">作业状态</h4>
                 </div>
               </div>
               <div class="table-responsive">
                 <table class="table align-items-center">
                   <tbody>
-                  <tr v-for="(sale, index) in sales" :key="index">
+                  <tr v-for="(assignment, index) in assignments" :key="index">
+                    <td class="w-10">
+                      <div class="px-2 py-1 d-flex align-items-center">
+                        <div>
+                          <argon-checkbox :id="'assignment-' + index" :checked="assignment.completed" />
+                        </div>
+                      </div>
+                    </td>
                     <td class="w-30">
                       <div class="px-2 py-1 d-flex align-items-center">
                         <div>
-                          <img :src="sale.flag" alt="Country flag"/>
-                        </div>
-                        <div class="ms-4">
-                          <p class="mb-0 text-xs font-weight-bold">Country:</p>
-                          <h6 class="mb-0 text-sm">{{ sale.country }}</h6>
+                          <p class="mb-0 text-xs font-weight-bold">科目:</p>
+                          <h6 class="mb-0 text-sm">{{ assignment.subject }}</h6>
                         </div>
                       </div>
                     </td>
                     <td>
                       <div class="text-center">
-                        <p class="mb-0 text-xs font-weight-bold">Sales:</p>
-                        <h6 class="mb-0 text-sm">{{ sale.sales }}</h6>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="text-center">
-                        <p class="mb-0 text-xs font-weight-bold">Value:</p>
-                        <h6 class="mb-0 text-sm">{{ sale.value }}</h6>
+                        <p class="mb-0 text-xs font-weight-bold">截止日期:</p>
+                        <h6 class="mb-0 text-sm">{{ assignment.deadline }}</h6>
                       </div>
                     </td>
                     <td class="text-sm align-middle">
                       <div class="text-center col">
-                        <p class="mb-0 text-xs font-weight-bold">Bounce:</p>
-                        <h6 class="mb-0 text-sm">{{ sale.bounce }}</h6>
+                        <p class="mb-0 text-xs font-weight-bold">作业内容:</p>
+                        <h6 class="mb-0 text-sm">{{ assignment.content }}</h6>
                       </div>
                     </td>
                   </tr>
@@ -226,24 +217,24 @@ const router = useRouter();
             <categories-list
                 :categories="[
                 {
-                  icon: { component: 'ni ni-mobile-button', background: 'dark' },
-                  label: 'Devices',
-                  description: '250 in stock <strong>346+ sold</strong>',
+                  icon: { component: 'ni ni-notification-70', background: 'dark' },
+                  label: '课程通知',
+                  description: '3条新通知 <strong>查看全部</strong>',
                 },
                 {
-                  icon: { component: 'ni ni-tag', background: 'dark' },
-                  label: 'Tickets',
-                  description: '123 closed <strong>15 open</strong>',
+                  icon: { component: 'ni ni-calendar-grid-58', background: 'dark' },
+                  label: '近期考试',
+                  description: '数学期中考试 <strong>10月20日</strong>',
                 },
                 {
-                  icon: { component: 'ni ni-box-2', background: 'dark' },
-                  label: 'Error logs',
-                  description: '1 is active <strong>40 closed</strong>',
+                  icon: { component: 'ni ni-badge', background: 'dark' },
+                  label: '我的成绩',
+                  description: '最近测验: <strong>90分</strong>',
                 },
                 {
                   icon: { component: 'ni ni-satisfied', background: 'dark' },
-                  label: 'Happy Users',
-                  description: '+ 430',
+                  label: '学习成就',
+                  description: '已获得 <strong>5个</strong> 徽章',
                 },
               ]"
             />

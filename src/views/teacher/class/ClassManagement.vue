@@ -74,12 +74,12 @@ const showModal = ref(false);
 
 // 跳转到添加/加入班级页面
 const goToClassAdding = () => {
-  router.push('/class-adding');
+  router.push('/teacher/class/add');
 };
 
 // 跳转到分班模板管理页面
 const goToClassGrouping = () => {
-  router.push('/class-grouping-management');
+  router.push('/teacher/class/grouping');
 };
 
 // 获取班级详情

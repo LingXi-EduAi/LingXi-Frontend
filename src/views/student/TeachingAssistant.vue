@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onBeforeUnmount, onMounted } from "vue";
-import { AI_API } from "../config/api"; // 导入配置的 AI API 地址
+import { AI_API } from "@/config/api"; // 导入配置的 AI API 地址
 
 // 聊天数据
 const conversations = ref([]);

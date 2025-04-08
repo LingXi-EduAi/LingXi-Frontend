@@ -16,13 +16,8 @@ const darkMode = computed(() => store.state.darkMode);
 
 // 判断当前是否为学生端页面
 const isStudentPage = computed(() => {
-  const path = route.path;
-  return path.startsWith('/student-') || 
-         path === '/my-homework' || 
-         path === '/analytics' || 
-         path === '/teaching-assistant' || 
-         path === '/study-group' || 
-         path === '/learning-materials';
+  // 修改判断逻辑，使用路径前缀判断
+  return route.path.startsWith('/student');
 });
 </script>
 <template>

@@ -67,7 +67,7 @@ const createClass = async () => {
       
       // 1秒后跳转到班级管理页面
       setTimeout(() => {
-        router.push('/class-management');
+        router.push('teacher/class/management');
       }, 1000);
     } else {
       message.value = response.msg || '创建班级失败';

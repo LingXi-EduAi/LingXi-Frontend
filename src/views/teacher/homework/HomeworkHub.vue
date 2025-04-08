@@ -103,7 +103,7 @@ const router = useRouter();
                 background: 'bg-gradient-success',
                 shape: 'rounded-circle',
               }"
-                @click="router.push('/ai-quiz')"
+                @click="router.push('/teacher/class/ai-quiz')"
                 style="cursor: pointer;"
             />
           </div>

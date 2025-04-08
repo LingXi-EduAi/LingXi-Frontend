@@ -4,79 +4,121 @@ const routes = [
     {
         path: "/",
         name: "/",
-        redirect: "/start",
-    }, {
+        redirect: "/role-selection",
+    },
+    {
         path: "/role-selection",
         name: "角色选择",
-        component: () => import("@/views/RoleSelection.vue"),
-    }, {
-        path: "/student-start",
-        name: "学生首页",
-        component: () => import("@/views/StudentStart.vue"),
-    }, {
-        path: "/start",
-        name: "开始",
-        component: () => import("@/views/Start.vue"),
-    }, {
-        path: "/homework-hub",
-        name: "作业中心",
-        component: () => import("@/views/HomeworkHub.vue"),
-    }, {
-        path: "/teaching-plan",
-        name: "教学方案",
-        component: () => import("@/views/TeachingPlan.vue"),
-    }, {
-        path: "/courseware-hub",
-        name: "课件中心",
-        component: () => import("@/views/CoursewareHub.vue"),
-    }, {
-        path: "/analytics",
-        name: "学情分析",
-        component: () => import("@/views/Analytics.vue"),
-    }, {
-        path: "/teaching-assistant",
-        name: "助教",
-        component: () => import("@/views/TeachingAssistant.vue"),
-    }, {
+        component: () => import("@/views/system/RoleSelection.vue"),
+    },
+    // 教师相关路由
+    {
+        path: "/teacher",
+        name: "教师",
+        component: () => import("@/views/teacher/TeacherLayout.vue"),
+        children: [
+            {
+                path: "start",
+                name: "教师 - 主页",
+                component: () => import("@/views/teacher/Start.vue"),
+            },
+            {
+                path: "homework-hub",
+                name: "教师 - 作业中心",
+                component: () => import("@/views/teacher/homework/HomeworkHub.vue"),
+            },
+            {
+                path: "teaching-plan",
+                name: "教师 - 教学方案",
+                component: () => import("@/views/teacher/TeachingPlan.vue"),
+            },
+            {
+                path: "courseware-hub",
+                name: "教师 - 课件中心",
+                component: () => import("@/views/teacher/CoursewareHub.vue"),
+            },
+            {
+                path: "analytics",
+                name: "教师 - 学情分析",
+                component: () => import("@/views/teacher/Analytics.vue"),
+            },
+            {
+                path: "class",
+                name: "教师 - 班级管理",
+                children: [
+                    {
+                        path: "management",
+                        name: "教师 - 班级管理",
+                        component: () => import("@/views/teacher/class/ClassManagement.vue"),
+                    },
+                    {
+                        path: "grouping",
+                        name: "教师 - 分组模板",
+                        component: () => import("@/views/teacher/class/ClassGroupingManagement.vue"),
+                    },
+                    {
+                        path: "add",
+                        name: "教师 - 添加班级",
+                        component: () => import("@/views/teacher/class/ClassAdding.vue"),
+                    },
+                ],
+            },
+            {
+                path: "ai-quiz",
+                name: "教师 - AI出题",
+                component: () => import("@/views/teacher/homework/AIQuiz.vue"),
+            },
+            {
+                path: "learning-materials",
+                name: "教师 - 学习资料",
+                component: () => import("@/views/teacher/LearningMaterials.vue"),
+            },
+        ]
+    },
+    // 学生相关路由
+    {
+        path: "/student",
+        name: "学生",
+        component: () => import("@/views/student/StudentLayout.vue"),
+        children: [
+            {
+                path: "start",
+                name: "学生 - 主页",
+                component: () => import("@/views/student/Start.vue"),
+            },
+            {
+                path: "teaching-assistant",
+                name: "学生 - 助教",
+                component: () => import("@/views/student/TeachingAssistant.vue"),
+            },
+        ]
+    },
+    // 系统相关路由
+    {
         path: "/profile",
         name: "账户",
-        component: () => import("@/views/Profile.vue"),
-    }, {
+        component: () => import("@/views/system/Profile.vue"),
+    },
+    {
         path: "/login",
         name: "登录",
-        component: () => import("@/views/Login.vue"),
-    }, {
+        component: () => import("@/views/system/Login.vue"),
+    },
+    {
         path: "/signup",
         name: "注册",
-        component: () => import("@/views/Signup.vue"),
-    }, {
-        path: '/class-management',
-        name: '班级管理',
-        component: () => import("@/views/ClassManagement.vue"),
-    }, {
-        path: "/class-grouping-management",
-        name: "分组模板管理",
-        component: () => import("@/views/ClassGroupingManagement.vue"),
-    }, {
-        path: "/class-adding",
-        name: "添加班级",
-        component: () => import("@/views/ClassAdding.vue"),
-    }, {
-        path: "/ai-quiz",
-        name: "AI测验",
-        component: () => import("@/views/AIQuiz.vue"),
-    }, {
-        path: "/learning-materials",
-        name: "学习资料",
-        component: () => import("@/views/LearningMaterials.vue"),
-    }, {
+        component: () => import("@/views/system/Signup.vue"),
+    },
+    // 错误页面
+    {
         path: "/404",
         name: "404",
-        component: () => import("@/views/NotFound.vue"),
-    }, {
+        component: () => import("@/views/system/NotFound.vue"),
+    },
+    {
         path: "/403",
         name: "403",
-        component: () => import("@/views/Forbidden.vue"),
+        component: () => import("@/views/system/Forbidden.vue"),
     }
 ];
 

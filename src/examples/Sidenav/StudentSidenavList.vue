@@ -11,7 +11,8 @@ const isRTL = computed(() => store.state.isRTL);
 const getRoute = () => {
   const route = useRoute();
   const routeArr = route.path.split("/");
-  return routeArr[1];
+  // 修改路由判断逻辑，适配新的路由结构
+  return routeArr.length > 2 ? routeArr[2] : routeArr[1];
 };
 </script>
 <template>
@@ -19,7 +20,7 @@ const getRoute = () => {
     <ul class="navbar-nav">
       <!-- 1. 开始 -->
       <li class="nav-item">
-        <sidenav-item to="/student-start" :class="getRoute() === 'student-start' ? 'active' : ''" :navText="isRTL ? 'بداية .' : '开始'">
+        <sidenav-item to="/student/start" :class="getRoute() === 'start' ? 'active' : ''" :navText="isRTL ? 'بداية .' : '开始'">
           <template v-slot:icon>
             <svg width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"
               style="min-width: 20px !important; min-height: 20px !important;">
@@ -34,7 +35,7 @@ const getRoute = () => {
 
       <!-- 2. 作业中心 -->
       <li class="nav-item">
-        <sidenav-item to="/my-homework" :class="getRoute() === 'my-homework' ? 'active' : ''"
+        <sidenav-item to="/student/my-homework" :class="getRoute() === 'my-homework' ? 'active' : ''"
           :navText="isRTL ? 'مركز العمليات' : '作业中心'">
           <template v-slot:icon>
             <svg width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -50,7 +51,7 @@ const getRoute = () => {
 
       <!-- 3. 学情分析 -->
       <li class="nav-item">
-        <sidenav-item to="/analytics" :class="getRoute() === 'analytics' ? 'active' : ''"
+        <sidenav-item to="/student/analytics" :class="getRoute() === 'analytics' ? 'active' : ''"
           :navText="isRTL ? 'تحليل الحالة التعليمية' : '学情分析'">
           <template v-slot:icon>
             <svg width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -70,7 +71,7 @@ const getRoute = () => {
 
       <!-- 4. AI助教 -->
       <li class="nav-item">
-        <sidenav-item to="/teaching-assistant" :class="getRoute() === 'teaching-assistant' ? 'active' : ''"
+        <sidenav-item to="/student/teaching-assistant" :class="getRoute() === 'teaching-assistant' ? 'active' : ''"
           :navText="isRTL ? 'مساعد التدريس' : 'AI助教'">
           <template v-slot:icon>
             <svg width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -88,7 +89,7 @@ const getRoute = () => {
 
       <!-- 5. 学习小组 -->
       <li class="nav-item">
-        <sidenav-item to="/study-group" :class="getRoute() === 'study-group' ? 'active' : ''"
+        <sidenav-item to="/student/study-group" :class="getRoute() === 'study-group' ? 'active' : ''"
           :navText="isRTL ? 'مجموعة الدراسة' : '学习小组'">
           <template v-slot:icon>
             <svg width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -116,7 +117,7 @@ const getRoute = () => {
 
       <!-- 6. 学习资源 -->
       <li class="nav-item">
-        <sidenav-item to="/learning-materials" :class="getRoute() === 'learning-materials' ? 'active' : ''"
+        <sidenav-item to="/student/learning-materials" :class="getRoute() === 'learning-materials' ? 'active' : ''"
           :navText="isRTL ? 'مصادر التعلم' : '学习资源'">
           <template v-slot:icon>
             <svg width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"

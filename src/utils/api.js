@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { createBaseAPIConfig, createAIAPIConfig } from '../config/api';
+import { createBaseAPIConfig, createAIAPIConfig } from '@/config/api';
 import { buildUrlWithToken, handleError } from './request';
 
 // 创建基础服务的 axios 实例

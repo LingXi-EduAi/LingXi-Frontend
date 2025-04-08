@@ -20,7 +20,7 @@ const errorMessage = ref("");
 const isLoading = ref(false);
 
 // 引入新的请求方法
-import { baseRequest } from "../utils/api";
+import { baseRequest } from "@/utils/api";
 
 // 生命周期钩子
 onBeforeMount(() => {
