@@ -1,15 +1,29 @@
 <script setup>
 import { computed } from "vue";
 import { useStore } from "vuex";
+import { useRoute } from "vue-router";
 import SidenavList from "./SidenavList.vue";
+import StudentSidenavList from "./StudentSidenavList.vue";
 import logo from "@/assets/img/logo-ct-dark.png";
 import logoWhite from "@/assets/img/logo-ct.png";
 
 const store = useStore();
+const route = useRoute();
 const isRTL = computed(() => store.state.isRTL);
 const layout = computed(() => store.state.layout);
 const sidebarType = computed(() => store.state.sidebarType);
 const darkMode = computed(() => store.state.darkMode);
+
+// 判断当前是否为学生端页面
+const isStudentPage = computed(() => {
+  const path = route.path;
+  return path.startsWith('/student-') || 
+         path === '/my-homework' || 
+         path === '/analytics' || 
+         path === '/teaching-assistant' || 
+         path === '/study-group' || 
+         path === '/learning-materials';
+});
 </script>
 <template>
   <div
@@ -45,6 +59,7 @@ const darkMode = computed(() => store.state.darkMode);
     </div>
 
     <hr class="mt-0 horizontal dark" />
-    <sidenav-list />
+    <student-sidenav-list v-if="isStudentPage" />
+    <sidenav-list v-else />
   </aside>
 </template>
