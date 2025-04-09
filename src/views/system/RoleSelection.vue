@@ -28,9 +28,9 @@ onBeforeUnmount(() => {
 // 角色选择处理
 const selectRole = (role) => {
   if (role === 'teacher') {
-    router.push('/start');
+    router.push('/teacher/start');
   } else if (role === 'student') {
-    router.push('/student-start');
+    router.push('/student/start');
   }
 };
 </script>
