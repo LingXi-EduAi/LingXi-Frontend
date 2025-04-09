@@ -73,6 +73,11 @@ const routes = [
                 name: "教师 - 学习资料",
                 component: () => import("@/views/teacher/LearningMaterials.vue"),
             },
+            {
+                path: "/teacher/new-note",
+                name: "教师 - 新建笔记",
+                component: () => import("@/views/teacher/NewNote.vue"),
+            }
         ]
     },
     // 学生相关路由
