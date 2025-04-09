@@ -96,6 +96,21 @@ const routes = [
                 name: "学生 - 助教",
                 component: () => import("@/views/student/TeachingAssistant.vue"),
             },
+            {
+                path: "analytics",
+                name: "学生 - 学情分析",
+                component: () => import("@/views/student/Analytics.vue"),
+            },
+            {
+                path: "learning-materials",
+                name: "学生 - 学习资源",
+                component: () => import("@/views/student/LearningMaterials.vue"),
+            },
+            {
+                path: "study-group",
+                name: "学生 - 学习小组",
+                component: () => import("@/views/student/StudyGroup.vue"),
+            },
         ]
     },
     // 系统相关路由
