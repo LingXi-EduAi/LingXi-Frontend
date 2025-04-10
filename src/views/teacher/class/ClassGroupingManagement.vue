@@ -88,6 +88,14 @@ onMounted(() => {
               }" />
           </div>
           <div class="col-lg-3 col-md-6 col-12">
+            <mini-statistics-card title="非活跃模板" :value="classGroupings.filter(g => g.state === '0').length.toString()"
+              description="非活跃状态模板数量" :icon="{
+                component: 'ni ni-tag',
+                background: 'bg-gradient-warning',
+                shape: 'rounded-circle',
+              }" />
+          </div>
+          <div class="col-lg-3 col-md-6 col-12">
             <mini-statistics-card title="最大人数容量" :value="Math.max(...classGroupings.map(g => g.volume), 0).toString()"
               description="单个模板最大人数容量" :icon="{
                 component: 'ni ni-single-02',
@@ -95,18 +103,10 @@ onMounted(() => {
                 shape: 'rounded-circle',
               }" />
           </div>
-          <div class="col-lg-3 col-md-6 col-12">
-            <mini-statistics-card title="最新版本" :value="Math.max(...classGroupings.map(g => g.version), 0).toString()"
-              description="分组模板最高版本号" :icon="{
-                component: 'ni ni-tag',
-                background: 'bg-gradient-warning',
-                shape: 'rounded-circle',
-              }" />
-          </div>
         </div>
 
         <!-- 分组模板列表 -->
-        <div class="row mt-4">
+        <div class="row mt-2">
           <div class="col-lg-12 mb-lg-0 mb-4">
             <div class="card">
               <div class="p-3 pb-0 card-header">
@@ -130,7 +130,7 @@ onMounted(() => {
                   <thead class="thead-light">
                     <tr>
                       <th class="text-center">模板名称</th>
-                      <th class="text-center">班级容量</th>
+                      <th class="text-center">小组容量</th>
                       <th class="text-center">状态</th>
                       <th class="text-center">版本</th>
                       <th class="text-center">创建时间</th>
@@ -192,8 +192,8 @@ onMounted(() => {
                 <input v-model="formData.classCondition" type="text" class="form-control" placeholder="请输入分组条件">
               </div>
               <div class="form-group">
-                <label>班级容量</label>
-                <input v-model.number="formData.volume" type="number" class="form-control" placeholder="请输入班级容量">
+                <label>小组容量</label>
+                <input v-model.number="formData.volume" type="number" class="form-control" placeholder="请输入小组容量">
               </div>
               <div class="form-group">
                 <label>状态</label>
