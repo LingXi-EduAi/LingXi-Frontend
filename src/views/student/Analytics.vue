@@ -59,11 +59,11 @@ const rankingPercentage = Math.round((classComparison.ranking / classComparison.
 
 <template>
   <div class="py-2 container-fluid">
-    <div class="row mb-4">
+    <div class="row">
       <div class="col-12">
-        <div class="card mb-4">
+        <div class="card">
           <div class="card-header pb-0">
-            <h5>我的学习概览</h5>
+            <h4>我的学习概览</h4>
           </div>
           <div class="card-body pt-0">
             <p class="text-sm mb-0">
@@ -77,7 +77,7 @@ const rankingPercentage = Math.round((classComparison.ranking / classComparison.
     </div>
     
     <!-- 概览统计卡片 -->
-    <div class="row mb-4">
+    <div class="row mt-4">
       <div class="col-lg-3 col-md-6 col-12">
         <mini-statistics-card
             title="作业完成率"
@@ -129,7 +129,7 @@ const rankingPercentage = Math.round((classComparison.ranking / classComparison.
     </div>
 
     <!-- 第一行：完成率饼图和成绩分布柱状图 -->
-    <div class="row mb-4">
+    <div class="row mt-3">
       <div class="col-lg-4">
         <ReportsDoughnutChart
             id="personal-completion-chart"
@@ -162,7 +162,7 @@ const rankingPercentage = Math.round((classComparison.ranking / classComparison.
     </div>
 
     <!-- 第二行：学习进度对比柱状图和知识点掌握表格 -->
-    <div class="row mb-4">
+    <div class="row mt-4">
       <div class="col-lg-6 mb-lg-0 mb-4">
         <BarChart
             id="progress-comparison-chart"
@@ -235,7 +235,7 @@ const rankingPercentage = Math.round((classComparison.ranking / classComparison.
     </div>
 
     <!-- 学习建议 -->
-    <div class="row">
+    <div class="row mt-4">
       <div class="col-12">
         <div class="card">
           <div class="p-3 pb-0 card-header">

@@ -141,11 +141,11 @@ const filteredCourseMaterials = computed(() => {
 
 <template>
   <div class="py-2 container-fluid">
-    <div class="row mb-4">
-      <div class="col-12 mb-3">
+    <div class="row mb-3">
+      <div class="col-12 mb-2">
         <div class="card">
           <div class="card-header pb-0">
-            <h4 class="mb-2">学习资源中心</h4>
+            <h4 class="mb-0">学习资源中心</h4>
           </div>
           <div class="card-body pt-3">
             <p class="text-sm mb-0">
@@ -153,8 +153,8 @@ const filteredCourseMaterials = computed(() => {
             </p>
             
             <!-- 搜索和筛选工具栏 -->
-            <div class="row mt-4">
-              <div class="col-md-5 col-sm-12 mb-3">
+            <div class="row mt-3">
+              <div class="col-md-5 col-sm-12 mb-0">
                 <ArgonInput
                   v-model="searchQuery"
                   placeholder="搜索资料名称或描述..."
@@ -178,9 +178,9 @@ const filteredCourseMaterials = computed(() => {
     </div>
 
     <!-- 文档资料部分 -->
-    <div class="row mt-2 mb-4">
+    <div class="row mt-2 mb-3">
       <div class="col-12">
-        <div class="card mb-3">
+        <div class="card mb-2">
           <div class="card-header pb-0">
             <div class="d-flex align-items-center">
               <h4 class="mb-2">文档资料</h4>
@@ -245,9 +245,9 @@ const filteredCourseMaterials = computed(() => {
     </div>
 
     <!-- 课程资料部分 -->
-    <div class="row mt-4">
+    <div class="row mt-3">
       <div class="col-12">
-        <div class="card mb-3">
+        <div class="card mb-2">
           <div class="card-header pb-0">
             <div class="d-flex align-items-center">
               <h4 class="mb-2">课程资料</h4>
