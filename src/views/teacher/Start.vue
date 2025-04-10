@@ -249,22 +249,27 @@ const statusStyles = {
                 :categories="[
                 {
                   icon: { component: 'ni ni-hat-3', background: 'info' },
-                  label: '三年一班学习小组',
+                  label: '三年一班英语学习小组',
                   description: '5个小组 <strong>25名学生</strong>',
                 },
                 {
                   icon: { component: 'ni ni-books', background: 'success' },
-                  label: '三年二班学习小组',
+                  label: '三年二班代数学习小组',
                   description: '4个小组 <strong>20名学生</strong>',
                 },
                 {
                   icon: { component: 'ni ni-ruler-pencil', background: 'warning' },
-                  label: '三年三班学习小组',
+                  label: '三年三班文言文学习小组',
                   description: '6个小组 <strong>30名学生</strong>',
                 },
                 {
                   icon: { component: 'ni ni-atom', background: 'primary' },
-                  label: '三年四班学习小组',
+                  label: '三年四班数学学习小组',
+                  description: '4个小组 <strong>22名学生</strong>',
+                },
+                {
+                  icon: { component: 'ni ni-atom', background: 'primary' },
+                  label: '三年五班历史学习小组',
                   description: '4个小组 <strong>22名学生</strong>',
                 },
               ]"
