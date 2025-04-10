@@ -25,7 +25,7 @@ defineProps({
 <template>
   <div class="card">
     <div class="p-3 pb-0 card-header">
-      <h6 class="mb-0">{{ title }}</h6>
+      <h4 class="mb-0">{{ title }}</h4>
     </div>
     <div class="p-3 card-body">
       <ul :class="`list-group ${isRTL ? 'pe-0' : ''}`">

@@ -245,26 +245,27 @@ const statusStyles = {
           </div>
           <div class="col-lg-5">
             <categories-list
+                :title="'学习小组'"
                 :categories="[
                 {
-                  icon: { component: 'ni ni-mobile-button', background: 'dark' },
-                  label: 'Devices',
-                  description: '250 in stock <strong>346+ sold</strong>',
+                  icon: { component: 'ni ni-hat-3', background: 'info' },
+                  label: '三年一班学习小组',
+                  description: '5个小组 <strong>25名学生</strong>',
                 },
                 {
-                  icon: { component: 'ni ni-tag', background: 'dark' },
-                  label: 'Tickets',
-                  description: '123 closed <strong>15 open</strong>',
+                  icon: { component: 'ni ni-books', background: 'success' },
+                  label: '三年二班学习小组',
+                  description: '4个小组 <strong>20名学生</strong>',
                 },
                 {
-                  icon: { component: 'ni ni-box-2', background: 'dark' },
-                  label: 'Error logs',
-                  description: '1 is active <strong>40 closed</strong>',
+                  icon: { component: 'ni ni-ruler-pencil', background: 'warning' },
+                  label: '三年三班学习小组',
+                  description: '6个小组 <strong>30名学生</strong>',
                 },
                 {
-                  icon: { component: 'ni ni-satisfied', background: 'dark' },
-                  label: 'Happy Users',
-                  description: '+ 430',
+                  icon: { component: 'ni ni-atom', background: 'primary' },
+                  label: '三年四班学习小组',
+                  description: '4个小组 <strong>22名学生</strong>',
                 },
               ]"
             />
