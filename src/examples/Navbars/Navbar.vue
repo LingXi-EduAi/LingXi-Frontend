@@ -68,7 +68,6 @@ onMounted(() => {
             <input
               type="text"
               class="form-control"
-              :placeholder="isRTL ? 'أكتب هنا...' : 'Type here...'"
             />
           </div>
         </div>
