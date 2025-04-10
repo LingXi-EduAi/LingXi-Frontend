@@ -73,6 +73,11 @@ const routes = [
                 name: "教师 - 学习资料",
                 component: () => import("@/views/teacher/LearningMaterials.vue"),
             },
+            {
+                path: "/teacher/new-note",
+                name: "教师 - 新建笔记",
+                component: () => import("@/views/teacher/NewNote.vue"),
+            }
         ]
     },
     // 学生相关路由
@@ -90,6 +95,21 @@ const routes = [
                 path: "teaching-assistant",
                 name: "学生 - 助教",
                 component: () => import("@/views/student/TeachingAssistant.vue"),
+            },
+            {
+                path: "analytics",
+                name: "学生 - 学情分析",
+                component: () => import("@/views/student/Analytics.vue"),
+            },
+            {
+                path: "learning-materials",
+                name: "学生 - 学习资源",
+                component: () => import("@/views/student/LearningMaterials.vue"),
+            },
+            {
+                path: "study-group",
+                name: "学生 - 学习小组",
+                component: () => import("@/views/student/StudyGroup.vue"),
             },
         ]
     },
