@@ -115,7 +115,7 @@ const router = useRouter();
             <div class="card">
               <div class="p-3 pb-0 card-header">
                 <div class="d-flex justify-content-between align-items-center">
-                  <h4 class="mb-0">作业</h4>
+                  <h4 class="mb-0" style="padding-bottom: 15px">作业</h4>
                   <div class="d-flex gap-2">
                     <button
                         v-for="tab in tabs"

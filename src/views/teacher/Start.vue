@@ -3,43 +3,63 @@ import { useRouter } from 'vue-router';
 import MiniStatisticsCard from "@/examples/Cards/MiniStatisticsCard.vue";
 import CategoriesList from "../components/CategoriesList.vue";
 import ReportsDoughnutChart from "@/examples/Charts/ReportsDoughnutChart.vue";
-import US from "@/assets/img/icons/flags/US.png";
-import DE from "@/assets/img/icons/flags/DE.png";
-import GB from "@/assets/img/icons/flags/GB.png";
-import BR from "@/assets/img/icons/flags/BR.png";
-
-const sales = {
-  us: {
-    country: "United States",
-    sales: 2500,
-    value: "$230,900",
-    bounce: "29.9%",
-    flag: US,
-  },
-  germany: {
-    country: "Germany",
-    sales: "3.900",
-    value: "$440,000",
-    bounce: "40.22%",
-    flag: DE,
-  },
-  britain: {
-    country: "Great Britain",
-    sales: "1.400",
-    value: "$190,700",
-    bounce: "23.44%",
-    flag: GB,
-  },
-  brasil: {
-    country: "Brasil",
-    sales: "562",
-    value: "$143,960",
-    bounce: "32.14%",
-    flag: BR,
-  },
-};
 
 const router = useRouter();
+import { ref, computed } from "vue";
+
+// 选项卡状态管理
+const activeTab = ref('all');
+const tabs = [
+  {id: 'all', label: '全部'},
+  {id: 'progress', label: '进行中'},
+  {id: 'pending', label: '未开始'},
+  {id: 'ended', label: '已结束'}
+];
+
+// 作业数据示例
+const assignments = ref([
+  {
+    id: 1,
+    title: "古诗词阅读",
+    class: "三年一班语文",
+    time: "2024/03/10 08:00 ~ 2024/03/15 20:00",
+    status: 'progress'
+  },
+  {
+    id: 2,
+    title: "解方程",
+    class: "三年一班数学",
+    time: "2024/03/18 09:00 ~ 2024/03/25 17:00",
+    status: 'pending'
+  },
+  {
+    id: 3,
+    title: "第三章单词检测",
+    class: "三年一班英语",
+    time: "2024/03/05 10:00 ~ 2024/03/08 18:00",
+    status: 'ended'
+  },
+  {
+    id: 4,
+    title: "100以内乘除口算练习",
+    class: "三年一班数学",
+    time: "2024/03/15 08:00 ~ 2024/03/19 20:00",
+    status: 'progress'
+  },
+]);
+
+// 过滤作业列表
+const filteredAssignments = computed(() => {
+  if (activeTab.value === 'all') return assignments.value;
+  return assignments.value.filter(a => a.status === activeTab.value);
+});
+
+// 状态样式配置
+const statusStyles = {
+  progress: {class: 'bg-success', text: '进行中'},
+  pending: {class: 'bg-secondary', text: '未开始'},
+  ended: {class: 'bg-danger', text: '已结束'}
+};
 </script>
 
 <template>
@@ -179,42 +199,43 @@ const router = useRouter();
           <div class="col-lg-7 mb-lg-0 mb-4">
             <div class="card">
               <div class="p-3 pb-0 card-header">
-                <div class="d-flex justify-content-between">
-                  <h4 class="mb-2">作业</h4>
+                <div class="d-flex justify-content-between align-items-center">
+                  <h4 class="mb-0" style="padding-bottom: 15px">作业</h4>
+                  <div class="d-flex gap-2">
+                    <button
+                        v-for="tab in tabs"
+                        :key="tab.id"
+                        @click="activeTab = tab.id"
+                        class="btn btn-sm"
+                        :class="activeTab === tab.id ? 'btn-primary' : 'btn-light'"
+                    >
+                      {{ tab.label }}
+                    </button>
+                  </div>
                 </div>
               </div>
               <div class="table-responsive">
-                <table class="table align-items-center">
+                <table class="table table-hover align-items-center">
                   <tbody>
-                  <tr v-for="(sale, index) in sales" :key="index">
-                    <td class="w-30">
-                      <div class="px-2 py-1 d-flex align-items-center">
-                        <div>
-                          <img :src="sale.flag" alt="Country flag"/>
-                        </div>
-                        <div class="ms-4">
-                          <p class="mb-0 text-xs font-weight-bold">Country:</p>
-                          <h6 class="mb-0 text-sm">{{ sale.country }}</h6>
-                        </div>
+                  <tr v-for="assignment in filteredAssignments" :key="assignment.id">
+                    <td class="w-50">
+                      <div class="ps-3 py-2">
+                        <h6 class="mb-1 text-dark">{{ assignment.title }}</h6>
+                        <p class="text-sm text-muted mb-0">{{ assignment.class }}</p>
                       </div>
                     </td>
-                    <td>
-                      <div class="text-center">
-                        <p class="mb-0 text-xs font-weight-bold">Sales:</p>
-                        <h6 class="mb-0 text-sm">{{ sale.sales }}</h6>
-                      </div>
+                    <td class="w-40">
+                      <p class="text-sm text-muted mb-0">
+                        起止时间：{{ assignment.time }}
+                      </p>
                     </td>
-                    <td>
-                      <div class="text-center">
-                        <p class="mb-0 text-xs font-weight-bold">Value:</p>
-                        <h6 class="mb-0 text-sm">{{ sale.value }}</h6>
-                      </div>
-                    </td>
-                    <td class="text-sm align-middle">
-                      <div class="text-center col">
-                        <p class="mb-0 text-xs font-weight-bold">Bounce:</p>
-                        <h6 class="mb-0 text-sm">{{ sale.bounce }}</h6>
-                      </div>
+                    <td class="text-end pe-4">
+                      <span
+                          class="badge badge-pill"
+                          :class="statusStyles[assignment.status].class"
+                      >
+                        {{ statusStyles[assignment.status].text }}
+                      </span>
                     </td>
                   </tr>
                   </tbody>
@@ -264,5 +285,34 @@ const router = useRouter();
 .chart-item {
   width: 300px;
   margin-right: 20px;
+}
+
+.btn-light {
+  border: 1px solid #dee2e6;
+  color: #495057;
+}
+
+.btn-primary {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.badge-pill {
+  padding: 0.5em 1em;
+  border-radius: 20px;
+  font-size: 0.875rem;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #f8f9fa;
+  cursor: pointer;
+}
+
+.text-muted {
+  color: #6c757d !important;
+  font-size: 0.875rem;
+}
+
+.card-header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 </style>
