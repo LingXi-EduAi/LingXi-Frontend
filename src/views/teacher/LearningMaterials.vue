@@ -44,6 +44,41 @@ const documentMaterials = ref([
     description: "针对中考英语考点的语法精讲材料，包含时态、语态、从句等重点内容",
     url: "/teaching-plan",
     type: "DOC"
+  },
+  {
+    id: 6,
+    title: "高考数学一轮复习资料",
+    description: "针对高考数学科目的系统性复习资料，包含各章节知识点总结和典型例题",
+    url: "/teaching-plan",
+    type: "PDF"
+  },
+  {
+    id: 7,
+    title: "初中历史知识图谱",
+    description: "初中历史重要事件、人物和时间线的知识图谱，帮助系统掌握历史知识脉络",
+    url: "/teaching-assistant",
+    type: "XLS"
+  },
+  {
+    id: 8,
+    title: "高中生物必修知识手册",
+    description: "高中生物必修课程的知识点手册，包含细胞、遗传、进化等核心概念",
+    url: "/teaching-plan",
+    type: "DOC"
+  },
+  {
+    id: 9,
+    title: "小学语文教学设计指南",
+    description: "小学语文教学设计的详细指南，包含教学目标设定、课堂活动设计和评价方法",
+    url: "/teaching-plan",
+    type: "DOC"
+  },
+  {
+    id: 10,
+    title: "初中英语教学大纲解读",
+    description: "最新版初中英语教学大纲的详细解读和教学建议，帮助教师理解教学要求",
+    url: "/analytics",
+    type: "PDF"
   }
 ]);
 
@@ -90,6 +125,34 @@ const courseMaterials = ref([
     description: "针对中考数学几何压轴题的详细解析和解题技巧讲解",
     url: "/courseware-hub",
     type: "习题"
+  },
+  {
+    id: 7,
+    title: "高中英语听力训练音频集",
+    description: "高中英语听力考试专项训练音频，包含对话、短文和答题技巧指导",
+    url: "/courseware-hub",
+    type: "音频"
+  },
+  {
+    id: 8,
+    title: "初中化学实验安全指南",
+    description: "初中化学实验的安全操作规范和注意事项，包含常见危险品处理方法",
+    url: "/courseware-hub",
+    type: "实验"
+  },
+  {
+    id: 9,
+    title: "高中物理力学综合习题集",
+    description: "高中物理力学部分的综合性习题集，包含各类典型题目和解题方法",
+    url: "/courseware-hub",
+    type: "习题"
+  },
+  {
+    id: 10,
+    title: "初中地理地图识别训练",
+    description: "初中地理常见地图的识别和分析训练，包含地形图、气候图等内容",
+    url: "/courseware-hub",
+    type: "课件"
   }
 ]);
 
