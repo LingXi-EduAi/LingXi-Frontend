@@ -219,11 +219,11 @@ const leaveGroup = (groupId) => {
 
 <template>
   <div class="py-2 container-fluid">
-    <div class="row mb-4">
+    <div class="row mb-2">
       <div class="col-12 mb-3">
         <div class="card">
           <div class="card-header pb-0">
-            <h4 class="mb-2">学习小组</h4>
+            <h4 class="mb-0">学习小组</h4>
           </div>
           <div class="card-body pt-3">
             <p class="text-sm mb-0">
@@ -231,8 +231,8 @@ const leaveGroup = (groupId) => {
             </p>
             
             <!-- 搜索和筛选工具栏 -->
-            <div class="row mt-4">
-              <div class="col-md-5 col-sm-12 mb-3">
+            <div class="row mt-3">
+              <div class="col-md-5 col-sm-12 mb-0">
                 <ArgonInput
                   v-model="searchQuery"
                   placeholder="搜索小组名称或描述..."

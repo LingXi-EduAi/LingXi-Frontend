@@ -111,6 +111,11 @@ const routes = [
                 name: "学生 - 学习小组",
                 component: () => import("@/views/student/StudyGroup.vue"),
             },
+            {
+                path: "my-homework",
+                name: "学生 - 作业中心",
+                component: () => import("@/views/student/HomeworkCenter.vue"),
+            },
         ]
     },
     // 系统相关路由
