@@ -17,7 +17,7 @@ const getRoute = () => {
 </script>
 <template>
 
-<!-- https://iconpark.oceanengine.com/official
+  <!-- https://iconpark.oceanengine.com/official
 外部描边颜色#333
 外部填充颜色#65CB8F
 内部描边颜色#FFF
@@ -27,7 +27,8 @@ const getRoute = () => {
     <ul class="navbar-nav">
       <li class="nav-item">
         <!-- 修改路由路径 -->
-        <sidenav-item to="/teacher/start" :class="getRoute() === 'start' ? 'active' : ''" :navText="isRTL ? 'بداية .' : '开始'">
+        <sidenav-item to="/teacher/start" :class="getRoute() === 'start' ? 'active' : ''"
+          :navText="isRTL ? 'بداية .' : '开始'">
           <template v-slot:icon>
             <svg width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"
               style="min-width: 20px !important; min-height: 20px !important;">
@@ -81,6 +82,22 @@ const getRoute = () => {
               <path d="M17 36H24" stroke="#FFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
               <rect x="17" y="12" width="14" height="10" fill="#65CB8F" stroke="#FFF" stroke-width="4"
                 stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </template>
+        </sidenav-item>
+      </li>
+
+      <li class="nav-item">
+        <sidenav-item to="/teacher/teaching-plan-pro" :class="getRoute() === 'teaching-plan-pro' ? 'active' : ''"
+          :navText="isRTL ? 'خطة التدريس' : '教学方案Pro'">
+          <template v-slot:icon>
+            <svg width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"
+              style="min-width: 20px !important; min-height: 20px !important;">
+              <path d="M10 6C10 4.89543 10.8954 4 12 4H36C37.1046 4 38 4.89543 38 6V44L31 39L24 44L17 39L10 44V6Z"
+                fill="#65CB8F" stroke="#333" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M18 22L30 22" stroke="#FFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M18 30L30 30" stroke="#FFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M18 14L30 14" stroke="#FFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
           </template>
         </sidenav-item>

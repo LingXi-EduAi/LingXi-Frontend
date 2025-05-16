@@ -33,6 +33,11 @@ const routes = [
                 component: () => import("@/views/teacher/TeachingPlan.vue"),
             },
             {
+                path: "teaching-plan-pro",
+                name: "教师 - 教学方案Pro",
+                component: () => import("@/views/teacher/TeachingPlanPro.vue"),
+            },
+            {
                 path: "courseware-hub",
                 name: "教师 - 课件中心",
                 component: () => import("@/views/teacher/CoursewareHub.vue"),
