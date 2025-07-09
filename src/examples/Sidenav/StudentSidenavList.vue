@@ -144,7 +144,7 @@ const getRoute = () => {
       </li>
 
       <li class="nav-item">
-        <sidenav-item to="/profile" :class="getRoute() === 'profile' ? 'active' : ''"
+        <sidenav-item to="/student/profile" :class="getRoute() === 'profile' ? 'active' : ''"
           :navText="isRTL ? 'حساب تعريفي' : '个人设置'">
           <template v-slot:icon>
             <svg width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"
