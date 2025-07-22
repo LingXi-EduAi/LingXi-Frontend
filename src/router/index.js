@@ -121,6 +121,11 @@ const routes = [
                 name: "学生 - 作业中心",
                 component: () => import("@/views/student/HomeworkCenter.vue"),
             },
+            {
+                path: "profile",
+                name: "学生 - 个人设置",
+                component: () => import("@/views/system/Profile.vue"),
+            },
         ]
     },
     // 系统相关路由
