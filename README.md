@@ -1,211 +1,100 @@
-# [Vue Argon Dashboard 2](http://demos.creative-tim.com/vue-argon-dashboard/?ref=readme-vad) [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&logo=twitter)](https://twitter.com/intent/tweet?url=https://www.creative-tim.com/product/vue-argon-dashboard&text=Check%20Vue%Argon%20Dashboard%20made%20by%20@CreativeTim%20#webdesign%20#dashboard%20#argondesign%20#vue%20https://www.creative-tim.com/product/vue-argon-dashboard)
+# 灵犀教育 (LingXi-EduAI)
 
-![version](https://img.shields.io/badge/version-4.0.0-blue.svg) [![GitHub issues open](https://img.shields.io/github/issues/creativetimofficial/vue-argon-dashboard.svg)](https://github.com/creativetimofficial/vue-argon-dashboard/issues?q=is%3Aopen+is%3Aissue) [![GitHub issues closed](https://img.shields.io/github/issues-closed-raw/creativetimofficial/vue-argon-dashboard.svg)](https://github.com/creativetimofficial/vue-argon-dashboard/issues?q=is%3Aissue+is%3Aclosed)
+![logo](public/logo.png)
 
-![Image](https://s3.amazonaws.com/creativetim_bucket/products/156/original/vue-argon-dashboard.jpg)
 
-Start your Development with an Innovative Admin Template for Bootstrap 5 and VueJS 3. If you like the look & feel of the hottest design trend right now, you will fall in love with this dashboard! It features a huge number of components built to fit together and look amazing.
 
-**Fully Coded Components**<br />
-Vue Argon Dashboard 2 is built with over 70 frontend individual elements, like buttons, inputs, navbars, nav tabs, cards, or alerts, giving you the freedom of choosing and combining. All components can take variations in color, which you can easily modify using SASS files and classes. You will save a lot of time going from prototyping to full-functional code because all elements are implemented.
+## 项目简介
 
-This free Bootstrap 5 & VueJS 3 Dashboard is coming with prebuilt design blocks, so the development process is seamless,
-switching from our pages to the real website is very easy to be done.
+随着人工智能技术的飞速发展，我们深信 AI 在教育领域，尤其是在教师备课过程中，蕴含着巨大的潜力。“灵犀教育”应运而生，我们致力于利用前沿的 AI 技术，为教师提供一站式的智能备课解决方案。
 
-View [all components here](https://www.creative-tim.com/learning-lab/vue/alerts/argon-dashboard/).
+“灵犀教育”的核心使命是：**减轻教师备课负担，优化教学流程，提升教学效果，最终助力学生获得更优质、更个性化的学习体验与成果。**
 
-**Documentation built by Developers**<br />
-Each element is well presented in very complex documentation.
-You can read more about the [documentation here](https://www.creative-tim.com/learning-lab/vue/overview/argon-dashboard/).
+## 核心功能
 
-**Example Pages**<br />
-If you want to get inspiration or just show something directly to your clients, you can jump-start your development with our pre-built example pages. Every page is spaced well, with attractive layouts and pleasing shapes. Vue Argon Dashboard 2 has everything you need to quickly set up an amazing project.
+“灵犀教育”为教师和学生提供了截然不同的功能，旨在通过技术赋能教育的全过程。
 
-View [example pages here](https://demos.creative-tim.com/vue-argon-dashboard/).
+### 教师端
 
-**HELPFUL LINKS**
+- **AI教案生成**：根据教师输入的教学目标和内容，自动生成结构完整、内容丰富的教案。
+- **AI课件制作**：一键生成与教案配套的演示文稿，包含图文、案例等多种元素。
+- **AI智能出题**：根据知识点和难度要求，快速生成多种题型（选择题、填空题、问答题等）的试卷。
+- **作业中心**：发布、批改、管理学生作业，并查看作业完成情况。
+- **学情分析**：通过数据可视化图表，智能分析学生的学习进度、知识点掌握情况，为个性化教学提供数据支持。
+- **班级管理**：轻松创建和管理班级、学生分组，优化课堂组织。
+- **教学资源库**：上传、管理和分享教学资料，构建个人或学校的教学资源中心。
 
-- View [Github Repository](https://github.com/creativetimofficial/vue-argon-dashboard)
-- Check [FAQ Page](https://www.creative-tim.com/faq)
+### 学生端
 
-#### Special thanks
+- **智能助教**：提供7x24小时的AI答疑服务，随时解答学习中遇到的问题。
+- **个性化学习**：根据学情分析结果，为学生推荐合适的学习资源和练习题。
+- **作业中心**：在线完成和提交作业，查看批改结果和教师评语。
+- **学习小组**：与同学组队学习，共同探讨问题，协作完成项目。
+- **学情报告**：查看自己的学习进度、成绩变化和能力雷达图，明确优势和待提升领域。
 
-During the development of this dashboard, we have used many existing resources from awesome developers. We want to thank them for providing their tools open source:
+## 技术栈
 
-- [Popper.js](https://popper.js.org/) - Kickass library used to manage poppers
+- **前端框架**: Vue.js 3
+- **路由**: Vue Router
+- **UI框架**: Argon Dashboard 2 (基于 Bootstrap 5)
+- **图表**: Chart.js
 
-Let us know your thoughts below. And good luck with development!
+## 项目结构
 
-## Table of Contents
-
-- [Versions](#versions)
-- [Demo](#demo)
-- [Quick Start](#quick-start)
-- [Deploy](#deploy)
-- [Documentation](#documentation)
-- [File Structure](#file-structure)
-- [Browser Support](#browser-support)
-- [Resources](#resources)
-- [Reporting Issues](#reporting-issues)
-- [Technical Support or Questions](#technical-support-or-questions)
-- [Licensing](#licensing)
-- [Useful Links](#useful-links)
-
-## Versions
-
-[<img src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/logos/vue-logo.jpg?raw=true" width="60" height="60" />](https://www.creative-tim.com/product/vue-argon-dashboard?ref=readme-vad)
-
-| VueJS |
-| ----- |
-
-| [![Vue Argon Dashboard 2](https://s3.amazonaws.com/creativetim_bucket/products/156/orginal/vue-argon-dashboard.jpg)](http://demos.creative-tim.com/vue-argon-dashboard/?ref=readme-vad)
-
-## Demo
-
-- [Profile](https://demos.creative-tim.com/vue-argon-dashboard/#/profile?ref=readme-vad)
-- [Sign In](https://demos.creative-tim.com/vue-argon-dashboard/#/sign-in?ref=readme-vad)
-- [Sign Up](https://demos.creative-tim.com/vue-argon-dashboard/#/sign-up?ref=readme-vad)
-
-[View More](https://demos.creative-tim.com/vue-argon-dashboard/#/dashboard-default?ref=readme-vad).
-
-## Quick start
-
-Quick start options:
-
-- Download from [Creative Tim](https://www.creative-tim.com/product/vue-argon-dashboard?ref=readme-vad).
-
-## Deploy
-
-:rocket: You can deploy your own version of the template to Genezio with one click:
-
-[![Deploy to Genezio](https://raw.githubusercontent.com/Genez-io/graphics/main/svg/deploy-button.svg)](https://app.genez.io/start/deploy?repository=https://github.com/creativetimofficial/vue-argon-dashboard&utm_source=github&utm_medium=referral&utm_campaign=github-creativetim&utm_term=deploy-project&utm_content=button-head)
-
-## Terminal Commands
-
-1. Download and Install NodeJs LTS version from [NodeJs Official Page](https://nodejs.org/en/download/).
-2. Navigate to the root ./ directory of the product and run `npm install` to install our local dependencies.
-
-## Documentation
-
-The documentation for the Vue Argon Dashboard 2 is hosted at our [website](https://www.creative-tim.com/learning-lab/vue/overview/argon-dashboard/?ref=readme-vad).
-
-### What's included
-
-Within the download you'll find the following directories and files:
+项目主要分为三大模块：教师模块、学生模块和系统模块。
 
 ```
-vue-argon-dashboard
-    ├── public
-    │   ├── favicon.png
-    │   └── index.html
-    ├── src
-    │   ├── assets
-    │   │   ├── css
-    │   │   ├── fonts
-    │   │   ├── img
-    │   │   ├── js
-    │   │   └── scss
-    │   ├── components
-    │   │   ├── ArgonAlert.vue
-    │   │   ├── ArgonAvatar.vue
-    │   │   ├── ArgonBadge.vue
-    │   │   ├── ArgonButton.vue
-    │   │   ├── ArgonCheckbox.vue
-    │   │   ├── ArgonInput.vue
-    │   │   ├── ArgonPagination.vue
-    │   │   ├── ArgonPaginationItem.vue
-    │   │   ├── ArgonProgress.vue
-    │   │   ├── ArgonRadio.vue
-    │   │   ├── ArgonSnackbar.vue
-    │   │   ├── ArgonSocialButton.vue
-    │   │   ├── ArgonSwitch.vue
-    │   │   └── ArgonTextarea.vue
-    │   ├── examples
-    │   │   ├── Cards
-    │   │   ├── Charts
-    │   │   ├── Navbars
-    │   │   ├── PageLayout
-    │   │   ├── Sidenav
-    │   │   ├── Breadcrumbs.vue
-    │   │   ├── Configurator.vue
-    │   │   └── Footer.vue
-    │   ├── router
-    │   ├── store
-    │   ├── views
-    │   │   ├── components
-    │   │   ├── Billing.vue
-    │   │   ├── Dashboard.vue
-    │   │   ├── Home.vue
-    │   │   ├── Profile.vue
-    │   │   ├── Rtl.vue
-    │   │   ├── Signin.vue
-    │   │   ├── Signup.vue
-    │   │   ├── Tables.vue
-    │   │   └── VirtualReality.vue
-    │   ├── App.vue
-    │   ├── argon-dashboard.js
-    │   └── main.js
-    ├── .browserslistrc
-    ├── .eslintrc.js
-    ├── .gitignore
-    ├── babel.config.js
-    ├── CHANGELOG.md
-    ├── ISSUE_TEMPLATE.md
-    ├── LICENSE
-    ├── package.json
-    └── README.md
+src/views/
+├── student/            # 学生端页面
+│   ├── Analytics.vue       # 学情分析
+│   ├── HomeworkCenter.vue  # 作业中心
+│   ├── LearningMaterials.vue # 学习资料
+│   ├── Start.vue           # 学生主页
+│   ├── StudyGroup.vue      # 学习小组
+│   └── TeachingAssistant.vue # 智能助教
+├── system/             # 系统通用页面
+│   ├── Login.vue           # 登录
+│   ├── Profile.vue         # 个人中心
+│   ├── RoleSelection.vue   # 角色选择
+│   └── Signup.vue          # 注册
+└── teacher/            # 教师端页面
+    ├── Analytics.vue       # 学情分析
+    ├── CoursewareHub.vue   # 课件中心
+    ├── TeachingPlan.vue    # 教学方案
+    ├── class/              # 班级管理
+    └── homework/           # 作业相关
+        ├── AIQuiz.vue      # AI出题
+        └── HomeworkHub.vue # 作业中心
 ```
 
-## Browser Support
+## 快速开始
 
-At present, we officially aim to support the last two versions of the following browsers:
+1. **克隆项目**
+   ```bash
+   git clone https://github.com/LingXi-EduAi/LingXi-Frontend.git
+   cd LingXi-Frontend
+   ```
 
-<img src="https://s3.amazonaws.com/creativetim_bucket/github/browser/chrome.png" width="64" height="64"> <img src="https://s3.amazonaws.com/creativetim_bucket/github/browser/firefox.png" width="64" height="64"> <img src="https://s3.amazonaws.com/creativetim_bucket/github/browser/edge.png" width="64" height="64"> <img src="https://s3.amazonaws.com/creativetim_bucket/github/browser/safari.png" width="64" height="64"> <img src="https://s3.amazonaws.com/creativetim_bucket/github/browser/opera.png" width="64" height="64">
+2. **安装依赖**
 
-## Resources
+   ```bash
+   npm install
+   ```
 
-- [Live Preview](https://demos.creative-tim.com/vue-argon-dashboard/#/dashboard-default?ref=readme-vad)
-- [Download Page](https://www.creative-tim.com/product/vue-argon-dashboard?ref=readme-vad)
-- Documentation is [here](https://www.creative-tim.com/learning-lab/vue/overview/argon-dashboard/?ref=readme-vad)
-- [License Agreement](https://www.creative-tim.com/license?ref=readme-vad)
-- [Support](https://www.creative-tim.com/contact-us?ref=readme-vad)
-- Issues: [Github Issues Page](https://github.com/creativetimofficial/vue-argon-dashboard/issues)
+3. **添加`.env`配置文件**
+   
+   复制`.env.example`并填写完整相关后端配置及 api 接口
 
-## Reporting Issues
+4. **启动项目**
 
-We use GitHub Issues as the official bug tracker for the Vue Argon Dashboard 2. Here are some advices for our users that want to report an issue:
+   ```bash
+   npm run serve
+   ```
 
-1. Make sure that you are using the latest version of the Vue Argon Dashboard 2. Check the CHANGELOG from your dashboard on our [website](https://www.creative-tim.com/product/vue-argon-dashboard?ref=readme-vad).
-2. Providing us reproducible steps for the issue will shorten the time it takes for it to be fixed.
-3. Some issues may be browser specific, so specifying in what browser you encountered the issue might help.
+5. **访问应用**
 
-## Technical Support or Questions
+   在浏览器中打开 `http://localhost:8080`
 
-If you have questions or need help integrating the product please [contact us](https://www.creative-tim.com/contact-us?ref=readme-vad) instead of opening an issue.
+## License
 
-## Licensing
-
-- Copyright 2023 [Creative Tim](https://www.creative-tim.com?ref=readme-vad)
-- Creative Tim [license](https://www.creative-tim.com/license?ref=readme-vad)
-
-## Useful Links
-
-- [More products](https://www.creative-tim.com/templates?ref=readme-vad) from Creative Tim
-
-- [Tutorials](https://www.youtube.com/channel/UCVyTG4sCw-rOvB9oHkzZD1w)
-
-- [Freebies](https://www.creative-tim.com/bootstrap-themes/free?ref=readme-vad) from Creative Tim
-
-- [Affiliate Program](https://www.creative-tim.com/affiliates/new?ref=readme-vad) (earn money)
-
-##### Social Media
-
-Twitter: <https://twitter.com/CreativeTim>
-
-Facebook: <https://www.facebook.com/CreativeTim>
-
-Dribbble: <https://dribbble.com/creativetim>
-
-Google+: <https://plus.google.com/+CreativetimPage>
-
-Instagram: <https://instagram.com/creativetimofficial>
+Distributed under the MIT License. See `LICENSE` for more information.
