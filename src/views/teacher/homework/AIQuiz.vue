@@ -11,7 +11,7 @@ const aiApiUrl = process.env.VUE_APP_AI_API;
         <div class="card z-index-2">
           <div class="single-card-container">
             <iframe
-                :src="`${aiApiUrl}/completion/WIutJ7kcbxO3B9Ov`"
+                :src="`${aiApiUrl}/chat/G7fTFTkpqDExkxrb`"
                 frameborder="0"
                 allow="microphone"
             ></iframe>

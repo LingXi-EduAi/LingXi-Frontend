@@ -10,7 +10,7 @@ import '@/styles/single-card-common.css'; // 引入共用样式
       <div class="col-lg-12 mb-lg">
         <div class="card z-index-2">
           <div class="single-card-container">
-            <iframe :src="`${aiApiUrl}/workflow/PUpoXQRQbKIFMOV0`" frameborder="0" allow="microphone"></iframe>
+            <iframe :src="`${aiApiUrl}/workflow/bjyaM7xKhGG5HVKh`" frameborder="0" allow="microphone"></iframe>
           </div>
         </div>
       </div>

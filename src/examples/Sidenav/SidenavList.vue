@@ -71,7 +71,7 @@ const getRoute = () => {
 
       <li class="nav-item">
         <sidenav-item to="/teacher/teaching-plan" :class="getRoute() === 'teaching-plan' ? 'active' : ''"
-          :navText="isRTL ? 'خطة التدريس' : '教学方案'">
+          :navText="isRTL ? 'خطة التدريس' : '教案助手'">
           <template v-slot:icon>
             <svg width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"
               style="min-width: 20px !important; min-height: 20px !important;">
@@ -89,7 +89,7 @@ const getRoute = () => {
 
       <li class="nav-item">
         <sidenav-item to="/teacher/teaching-plan-pro" :class="getRoute() === 'teaching-plan-pro' ? 'active' : ''"
-          :navText="isRTL ? 'خطة التدريس' : '教学方案Pro'">
+          :navText="isRTL ? 'خطة التدريس' : '教案助手Pro'">
           <template v-slot:icon>
             <svg width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"
               style="min-width: 20px !important; min-height: 20px !important;">
