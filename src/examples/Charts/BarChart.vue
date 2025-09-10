@@ -54,7 +54,7 @@ onMounted(() => {
         label: dataset.label,
         data: dataset.data,
         backgroundColor: dataset.backgroundColor || gradientBg, // 支持自定义颜色或使用渐变
-        borderColor: dataset.backgroundColor || "#4BB543",
+        borderColor: dataset.backgroundColor || "#7eb7e0",
         borderWidth: 1,
         borderRadius: 6, // 柱子圆角
         maxBarThickness: 40,

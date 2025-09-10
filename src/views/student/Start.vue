@@ -117,7 +117,7 @@ const router = useRouter();
                       labels: ['已完成', '未完成'],
                       datasets: [{
                         data: [75, 25],
-                        backgroundColor: ['#4BB543', '#FF6B6B']
+                        backgroundColor: ['#7eb7e0', '#FF6B6B']
                       }]
                     }"
                   />
@@ -131,7 +131,7 @@ const router = useRouter();
                       labels: ['已完成', '未完成'],
                       datasets: [{
                         data: [60, 40],
-                        backgroundColor: ['#4BB543', '#FF6B6B']
+                        backgroundColor: ['#7eb7e0', '#FF6B6B']
                       }]
                     }"
                   />
@@ -145,7 +145,7 @@ const router = useRouter();
                       labels: ['已完成', '未完成'],
                       datasets: [{
                         data: [45, 55],
-                        backgroundColor: ['#4BB543', '#FF6B6B']
+                        backgroundColor: ['#7eb7e0', '#FF6B6B']
                       }]
                     }"
                   />
@@ -158,7 +158,7 @@ const router = useRouter();
                       labels: ['已完成', '未完成'],
                       datasets: [{
                         data: [80, 20],
-                        backgroundColor: ['#4BB543', '#FF6B6B']
+                        backgroundColor: ['#7eb7e0', '#FF6B6B']
                       }]
                     }"
                   />

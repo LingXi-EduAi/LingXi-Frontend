@@ -90,7 +90,7 @@ const selectRole = (role) => {
 }
 
 .text-gradient.text-primary {
-  background-image: linear-gradient(310deg, #7928CA, #FF0080);
+  background-image: linear-gradient(310deg, #7eb7e0, #FF0080);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -99,7 +99,7 @@ const selectRole = (role) => {
 }
 
 .text-gradient.text-success {
-  background-image: linear-gradient(310deg, #2152ff, #21d4fd);
+  background-image: linear-gradient(310deg, #7eb7e0, #21d4fd);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

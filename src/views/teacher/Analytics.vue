@@ -157,7 +157,7 @@ const changeTimeFilter = (filter) => {
           labels: ['已完成', '未完成'],
           datasets: [{
             data: [studentStats.completionRate.completed, studentStats.completionRate.incomplete],
-            backgroundColor: ['#4BB543', '#FF6B6B']
+            backgroundColor: ['#7eb7e0', '#FF6B6B']
           }]
         }" />
       </div>
@@ -167,7 +167,7 @@ const changeTimeFilter = (filter) => {
           datasets: [{
             label: '人数',
             data: studentStats.gradeDistribution.data,
-            backgroundColor: '#4BB543'
+            backgroundColor: '#7eb7e0'
           }]
         }" />
       </div>
@@ -181,7 +181,7 @@ const changeTimeFilter = (filter) => {
           datasets: [{
             label: '掌握率(%)',
             data: studentStats.progressStats.data,
-            backgroundColor: '#2196F3'
+            backgroundColor: '#7eb7e0'
           }]
         }" />
       </div>
@@ -255,7 +255,7 @@ const changeTimeFilter = (filter) => {
           labels: studentStats.engagement.labels,
           datasets: [{
             data: studentStats.engagement.data,
-            backgroundColor: ['#4CAF50', '#2196F3', '#FFC107', '#9C27B0']
+            backgroundColor: ['#4CAF50', '#7eb7e0', '#FFC107', '#9C27B0']
           }]
         }" />
       </div>
@@ -409,7 +409,7 @@ const changeTimeFilter = (filter) => {
 
 .alert-info {
   background-color: rgba(33, 150, 243, 0.1);
-  color: #0c63e4;
+  color: #7eb7e0;
   border: none;
   border-radius: 0.5rem;
 }
