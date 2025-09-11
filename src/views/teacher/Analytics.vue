@@ -179,7 +179,7 @@ const changeTimeFilter = (filter) => {
         <BarChart id="progress-chart" title="单元学习进度" :height="250" :chart="{
           labels: studentStats.progressStats.labels,
           datasets: [{
-            label: '掌握率(%)',
+            label: '成绩优秀率(%)',
             data: studentStats.progressStats.data,
             backgroundColor: '#7eb7e0'
           }]

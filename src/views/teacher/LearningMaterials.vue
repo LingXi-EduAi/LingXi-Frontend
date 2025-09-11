@@ -227,7 +227,7 @@ const filteredCourseMaterials = computed(() => {
               </div>
               <div class="col-md-7 col-sm-12 mb-3">
                 <div class="d-flex align-items-center">
-                  <label class="me-2 text-sm">按类型筛选:</label>
+                  <label class="me-2 text-sm text-nowrap">按类型筛选:</label>
                   <select v-model="selectedType" class="form-select">
                     <option value="all">全部类型</option>
                     <option v-for="type in materialTypes" :key="type" :value="type">{{ type }}</option>
