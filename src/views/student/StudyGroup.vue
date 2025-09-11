@@ -1,8 +1,12 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import { baseRequest } from "@/utils/api";
 import ArgonButton from "@/components/ArgonButton.vue";
 import ArgonBadge from "@/components/ArgonBadge.vue";
 import ArgonInput from "@/components/ArgonInput.vue";
+
+const router = useRouter();
 
 // 搜索和筛选
 const searchQuery = ref('');
@@ -26,81 +30,14 @@ const groupCategories = [
   '语文', '数学', '英语', '物理', '化学', '生物', '历史', '地理', '政治', '其他'
 ];
 
-// 我的学习小组数据
-const myGroups = ref([
-  {
-    id: 1,
-    name: "高三数学竞赛小组",
-    description: "专注于数学竞赛题目讨论和解析，适合有志于参加数学竞赛的同学",
-    category: "数学",
-    memberCount: 4,
-    maxMembers: 5,
-    creator: "张明",
-    createTime: "2023-09-15",
-    lastActiveTime: "2023-10-01"
-  },
-  {
-    id: 2,
-    name: "英语口语练习小组",
-    description: "每周定期进行英语口语练习，提高英语口语表达能力和听力水平",
-    category: "英语",
-    memberCount: 3,
-    maxMembers: 6,
-    creator: "李华",
-    createTime: "2023-08-20",
-    lastActiveTime: "2023-09-28"
-  }
-]);
+// 列表数据
+const myGroups = ref([]);
+const recommendedGroups = ref([]);
+const loading = ref(false);
+const message = ref("");
+const isSuccess = ref(true);
 
-// 推荐学习小组数据
-const recommendedGroups = ref([
-  {
-    id: 3,
-    name: "物理实验探究小组",
-    description: "一起探讨物理实验现象，分享实验心得，解决实验中遇到的问题",
-    category: "物理",
-    memberCount: 4,
-    maxMembers: 8,
-    creator: "王强",
-    createTime: "2023-09-10",
-    lastActiveTime: "2023-09-30"
-  },
-  {
-    id: 4,
-    name: "语文阅读分享会",
-    description: "分享优秀文学作品，交流阅读心得，提高语文阅读理解和写作能力",
-    category: "语文",
-    memberCount: 5,
-    maxMembers: 10,
-    creator: "赵敏",
-    createTime: "2023-07-15",
-    lastActiveTime: "2023-09-25"
-  },
-  {
-    id: 5,
-    name: "化学竞赛研究小组",
-    description: "专注于化学竞赛题目研究，包括实验设计和理论分析",
-    category: "化学",
-    memberCount: 3,
-    maxMembers: 6,
-    creator: "刘芳",
-    createTime: "2023-08-05",
-    lastActiveTime: "2023-09-20"
-  },
-  {
-    id: 6,
-    name: "历史探究小组",
-    description: "探讨历史事件和人物，分享历史知识，提高历史思维能力",
-    category: "历史",
-    memberCount: 4,
-    maxMembers: 8,
-    creator: "陈明",
-    createTime: "2023-09-01",
-    lastActiveTime: "2023-09-18"
-  }
-]);
-
-// 获取分类对应的颜色
+// 颜色
 const getCategoryColor = (category) => {
   const categoryColors = {
     "语文": "primary",
@@ -117,77 +54,128 @@ const getCategoryColor = (category) => {
   return categoryColors[category] || "secondary";
 };
 
-// 筛选我的学习小组
-const filteredMyGroups = computed(() => {
-  return myGroups.value.filter(group => {
-    const matchesSearch = searchQuery.value === '' || 
-      group.name.toLowerCase().includes(searchQuery.value.toLowerCase()) || 
-      group.description.toLowerCase().includes(searchQuery.value.toLowerCase());
-    const matchesCategory = selectedCategory.value === 'all' || group.category === selectedCategory.value;
-    return matchesSearch && matchesCategory;
-  });
+// 过滤
+const filterFn = (list) => list.filter(group => {
+  const kw = (searchQuery.value || '').toLowerCase();
+  const matchesSearch = kw === '' || 
+    (group.name && group.name.toLowerCase().includes(kw)) || 
+    (group.description && group.description.toLowerCase().includes(kw));
+  const matchesCategory = selectedCategory.value === 'all' || group.category === selectedCategory.value;
+  return matchesSearch && matchesCategory;
 });
+const filteredMyGroups = computed(() => filterFn(myGroups.value));
+const filteredRecommendedGroups = computed(() => filterFn(recommendedGroups.value));
 
-// 筛选推荐学习小组
-const filteredRecommendedGroups = computed(() => {
-  return recommendedGroups.value.filter(group => {
-    const matchesSearch = searchQuery.value === '' || 
-      group.name.toLowerCase().includes(searchQuery.value.toLowerCase()) || 
-      group.description.toLowerCase().includes(searchQuery.value.toLowerCase());
-    const matchesCategory = selectedCategory.value === 'all' || group.category === selectedCategory.value;
-    return matchesSearch && matchesCategory;
-  });
-});
+// API: 加载小组列表（推荐视为全部小组减去我的小组）
+const loadGroups = async () => {
+  try {
+    loading.value = true;
+    // 拉取所有小组
+    const res = await baseRequest.post('/studyGroup/list', { pageType: '1', start: 0, pageSize: 100 });
+    if (res.status !== 200) {
+      message.value = res.msg || '加载小组失败';
+      isSuccess.value = false;
+      return;
+    }
+    const allGroups = res.data.list || [];
+
+    // 简化：将已加入的小组标记到 myGroups（需要成员接口确认，这里先按本地缓存 userInfo.id 过滤 members API）
+    const storage = localStorage.getItem('userInfo') || sessionStorage.getItem('userInfo');
+    const currentUser = storage ? JSON.parse(storage) : null;
+    const userId = currentUser ? currentUser.id : '';
+
+    const joined = [];
+    const notJoined = [];
+    for (const g of allGroups) {
+      try {
+        const mem = await baseRequest.post('/studyGroup/members', null, { params: { groupId: g.id } });
+        const list = (mem && mem.data && mem.data.list) ? mem.data.list : [];
+        const has = list.some(m => m.customerId === userId);
+        if (has) joined.push({ ...g, memberCount: list.length }); else notJoined.push({ ...g, memberCount: list.length });
+      } catch (e) {
+        notJoined.push({ ...g, memberCount: undefined });
+      }
+    }
+    myGroups.value = joined;
+    recommendedGroups.value = notJoined;
+  } catch (err) {
+    console.error('加载小组失败', err);
+    message.value = err.message || '加载小组失败';
+    isSuccess.value = false;
+  } finally {
+    loading.value = false;
+  }
+};
 
 // 创建小组
-const createGroup = () => {
-  // 这里应该有API调用来创建小组
-  const newGroupData = {
-    id: myGroups.value.length + recommendedGroups.value.length + 1,
-    name: newGroup.value.name,
-    description: newGroup.value.description,
-    category: newGroup.value.category,
-    memberCount: 1,
-    maxMembers: newGroup.value.maxMembers,
-    creator: "当前用户", // 实际应用中应该是当前登录用户
-    createTime: new Date().toISOString().split('T')[0],
-    lastActiveTime: new Date().toISOString().split('T')[0]
-  };
-  
-  myGroups.value.push(newGroupData);
-  showCreateGroupDialog.value = false;
-  
-  // 重置表单
-  newGroup.value = {
-    name: '',
-    description: '',
-    category: '语文',
-    maxMembers: 5
-  };
+const createGroup = async () => {
+  if (!newGroup.value.name) return;
+  try {
+    loading.value = true;
+    const res = await baseRequest.post('/studyGroup/add', {
+      name: newGroup.value.name,
+      description: newGroup.value.description,
+      category: newGroup.value.category,
+      maxMembers: newGroup.value.maxMembers
+    });
+    if (res.status === 200) {
+      showCreateGroupDialog.value = false;
+      newGroup.value = { name: '', description: '', category: '语文', maxMembers: 5 };
+      await loadGroups();
+    } else {
+      message.value = res.msg || '创建失败';
+      isSuccess.value = false;
+    }
+  } catch (err) {
+    console.error('创建小组失败', err);
+    message.value = err.message || '创建失败';
+    isSuccess.value = false;
+  } finally {
+    loading.value = false;
+  }
 };
 
 // 加入小组
-const joinGroup = () => {
+const joinGroup = async () => {
   if (!selectedGroupToJoin.value) return;
-  
-  // 这里应该有API调用来加入小组
-  const groupToMove = recommendedGroups.value.find(g => g.id === selectedGroupToJoin.value.id);
-  if (groupToMove) {
-    // 增加成员数
-    groupToMove.memberCount += 1;
-    
-    // 从推荐小组中移除
-    const index = recommendedGroups.value.findIndex(g => g.id === selectedGroupToJoin.value.id);
-    if (index !== -1) {
-      recommendedGroups.value.splice(index, 1);
+  try {
+    loading.value = true;
+    const res = await baseRequest.post('/studyGroup/join', null, { params: { groupId: selectedGroupToJoin.value.id } });
+    if (res.status === 200) {
+      showJoinGroupDialog.value = false;
+      selectedGroupToJoin.value = null;
+      await loadGroups();
+    } else {
+      message.value = res.msg || '加入失败';
+      isSuccess.value = false;
     }
-    
-    // 添加到我的小组
-    myGroups.value.push(groupToMove);
+  } catch (err) {
+    console.error('加入小组失败', err);
+    message.value = err.message || '加入失败';
+    isSuccess.value = false;
+  } finally {
+    loading.value = false;
   }
-  
-  showJoinGroupDialog.value = false;
-  selectedGroupToJoin.value = null;
+};
+
+// 退出小组
+const leaveGroup = async (groupId) => {
+  try {
+    loading.value = true;
+    const res = await baseRequest.post('/studyGroup/leave', null, { params: { groupId } });
+    if (res.status === 200) {
+      await loadGroups();
+    } else {
+      message.value = res.msg || '退出失败';
+      isSuccess.value = false;
+    }
+  } catch (err) {
+    console.error('退出小组失败', err);
+    message.value = err.message || '退出失败';
+    isSuccess.value = false;
+  } finally {
+    loading.value = false;
+  }
 };
 
 // 打开加入小组对话框
@@ -196,25 +184,14 @@ const openJoinGroupDialog = (group) => {
   showJoinGroupDialog.value = true;
 };
 
-// 退出小组
-const leaveGroup = (groupId) => {
-  // 这里应该有API调用来退出小组
-  const index = myGroups.value.findIndex(g => g.id === groupId);
-  if (index !== -1) {
-    const groupToLeave = myGroups.value[index];
-    
-    // 减少成员数
-    groupToLeave.memberCount -= 1;
-    
-    // 从我的小组中移除
-    myGroups.value.splice(index, 1);
-    
-    // 如果不是创建者，可以添加到推荐小组
-    if (groupToLeave.creator !== "当前用户") {
-      recommendedGroups.value.push(groupToLeave);
-    }
-  }
+// 进入详情页
+const goDetail = (groupId) => {
+  router.push(`/student/study-group/${groupId}`);
 };
+
+onMounted(() => {
+  loadGroups();
+});
 </script>
 
 <template>
@@ -290,16 +267,15 @@ const leaveGroup = (groupId) => {
                       <p class="text-sm mb-3">{{ group.description }}</p>
                       <div class="d-flex justify-content-between align-items-center mb-2">
                         <small class="text-muted">成员: {{ group.memberCount }}/{{ group.maxMembers }}</small>
-                        <small class="text-muted">创建者: {{ group.creator }}</small>
+                        <small class="text-muted">创建者: {{ group.createName || '未知' }}</small>
                       </div>
                       <div class="d-flex justify-content-between align-items-center">
                         <small class="text-muted">创建时间: {{ group.createTime }}</small>
-                        <small class="text-muted">最近活动: {{ group.lastActiveTime }}</small>
                       </div>
                     </div>
                     <div class="card-footer pt-0">
                       <div class="d-flex justify-content-between">
-                        <ArgonButton color="info" size="sm" variant="outline">
+                        <ArgonButton color="info" size="sm" variant="outline" @click="goDetail(group.id)">
                           <i class="fas fa-comments me-1"></i>进入小组
                         </ArgonButton>
                         <ArgonButton color="danger" size="sm" variant="outline" @click="leaveGroup(group.id)">
@@ -357,11 +333,10 @@ const leaveGroup = (groupId) => {
                       <p class="text-sm mb-3">{{ group.description }}</p>
                       <div class="d-flex justify-content-between align-items-center mb-2">
                         <small class="text-muted">成员: {{ group.memberCount }}/{{ group.maxMembers }}</small>
-                        <small class="text-muted">创建者: {{ group.creator }}</small>
+                        <small class="text-muted">创建者: {{ group.createName || '未知' }}</small>
                       </div>
                       <div class="d-flex justify-content-between align-items-center">
                         <small class="text-muted">创建时间: {{ group.createTime }}</small>
-                        <small class="text-muted">最近活动: {{ group.lastActiveTime }}</small>
                       </div>
                     </div>
                     <div class="card-footer pt-0">

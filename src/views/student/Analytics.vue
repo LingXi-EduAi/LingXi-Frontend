@@ -139,7 +139,7 @@ const rankingPercentage = Math.round((classComparison.ranking / classComparison.
             labels: ['已完成', '未完成'],
             datasets: [{
               data: [personalStats.completionRate.completed, personalStats.completionRate.incomplete],
-              backgroundColor: ['#4BB543', '#FF6B6B']
+              backgroundColor: ['#7eb7e0', '#FF6B6B']
             }]
           }"
         />
@@ -154,7 +154,7 @@ const rankingPercentage = Math.round((classComparison.ranking / classComparison.
             datasets: [{
               label: '次数',
               data: personalStats.scoreDistribution.data,
-              backgroundColor: '#4BB543'
+              backgroundColor: '#7eb7e0'
             }]
           }"
         />
@@ -174,7 +174,7 @@ const rankingPercentage = Math.round((classComparison.ranking / classComparison.
               {
                 label: '个人优秀率(%)',
                 data: personalStats.progressStats.data,
-                backgroundColor: '#2196F3'
+                backgroundColor: '#7eb7e0'
               },
               {
                 label: '班级平均(%)',

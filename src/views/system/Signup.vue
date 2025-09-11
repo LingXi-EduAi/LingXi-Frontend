@@ -1,8 +1,8 @@
 <script setup>
-import { onBeforeUnmount, onBeforeMount, ref, reactive } from "vue";
+import { onBeforeUnmount, onBeforeMount, ref, watch } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-import { baseRequest } from "@/utils/api";
+import axios from "axios";
 
 import Navbar from "@/examples/PageLayout/Navbar.vue";
 import AppFooter from "@/examples/PageLayout/Footer.vue";
@@ -15,124 +15,117 @@ const store = useStore();
 const router = useRouter();
 
 // 表单数据
-const formData = reactive({
+const form = ref({
   userId: "",
   name: "",
   email: "",
   phoneNumber: "",
+  age: "",
   password: "",
   confirmPassword: "",
-  agreeTerms: true,
-  state: "1" // 默认状态为激活
+  state: "0"
 });
 
-// 错误信息
-const errors = reactive({
-  userId: "",
-  name: "",
-  email: "",
-  phoneNumber: "",
-  password: "",
-  confirmPassword: "",
-  agreeTerms: "",
-  general: ""
-});
+// 勾选协议
+const agree = ref(false);
 
-// 注册状态
-const isSubmitting = ref(false);
-const registerSuccess = ref(false);
+// 提交状态与错误提示
+const isLoading = ref(false);
+const errorMessage = ref("");
+const successMessage = ref("");
 
-// 表单验证
-const validateForm = () => {
-  let isValid = true;
-  
-  // 重置所有错误
-  Object.keys(errors).forEach(key => errors[key] = "");
-  
-  // 验证用户ID
-  if (!formData.userId) {
-    errors.userId = "账号不能为空";
-    isValid = false;
-  } else if (formData.userId.length > 32) {
-    errors.userId = "账号过长，不能超过32位";
-    isValid = false;
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const phoneRegex = /^(1[3-9])\d{9}$/;
+
+const validate = () => {
+  if (!form.value.userId || !form.value.name || !form.value.email || !form.value.phoneNumber || !form.value.password) {
+    errorMessage.value = "请填写必填项";
+    return false;
   }
-  
-  // 验证姓名
-  if (!formData.name) {
-    errors.name = "姓名不能为空";
-    isValid = false;
-  } else if (formData.name.length > 32) {
-    errors.name = "姓名过长，不能超过32位";
-    isValid = false;
+  if (!emailRegex.test(form.value.email)) {
+    errorMessage.value = "邮箱格式不正确";
+    return false;
   }
-  
-  // 验证邮箱
-  if (!formData.email) {
-    errors.email = "邮箱不能为空";
-    isValid = false;
-  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-    errors.email = "邮箱格式错误";
-    isValid = false;
+  if (!phoneRegex.test(form.value.phoneNumber)) {
+    errorMessage.value = "手机号格式不正确";
+    return false;
   }
-  
-  // 验证手机号
-  if (!formData.phoneNumber) {
-    errors.phoneNumber = "手机号不能为空";
-    isValid = false;
-  } else if (!/^1[3-9]\d{9}$/.test(formData.phoneNumber)) {
-    errors.phoneNumber = "手机号格式错误";
-    isValid = false;
+  if (emailRegex.test(form.value.userId) || phoneRegex.test(form.value.userId)) {
+    errorMessage.value = "用户ID不能是邮箱或手机号格式";
+    return false;
   }
-  
-  // 验证密码
-  if (!formData.password) {
-    errors.password = "密码不能为空";
-    isValid = false;
-  } else if (formData.password.length < 6) {
-    errors.password = "密码长度不能少于6位";
-    isValid = false;
+  if (form.value.userId && form.value.userId.length > 32) {
+    errorMessage.value = "用户ID不能超过32位";
+    return false;
   }
-  
-  // 验证确认密码
-  if (formData.password !== formData.confirmPassword) {
-    errors.confirmPassword = "两次输入的密码不一致";
-    isValid = false;
+  if (form.value.password.length < 6) {
+    errorMessage.value = "密码至少6位";
+    return false;
   }
-  
-  // 验证用户协议
-  if (!formData.agreeTerms) {
-    errors.agreeTerms = "请同意用户协议";
-    isValid = false;
+  if (form.value.confirmPassword !== form.value.password) {
+    errorMessage.value = "两次输入的密码不一致";
+    return false;
   }
-  
-  return isValid;
+  if (form.value.age && (isNaN(Number(form.value.age)) || Number(form.value.age) < 0 || Number(form.value.age) > 150)) {
+    errorMessage.value = "年龄数值不合法";
+    return false;
+  }
+  if (!agree.value) {
+    errorMessage.value = "请先同意用户协议";
+    return false;
+  }
+  errorMessage.value = "";
+  return true;
 };
 
-// 提交注册
-const handleRegister = async () => {
-  if (!validateForm()) return;
-  
-  isSubmitting.value = true;
-  errors.general = "";
-  
+const handleSignup = async () => {
+  if (!validate()) return;
+  isLoading.value = true;
+  successMessage.value = "";
   try {
-    const response = await baseRequest.post("/customer/add", formData);
-    
-    if (response.code === 0) {
-      registerSuccess.value = true;
-      setTimeout(() => {
-        router.push("/login");
-      }, 2000);
+    const payload = {
+      userId: form.value.userId.trim(),
+      name: form.value.name.trim(),
+      email: form.value.email.trim(),
+      phoneNumber: form.value.phoneNumber.trim(),
+      age: form.value.age ? Number(form.value.age) : undefined,
+      password: form.value.password,
+      state: form.value.state
+    };
+    // 去掉 undefined 字段
+    Object.keys(payload).forEach((k) => payload[k] === undefined && delete payload[k]);
+
+    // 匿名注册：直接使用 axios，不拼接 token
+    const resp = await axios.post("/customer/add", payload);
+    if (resp.data && resp.data.status === 200) {
+      successMessage.value = "注册成功，请登录";
+      // 1.5s 后跳转登录
+      setTimeout(() => router.push("/login"), 1500);
     } else {
-      errors.general = response.msg || "注册失败，请稍后再试";
+      errorMessage.value = (resp.data && resp.data.msg) || "注册失败";
     }
-  } catch (error) {
-    errors.general = error.message || "注册失败，请稍后再试";
+  } catch (err) {
+    if (err && err.response && err.response.data && err.response.data.msg) {
+      errorMessage.value = err.response.data.msg;
+    } else {
+      errorMessage.value = err.message || "注册失败";
+    }
   } finally {
-    isSubmitting.value = false;
+    isLoading.value = false;
   }
 };
+
+// 交互优化：任意修改表单或勾选协议时，自动清除错误提示
+watch(agree, (val) => {
+  if (val && errorMessage.value) {
+    errorMessage.value = "";
+  }
+});
+watch(form, () => {
+  if (errorMessage.value) {
+    errorMessage.value = "";
+  }
+}, { deep: true });
 
 onBeforeMount(() => {
   store.state.hideConfigButton = true;
@@ -185,108 +178,80 @@ onBeforeUnmount(() => {
               <h3>立即注册</h3>
             </div>
             <div class="card-body" style="padding-top: 0">
-              <!-- 成功提示 -->
-              <div v-if="registerSuccess" class="alert alert-success text-white" role="alert">
-                注册成功！正在跳转到登录页面...
-              </div>
-              
-              <!-- 错误提示 -->
-              <div v-if="errors.general" class="alert alert-danger text-white" role="alert">
-                {{ errors.general }}
-              </div>
-              
-              <form role="form" @submit.prevent="handleRegister">
-                <!-- 用户ID -->
+              <form role="form" @submit.prevent="handleSignup">
+                <div v-if="errorMessage" class="alert alert-danger mt-2">{{ errorMessage }}</div>
+                <div v-if="successMessage" class="alert alert-success mt-2">{{ successMessage }}</div>
+
                 <argon-input
                   id="userId"
                   type="text"
-                  placeholder="账号"
+                  placeholder="用户ID（必填）"
                   aria-label="UserId"
-                  v-model="formData.userId"
-                  :error="errors.userId"
+                  v-model.trim="form.userId"
                 />
-                <div v-if="errors.userId" class="text-danger text-xs mb-2">{{ errors.userId }}</div>
-                
-                <!-- 姓名 -->
                 <argon-input
                   id="name"
                   type="text"
-                  placeholder="姓名"
+                  placeholder="姓名（必填）"
                   aria-label="Name"
-                  v-model="formData.name"
-                  :error="errors.name"
+                  v-model.trim="form.name"
                 />
-                <div v-if="errors.name" class="text-danger text-xs mb-2">{{ errors.name }}</div>
-                
-                <!-- 电子邮件 -->
                 <argon-input
                   id="email"
                   type="email"
-                  placeholder="电子邮件"
+                  placeholder="电子邮件（必填）"
                   aria-label="Email"
-                  v-model="formData.email"
-                  :error="errors.email"
+                  v-model.trim="form.email"
                 />
-                <div v-if="errors.email" class="text-danger text-xs mb-2">{{ errors.email }}</div>
-                
-                <!-- 手机号 -->
                 <argon-input
                   id="phoneNumber"
                   type="tel"
-                  placeholder="手机号"
+                  placeholder="手机号（必填）"
                   aria-label="PhoneNumber"
-                  v-model="formData.phoneNumber"
-                  :error="errors.phoneNumber"
+                  v-model.trim="form.phoneNumber"
                 />
-                <div v-if="errors.phoneNumber" class="text-danger text-xs mb-2">{{ errors.phoneNumber }}</div>
-                
-                <!-- 密码 -->
+                <argon-input
+                  id="age"
+                  type="number"
+                  placeholder="年龄（可选）"
+                  aria-label="Age"
+                  v-model.trim="form.age"
+                />
                 <argon-input
                   id="password"
                   type="password"
-                  placeholder="密码"
+                  placeholder="密码（至少6位）"
                   aria-label="Password"
-                  v-model="formData.password"
-                  :error="errors.password"
+                  v-model="form.password"
                 />
-                <div v-if="errors.password" class="text-danger text-xs mb-2">{{ errors.password }}</div>
-                
-                <!-- 确认密码 -->
                 <argon-input
                   id="confirmPassword"
                   type="password"
                   placeholder="确认密码"
-                  aria-label="Confirm Password"
-                  v-model="formData.confirmPassword"
-                  :error="errors.confirmPassword"
+                  aria-label="ConfirmPassword"
+                  v-model="form.confirmPassword"
                 />
-                <div v-if="errors.confirmPassword" class="text-danger text-xs mb-2">{{ errors.confirmPassword }}</div>
-                
-                <!-- 用户协议 -->
-                <argon-checkbox v-model="formData.agreeTerms">
+                <argon-checkbox v-model="agree">
                   <label class="form-check-label" for="flexCheckDefault">
                     我同意
                     <a href="javascript:;" class="text-dark font-weight-bolder">用户协议</a>
                   </label>
                 </argon-checkbox>
-                <div v-if="errors.agreeTerms" class="text-danger text-xs mb-2">{{ errors.agreeTerms }}</div>
-                
                 <div class="text-center">
                   <argon-button
-                    type="submit"
                     fullWidth
                     color="dark"
                     variant="gradient"
                     class="my-4 mb-2"
-                    :disabled="isSubmitting"
+                    :disabled="isLoading"
                   >
-                    <span v-if="isSubmitting">注册中...</span>
+                    <span v-if="isLoading" class="spinner-border spinner-border-sm" role="status"></span>
                     <span v-else>注册</span>
                   </argon-button>
                 </div>
                 <p class="text-sm mt-3 mb-0">
                   已经有账户了？
-                  <router-link to="/login" class="text-dark font-weight-bolder">登录</router-link>
+                  <a href="javascript:;" class="text-dark font-weight-bolder" @click.prevent="router.push('/login')">登录</a>
                 </p>
               </form>
             </div>

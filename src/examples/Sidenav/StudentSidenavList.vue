@@ -87,6 +87,22 @@ const getRoute = () => {
         </sidenav-item>
       </li>
 
+      <!-- 4.1 知识点自测助手 -->
+      <li class="nav-item">
+        <sidenav-item to="/student/self-test-assistant" :class="getRoute() === 'self-test-assistant' ? 'active' : ''"
+          :navText="isRTL ? 'مساعد الاختبار الذاتي' : '知识点自测助手'">
+          <template v-slot:icon>
+            <svg width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"
+              style="min-width: 20px !important; min-height: 20px !important;">
+              <path d="M9 6H39V42H9V6Z" fill="#65CB8F" stroke="#333" stroke-width="4"/>
+              <path d="M16 19H32" stroke="#FFF" stroke-width="4" stroke-linecap="round"/>
+              <path d="M16 27H32" stroke="#FFF" stroke-width="4" stroke-linecap="round"/>
+              <path d="M16 35H26" stroke="#FFF" stroke-width="4" stroke-linecap="round"/>
+            </svg>
+          </template>
+        </sidenav-item>
+      </li>
+
       <!-- 5. 学习小组 -->
       <li class="nav-item">
         <sidenav-item to="/student/study-group" :class="getRoute() === 'study-group' ? 'active' : ''"

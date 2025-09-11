@@ -56,7 +56,7 @@ const filteredAssignments = computed(() => {
 
 // 状态样式配置
 const statusStyles = {
-  progress: {class: 'bg-primary', text: '进行中'},
+  progress: {class: 'bg-success', text: '进行中'},
   pending: {class: 'bg-secondary', text: '未开始'},
   ended: {class: 'bg-danger', text: '已结束'}
 };
@@ -74,7 +74,7 @@ const statusStyles = {
                 description="遇见学习新伙伴"
                 :icon="{
                 component: 'ni ni-money-coins',
-                background: 'bg-primary',
+                background: 'bg-gradient-primary',
                 shape: 'rounded-circle',
                 }"
                 @click="router.push('/teacher/class/management')"
@@ -88,7 +88,7 @@ const statusStyles = {
                 description="整理课堂新知识"
                 :icon="{
                 component: 'ni ni-world',
-                background: 'bg-danger',
+                background: 'bg-gradient-danger',
                 shape: 'rounded-circle',
               }"
                 @click="router.push('/teacher/new-note')"
@@ -102,7 +102,7 @@ const statusStyles = {
                 description="支持AI智能生成课件"
                 :icon="{
                 component: 'ni ni-paper-diploma',
-                background: 'bg-dark',
+                background: 'bg-gradient-success',
                 shape: 'rounded-circle',
               }"
                 @click="router.push('/teacher/courseware-hub')"
@@ -116,7 +116,7 @@ const statusStyles = {
                 description="教学方案制定"
                 :icon="{
                 component: 'ni ni-cart',
-                background: 'bg-dark-blue',
+                background: 'bg-gradient-warning',
                 shape: 'rounded-circle',
               }"
                 @click="router.push('/teacher/teaching-plan')"
@@ -144,7 +144,7 @@ const statusStyles = {
                       labels: ['已完成', '未完成'],
                       datasets: [{
                         data: [35, 28],
-                        backgroundColor: ['#1e537f','#86b9e3',]
+                        backgroundColor: ['#1e537f','#86b9e3']
                       }]
                     }"
                   />
@@ -158,7 +158,7 @@ const statusStyles = {
                       labels: ['已完成', '未完成'],
                       datasets: [{
                         data: [34, 38],
-                        backgroundColor: ['#1e537f','#86b9e3',]
+                        backgroundColor: ['#1e537f','#86b9e3']
                       }]
                     }"
                   />
@@ -172,7 +172,7 @@ const statusStyles = {
                       labels: ['已完成', '未完成'],
                       datasets: [{
                         data: [12, 23],
-                        backgroundColor: ['#1e537f','#86b9e3',]
+                        backgroundColor: ['#1e537f','#86b9e3']
                       }]
                     }"
                   />
@@ -185,7 +185,7 @@ const statusStyles = {
                       labels: ['已完成', '未完成'],
                       datasets: [{
                         data: [31, 24],
-                        backgroundColor: ['#1e537f','#86b9e3',]
+                        backgroundColor: ['#1e537f','#86b9e3']
                       }]
                     }"
                   />

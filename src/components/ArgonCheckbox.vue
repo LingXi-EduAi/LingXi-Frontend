@@ -1,6 +1,13 @@
 <template>
-  <div class="custom-checkbox-container" @click="toggleCheckbox">
-    <span class="custom-checkbox" :class="{ 'checked': isChecked }">
+  <div
+    class="custom-checkbox-container"
+    role="checkbox"
+    :aria-checked="isChecked"
+    :tabindex="disabled ? -1 : 0"
+    @click="toggleCheckbox"
+    @keydown="onKeydown"
+  >
+    <span class="custom-checkbox" :class="{ 'checked': isChecked, 'disabled': disabled }">
       <svg
         v-if="isChecked"
         xmlns="http://www.w3.org/2000/svg"
@@ -19,15 +26,37 @@
       <slot />
     </label>
   </div>
+  
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
-const isChecked = ref(false);
+const props = defineProps({
+  modelValue: { type: Boolean, default: false },
+  disabled: { type: Boolean, default: false }
+});
+const emit = defineEmits(["update:modelValue", "change"]);
+
+const isChecked = ref(props.modelValue);
+
+watch(() => props.modelValue, (val) => {
+  isChecked.value = val;
+});
 
 function toggleCheckbox() {
+  if (props.disabled) return;
   isChecked.value = !isChecked.value;
+  emit("update:modelValue", isChecked.value);
+  emit("change", isChecked.value);
+}
+
+function onKeydown(e) {
+  if (props.disabled) return;
+  if (e.key === " " || e.key === "Enter") {
+    e.preventDefault();
+    toggleCheckbox();
+  }
 }
 </script>
 
@@ -53,6 +82,11 @@ function toggleCheckbox() {
 
 .checked {
   background: #5e72e4;
+}
+
+.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .checkmark-icon {

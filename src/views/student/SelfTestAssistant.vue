@@ -1,7 +1,7 @@
 <script setup>
 import '@/styles/single-card-common.css';
-// 从环境变量中获取 AI API 地址
-const aiApiUrl = process.env.VUE_APP_AI_API;
+const aiApiUrl = process.env.VUE_APP_AI_API || 'http://68.183.234.61';
+const appPath = '/chatbot/pO2LCKEFZiiBm6eA';
 </script>
 
 <template>
@@ -11,10 +11,11 @@ const aiApiUrl = process.env.VUE_APP_AI_API;
         <div class="card z-index-2">
           <div class="single-card-container">
             <iframe
-                :src="`${aiApiUrl}/chat/G7fTFTkpqDExkxrb`"
-                frameborder="0"
-                allow="microphone"
-            ></iframe>
+              :src="`${aiApiUrl}${appPath}`"
+              style="width: 100%; height: 100%; min-height: 700px"
+              frameborder="0"
+              allow="microphone">
+            </iframe>
           </div>
         </div>
       </div>

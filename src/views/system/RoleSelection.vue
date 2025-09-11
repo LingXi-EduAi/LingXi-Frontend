@@ -40,7 +40,7 @@ const selectRole = (role) => {
     <div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
       <div class="card card-body blur shadow-blur mx-3 mx-md-4">
         <div class="text-center mb-5">
-          <h1 class="text-gradient text-primary">LessonX 教育AI助手</h1>
+          <h1 class="text-gradient text-primary">灵犀教育 AI 助手</h1>
           <h3 class="mb-0">请选择您的角色</h3>
         </div>
         
@@ -90,7 +90,7 @@ const selectRole = (role) => {
 }
 
 .text-gradient.text-primary {
-  background-image: linear-gradient(310deg, #7eb7e0, #FF0080);
+  background-image: linear-gradient(310deg, #7928CA, #FF0080);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -99,7 +99,7 @@ const selectRole = (role) => {
 }
 
 .text-gradient.text-success {
-  background-image: linear-gradient(310deg, #7eb7e0, #21d4fd);
+  background-image: linear-gradient(310deg, #2152ff, #21d4fd);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

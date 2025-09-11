@@ -62,7 +62,7 @@ const handleLogin = async () => {
     if (response.data.status === 200) {
       // 保存token
       const storage = rememberMe.value ? localStorage : sessionStorage;
-      storage.setItem("authToken", response.data.data);
+      storage.setItem("token", response.data.data);
 
       // 获取用户信息 - 使用新的 baseRequest
       try {

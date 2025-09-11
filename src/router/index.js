@@ -112,9 +112,19 @@ const routes = [
                 component: () => import("@/views/student/LearningMaterials.vue"),
             },
             {
+                path: "self-test-assistant",
+                name: "学生 - 知识点自测助手",
+                component: () => import("@/views/student/SelfTestAssistant.vue"),
+            },
+            {
                 path: "study-group",
                 name: "学生 - 学习小组",
                 component: () => import("@/views/student/StudyGroup.vue"),
+            },
+            {
+                path: "study-group/:groupId",
+                name: "学生 - 学习小组详情",
+                component: () => import("@/views/student/StudyGroupDetail.vue"),
             },
             {
                 path: "my-homework",
