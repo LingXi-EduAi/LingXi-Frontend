@@ -242,7 +242,7 @@ const leaveGroup = (groupId) => {
               </div>
               <div class="col-md-5 col-sm-12 mb-3">
                 <div class="d-flex align-items-center">
-                  <label class="me-2 text-sm">按学科筛选:</label>
+                  <label class="me-2 text-sm text-nowrap">按学科筛选:</label>
                   <select v-model="selectedCategory" class="form-select">
                     <option value="all">全部学科</option>
                     <option v-for="category in groupCategories" :key="category" :value="category">{{ category }}</option>

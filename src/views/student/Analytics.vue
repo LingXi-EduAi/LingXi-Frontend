@@ -172,7 +172,7 @@ const rankingPercentage = Math.round((classComparison.ranking / classComparison.
             labels: personalStats.progressStats.labels,
             datasets: [
               {
-                label: '个人掌握率(%)',
+                label: '个人优秀率(%)',
                 data: personalStats.progressStats.data,
                 backgroundColor: '#2196F3'
               },
