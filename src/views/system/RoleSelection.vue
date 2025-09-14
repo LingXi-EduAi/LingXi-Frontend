@@ -40,7 +40,7 @@ const selectRole = (role) => {
     <div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
       <div class="card card-body blur shadow-blur mx-3 mx-md-4">
         <div class="text-center mb-5">
-          <h1 class="text-gradient text-primary">灵犀教育 AI 助手</h1>
+          <h1 class="text-gradient text-primary">LESSON X 智能备课助手</h1>
           <h3 class="mb-0">请选择您的角色</h3>
         </div>
         

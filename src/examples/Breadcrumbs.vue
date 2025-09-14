@@ -38,7 +38,7 @@ defineProps({
           :class="isNavFixed ? 'text-dark' : 'text-white'"
           class="opacity-8"
           href="#"
-          >Lesson X 教育</a
+          >LESSON X</a
         >
       </li>
       <li
