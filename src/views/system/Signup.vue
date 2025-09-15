@@ -23,8 +23,14 @@ const form = ref({
   age: "",
   password: "",
   confirmPassword: "",
-  state: "0"
+  state: "2" // 默认选择学生身份
 });
+
+// 用户角色选项
+const roleOptions = [
+  { value: "2", label: "学生", icon: "fas fa-user-graduate", description: "学习课程，参与小组讨论" },
+  { value: "1", label: "教师", icon: "fas fa-chalkboard-teacher", description: "创建课程，管理班级" }
+];
 
 // 勾选协议
 const agree = ref(false);
@@ -38,8 +44,12 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phoneRegex = /^(1[3-9])\d{9}$/;
 
 const validate = () => {
-  if (!form.value.userId || !form.value.name || !form.value.email || !form.value.phoneNumber || !form.value.password) {
-    errorMessage.value = "请填写必填项";
+  if (!form.value.userId || !form.value.name || !form.value.email || !form.value.phoneNumber || !form.value.password || !form.value.state) {
+    errorMessage.value = "请填写必填项并选择身份";
+    return false;
+  }
+  if (form.value.state !== "1" && form.value.state !== "2") {
+    errorMessage.value = "请选择有效的用户身份";
     return false;
   }
   if (!emailRegex.test(form.value.email)) {
@@ -217,6 +227,32 @@ onBeforeUnmount(() => {
                   aria-label="Age"
                   v-model.trim="form.age"
                 />
+                
+                <!-- 用户角色选择 -->
+                <div class="mb-3">
+                  <label class="form-label text-sm text-dark font-weight-bold">请选择您的身份</label>
+                  <div class="row">
+                    <div 
+                      v-for="role in roleOptions" 
+                      :key="role.value" 
+                      class="col-6"
+                    >
+                      <div 
+                        class="card h-100 cursor-pointer role-card"
+                        :class="{ 'selected': form.state === role.value }"
+                        @click="form.state = role.value"
+                      >
+                        <div class="card-body text-center py-3">
+                          <div class="icon-shape bg-gradient-primary shadow text-center border-radius-md mb-2 mx-auto d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                            <i :class="role.icon" class="text-white text-sm"></i>
+                          </div>
+                          <h6 class="mb-1">{{ role.label }}</h6>
+                          <p class="text-xs text-muted mb-0">{{ role.description }}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <argon-input
                   id="password"
                   type="password"
@@ -262,3 +298,24 @@ onBeforeUnmount(() => {
   </main>
   <app-footer />
 </template>
+
+<style scoped>
+.role-card {
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.role-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.1);
+}
+
+.role-card.selected {
+  border-color: #5e72e4;
+  box-shadow: 0 4px 25px 0 rgba(94, 114, 228, 0.3);
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+</style>

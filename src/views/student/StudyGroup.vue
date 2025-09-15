@@ -108,19 +108,28 @@ const loadGroups = async () => {
 };
 
 // 创建小组
-const createGroup = async () => {
-  if (!newGroup.value.name) return;
+const handleCreateGroup = async () => {
+  if (!newGroup.value.name) {
+    message.value = '请填写小组名称';
+    isSuccess.value = false;
+    return;
+  }
+  
   try {
     loading.value = true;
+    
     const res = await baseRequest.post('/studyGroup/add', {
       name: newGroup.value.name,
       description: newGroup.value.description,
       category: newGroup.value.category,
       maxMembers: newGroup.value.maxMembers
     });
+    
     if (res.status === 200) {
       showCreateGroupDialog.value = false;
       newGroup.value = { name: '', description: '', category: '语文', maxMembers: 5 };
+      message.value = '小组创建成功！';
+      isSuccess.value = true;
       await loadGroups();
     } else {
       message.value = res.msg || '创建失败';
@@ -134,6 +143,7 @@ const createGroup = async () => {
     loading.value = false;
   }
 };
+
 
 // 加入小组
 const joinGroup = async () => {
@@ -395,7 +405,7 @@ onMounted(() => {
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" @click="showCreateGroupDialog = false">取消</button>
-            <button type="button" class="btn btn-primary" @click="createGroup()" :disabled="!newGroup.name || !newGroup.description">创建</button>
+            <button type="button" class="btn btn-primary" @click="handleCreateGroup" :disabled="!newGroup.name || !newGroup.description">创建</button>
           </div>
         </div>
       </div>
