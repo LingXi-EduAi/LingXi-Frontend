@@ -55,7 +55,28 @@ const submitForm = async () => {
 };
 
 // 班级列表
-const classes = ref([]);
+const classes = ref([
+  {
+    id: "c3cb903040a348acb9e6597cf34323df",
+    name: "三年二班语文",
+    state: "1",
+    version: 1,
+    information: "三年级二班语文课程班级",
+    notice: "欢迎来到三年二班语文课堂！",
+    teacherId: "teacher1",
+    classGroupingId: ""
+  },
+  {
+    id: "f903124fe6314c19b75cc034ca8e40ed", 
+    name: "三年一班数学",
+    state: "1",
+    version: 1,
+    information: "三年级一班数学课程班级",
+    notice: "欢迎来到三年一班数学课堂！",
+    teacherId: "teacher1",
+    classGroupingId: ""
+  }
+]);
 // 当前选中的班级详情
 const currentClass = ref(null);
 // 编辑表单数据
@@ -131,7 +152,8 @@ const editClass = (classItem) => {
 
 // 初始化加载数据
 onMounted(() => {
-  fetchClasses();
+  // 由于数据已在前端定义，不需要从API获取
+  // fetchClasses();
 });
 </script>
 

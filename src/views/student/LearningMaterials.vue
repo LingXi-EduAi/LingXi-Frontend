@@ -655,4 +655,10 @@ h4 {
 .card-body {
   padding: 1.5rem;
 }
+
+/* PDF类型badge样式调整 - 浅红色背景配深红色文字 */
+.badge-danger {
+  background-color: rgba(220, 53, 69, 0.15) !important;
+  color: #dc3545 !important;
+}
 </style>
