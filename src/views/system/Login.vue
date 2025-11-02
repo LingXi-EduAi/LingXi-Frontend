@@ -154,7 +154,7 @@ const handleError = (error) => {
 
                     <!-- 记住我开关 -->
                     <div class="form-check form-switch mb-3">
-                      <argon-switch v-model="rememberMe" id="rememberMe" />
+                      <argon-switch v-model="rememberMe" id="rememberMe" name="rememberMe" />
                       <label class="form-check-label" for="rememberMe">
                         保持登录状态
                       </label>

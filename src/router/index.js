@@ -28,6 +28,16 @@ const routes = [
                 component: () => import("@/views/teacher/homework/HomeworkHub.vue"),
             },
             {
+                path: "assign-homework",
+                name: "教师 - 布置作业",
+                component: () => import("@/views/teacher/homework/AssignHomework.vue"),
+            },
+            {
+                path: "grade-homework",
+                name: "教师 - 批改作业",
+                component: () => import("@/views/teacher/homework/GradeHomework.vue"),
+            },
+            {
                 path: "teaching-plan",
                 name: "教师 - 教学方案",
                 component: () => import("@/views/teacher/TeachingPlan.vue"),

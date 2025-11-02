@@ -2,85 +2,74 @@
 import MiniStatisticsCard from "@/examples/Cards/MiniStatisticsCard.vue";
 import ReportsDoughnutChart from "@/examples/Charts/ReportsDoughnutChart.vue";
 import BarChart from "@/examples/Charts/BarChart.vue";
-import GradientLineChart from "@/examples/Charts/GradientLineChart.vue"; // 修改为GradientLineChart
-import { ref } from 'vue'; // 引入ref用于响应式数据
+import GradientLineChart from "@/examples/Charts/GradientLineChart.vue";
+import { ref, onMounted } from 'vue';
+import { baseRequest } from "@/utils/api";
 
-// 学情分析数据
-const studentStats = {
-  completionRate: {
-    completed: 75,
-    incomplete: 25
-  },
-  gradeDistribution: {
-    labels: ['优秀(90-100)', '良好(80-89)', '及格(60-79)', '不及格(<60)'],
-    data: [25, 35, 20, 10]
-  },
-  progressStats: {
-    labels: ['第一单元', '第二单元', '第三单元', '第四单元'],
-    data: [85, 78, 92, 65]
-  },
-  // 新增学习趋势数据
-  learningTrend: {
-    labels: ['第1周', '第2周', '第3周', '第4周', '第5周', '第6周'],
-    data: [65, 70, 68, 75, 82, 88]
-  },
-  // 新增学生参与度数据
-  engagement: {
-    labels: ['课堂提问', '小组讨论', '课后作业', '在线互动'],
-    data: [65, 80, 75, 60]
-  }
+// 响应式数据
+const loading = ref(true);
+const completionRate = ref(0);
+const averageScore = ref(0);
+const totalSubmissions = ref(0);
+const gradedCount = ref(0);
+const gradeDistribution = ref({
+  labels: ['优秀(90-100)', '良好(80-89)', '及格(60-79)', '不及格(<60)'],
+  data: [0, 0, 0, 0]
+});
+const topStudents = ref([]);
+const studentsNeedAttention = ref([]);
+const weakPointsCount = ref(0);
+const weakPoints = ref([]);
+const showWeakPointsModal = ref(false);
+
+// 固定数据（暂时保留）
+const progressStats = {
+  labels: ['第一单元', '第二单元', '第三单元', '第四单元'],
+  data: [85, 78, 92, 65]
 };
 
-// 问题分析数据
+const learningTrend = {
+  labels: ['第1周', '第2周', '第3周', '第4周', '第5周', '第6周'],
+  data: [65, 70, 68, 75, 82, 88]
+};
+
+const engagement = {
+  labels: ['课堂提问', '小组讨论', '课后作业', '在线互动'],
+  data: [65, 80, 75, 60]
+};
+
 const questionAnalysis = [
   {
     topic: "数学基础",
     correctRate: "85%",
     avgTime: "2分30秒",
     difficulty: "中等",
-    recommendation: "可适当增加难度" // 新增推荐字段
+    recommendation: "可适当增加难度"
   },
   {
     topic: "应用题",
     correctRate: "62%",
     avgTime: "4分15秒",
     difficulty: "较难",
-    recommendation: "需要加强训练" // 新增推荐字段
+    recommendation: "需要加强训练"
   },
   {
     topic: "几何理解",
     correctRate: "78%",
     avgTime: "3分10秒",
     difficulty: "中等",
-    recommendation: "巩固基础概念" // 新增推荐字段
+    recommendation: "巩固基础概念"
   },
   {
     topic: "代数运算",
     correctRate: "72%",
     avgTime: "3分45秒",
     difficulty: "中等",
-    recommendation: "注重计算能力" // 新增问题分析项
+    recommendation: "注重计算能力"
   }
 ];
 
-// 新增学生个体分析数据
-const topStudents = [
-  { name: "张三", score: 95, improvement: "+5%", strengths: "应用题解析" },
-  { name: "李四", score: 92, improvement: "+3%", strengths: "几何证明" },
-  { name: "王五", score: 90, improvement: "+7%", strengths: "计算速度" }
-];
-
-// 新增需要关注的学生
-const studentsNeedAttention = [
-  { name: "赵六", score: 58, weakness: "几何理解", suggestion: "一对一辅导" },
-  { name: "钱七", score: 62, weakness: "应用题", suggestion: "提供额外练习" },
-  { name: "孙八", score: 65, weakness: "代数运算", suggestion: "基础知识巩固" },
-  { name: "周九", score: 70, weakness: "数学基础", suggestion: "提高数学基础" },
-  { name: "吴十", score: 75, weakness: "应用题", suggestion: "提供额外练习" },
-  { name: "郑十一", score: 80, weakness: "几何理解", suggestion: "巩固基础概念" },
-];
-
-// 新增时间筛选功能
+// 时间筛选功能
 const timeFilters = ref([
   { label: '本周', value: 'week' },
   { label: '本月', value: 'month' },
@@ -88,15 +77,110 @@ const timeFilters = ref([
 ]);
 const selectedTimeFilter = ref('semester');
 
+// 打开薄弱知识点详情模态框
+const openWeakPointsModal = () => {
+  showWeakPointsModal.value = true;
+};
+
+// 关闭薄弱知识点详情模态框
+const closeWeakPointsModal = () => {
+  showWeakPointsModal.value = false;
+};
+
+// 加载学情分析数据
+const loadAnalyticsData = async () => {
+  loading.value = true;
+  try {
+    console.log('========== 前端：开始请求学情分析数据 ==========');
+    const response = await baseRequest.post('/analytics/stats');
+    console.log('前端：收到响应', response);
+    console.log('前端：response.status =', response.status);
+    console.log('前端：response.data =', response.data);
+    
+    if (response.status === 200 && response.data) {
+      const data = response.data;
+      console.log('前端：解析数据', data);
+      
+      // 更新基础统计数据
+      completionRate.value = data.completionRate || 0;
+      averageScore.value = data.averageScore || 0;
+      totalSubmissions.value = data.totalSubmissions || 0;
+      gradedCount.value = data.gradedCount || 0;
+      
+      console.log('前端：更新后的值');
+      console.log('  - completionRate:', completionRate.value);
+      console.log('  - averageScore:', averageScore.value);
+      console.log('  - totalSubmissions:', totalSubmissions.value);
+      console.log('  - gradedCount:', gradedCount.value);
+      
+      // 更新成绩分布
+      if (data.gradeDistribution) {
+        gradeDistribution.value = data.gradeDistribution;
+        console.log('  - gradeDistribution:', gradeDistribution.value);
+      }
+      
+      // 更新学生列表
+      topStudents.value = data.topStudents || [];
+      studentsNeedAttention.value = data.studentsNeedAttention || [];
+      console.log('  - topStudents数量:', topStudents.value.length);
+      console.log('  - studentsNeedAttention数量:', studentsNeedAttention.value.length);
+      
+      // 更新薄弱知识点
+      weakPointsCount.value = data.weakPointsCount || 0;
+      weakPoints.value = data.weakPoints || [];
+      console.log('========== 前端：薄弱知识点数据 ==========');
+      console.log('  - weakPointsCount:', weakPointsCount.value);
+      console.log('  - weakPoints数量:', weakPoints.value.length);
+      if (weakPoints.value.length > 0) {
+        console.log('  - weakPoints详情:');
+        weakPoints.value.forEach((point, index) => {
+          console.log(`    ${index + 1}. ${point.subject} - ${point.title} (平均分: ${point.avgScore})`);
+        });
+      } else {
+        console.warn('  ⚠️ 没有薄弱知识点数据！');
+      }
+      console.log('=========================================');
+      
+      console.log('========== 前端：数据更新完成 ==========');
+    } else {
+      console.error('获取学情分析数据失败 - status:', response.status);
+      console.error('获取学情分析数据失败 - msg:', response.msg);
+      console.error('获取学情分析数据失败 - 完整响应:', response);
+    }
+  } catch (error) {
+    console.error('加载学情分析数据失败 - 异常:', error);
+    console.error('异常详情:', error.message);
+    console.error('异常堆栈:', error.stack);
+  } finally {
+    loading.value = false;
+  }
+};
+
 // 切换时间筛选的方法
 const changeTimeFilter = (filter) => {
   selectedTimeFilter.value = filter;
-  // 这里可以添加实际的数据筛选逻辑
+  // TODO: 根据时间筛选重新加载数据
+  loadAnalyticsData();
 };
+
+// 页面加载时获取数据
+onMounted(() => {
+  loadAnalyticsData();
+});
 </script>
 
 <template>
   <div class="py-2 container-fluid">
+    <!-- 加载提示 -->
+    <div v-if="loading" class="text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">加载中...</span>
+      </div>
+      <p class="mt-3 text-muted">正在加载学情分析数据...</p>
+    </div>
+
+    <!-- 主要内容 -->
+    <div v-else>
     <!-- 时间筛选器 -->
     <div class="row">
       <div class="col-12">
@@ -118,72 +202,99 @@ const changeTimeFilter = (filter) => {
     <!-- 概览统计卡片 -->
     <div class="row mt-1">
       <div class="col-lg-3 col-md-6 col-12">
-        <mini-statistics-card title="总体完成率" :value="`${studentStats.completionRate.completed}%`" description="作业完成情况"
+        <mini-statistics-card 
+          title="总体完成率" 
+          :value="`${completionRate}%`" 
+          description="作业完成情况"
           :icon="{
             component: 'ni ni-check-bold',
             background: 'bg-gradient-success',
             shape: 'rounded-circle'
           }" />
       </div>
-      <!-- 其他统计卡片保持不变 -->
       <div class="col-lg-3 col-md-6 col-12">
-        <mini-statistics-card title="平均分" value="82.5" description="班级平均成绩" :icon="{
-          component: 'ni ni-trophy',
-          background: 'bg-gradient-primary',
-          shape: 'rounded-circle'
-        }" />
+        <mini-statistics-card 
+          title="平均分" 
+          :value="averageScore.toString()" 
+          description="班级平均成绩" 
+          :icon="{
+            component: 'ni ni-trophy',
+            background: 'bg-gradient-primary',
+            shape: 'rounded-circle'
+          }" />
       </div>
       <div class="col-lg-3 col-md-6 col-12">
-        <mini-statistics-card title="薄弱知识点" value="3" description="需重点关注" :icon="{
-          component: 'ni ni-alert-circle',
-          background: 'bg-gradient-warning',
-          shape: 'rounded-circle'
-        }" />
+        <div @click="openWeakPointsModal" style="cursor: pointer;" title="点击查看详情">
+          <mini-statistics-card 
+            title="薄弱知识点" 
+            :value="weakPointsCount.toString()" 
+            description="需重点关注（点击查看详情）" 
+            :icon="{
+              component: 'ni ni-alert-circle',
+              background: 'bg-gradient-warning',
+              shape: 'rounded-circle'
+            }" />
+        </div>
       </div>
       <div class="col-lg-3 col-md-6 col-12">
-        <mini-statistics-card title="学习进度" value="75%" description="课程完成度" :icon="{
-          component: 'ni ni-chart-bar-32',
-          background: 'bg-gradient-info',
-          shape: 'rounded-circle'
-        }" />
+        <mini-statistics-card 
+          title="已批改作业" 
+          :value="`${gradedCount}/${totalSubmissions}`" 
+          description="作业批改进度" 
+          :icon="{
+            component: 'ni ni-chart-bar-32',
+            background: 'bg-gradient-info',
+            shape: 'rounded-circle'
+          }" />
       </div>
     </div>
 
     <!-- 第一行：完成率饼图和成绩分布柱状图 -->
     <div class="row mt-2">
-      <!-- 现有图表保持不变 -->
       <div class="col-lg-4">
-        <ReportsDoughnutChart id="completion-chart" title="作业完成率" :height="300" :chart="{
-          labels: ['已完成', '未完成'],
-          datasets: [{
-            data: [studentStats.completionRate.completed, studentStats.completionRate.incomplete],
-            backgroundColor: ['#7eb7e0', '#FF6B6B']
-          }]
-        }" />
+        <ReportsDoughnutChart 
+          id="completion-chart" 
+          title="作业完成率" 
+          height="300" 
+          :chart="{
+            labels: ['已完成', '未完成'],
+            datasets: [{
+              data: [completionRate, 100 - completionRate],
+              backgroundColor: ['#7eb7e0', '#FF6B6B']
+            }]
+          }" />
       </div>
       <div class="col-lg-8">
-        <BarChart id="grade-distribution" title="成绩分布" :height="300" :chart="{
-          labels: studentStats.gradeDistribution.labels,
-          datasets: [{
-            label: '人数',
-            data: studentStats.gradeDistribution.data,
-            backgroundColor: '#7eb7e0'
-          }]
-        }" />
+        <BarChart 
+          id="grade-distribution" 
+          title="成绩分布" 
+          height="300" 
+          :chart="{
+            labels: gradeDistribution.labels,
+            datasets: [{
+              label: '人数',
+              data: gradeDistribution.data,
+              backgroundColor: '#7eb7e0'
+            }]
+          }" />
       </div>
     </div>
 
     <!-- 第二行：学习进度柱状图和问题分析表格 -->
     <div class="row mt-2">
       <div class="col-lg-6 mb-lg-0 mb-4">
-        <BarChart id="progress-chart" title="单元学习进度" :height="250" :chart="{
-          labels: studentStats.progressStats.labels,
-          datasets: [{
-            label: '优秀率(%)',
-            data: studentStats.progressStats.data,
-            backgroundColor: '#7eb7e0'
-          }]
-        }" />
+        <BarChart 
+          id="progress-chart" 
+          title="单元学习进度" 
+          height="250" 
+          :chart="{
+            labels: progressStats.labels,
+            datasets: [{
+              label: '优秀率(%)',
+              data: progressStats.data,
+              backgroundColor: '#7eb7e0'
+            }]
+          }" />
       </div>
       <div class="col-lg-6 mb-lg-0 mb-4">
         <div class="card" style="height: 340px;">
@@ -242,22 +353,30 @@ const changeTimeFilter = (filter) => {
     <!-- 新增：第三行 - 学习趋势和参与度 -->
     <div class="row mt-2">
       <div class="col-lg-8 mb-lg-0 mb-4">
-        <GradientLineChart id="learning-trend" title="学习趋势分析" :height="300" :chart="{
-          labels: studentStats.learningTrend.labels,
-          datasets: [{
-            label: '平均成绩',
-            data: studentStats.learningTrend.data
-          }]
-        }" />
+        <GradientLineChart 
+          id="learning-trend" 
+          title="学习趋势分析" 
+          height="300" 
+          :chart="{
+            labels: learningTrend.labels,
+            datasets: [{
+              label: '平均成绩',
+              data: learningTrend.data
+            }]
+          }" />
       </div>
       <div class="col-lg-4 mb-lg-0 mb-4">
-        <ReportsDoughnutChart id="engagement-chart" title="学生参与度" :height="300" :chart="{
-          labels: studentStats.engagement.labels,
-          datasets: [{
-            data: studentStats.engagement.data,
-            backgroundColor: ['#4CAF50', '#7eb7e0', '#FFC107', '#9C27B0']
-          }]
-        }" />
+        <ReportsDoughnutChart 
+          id="engagement-chart" 
+          title="学生参与度" 
+          height="300" 
+          :chart="{
+            labels: engagement.labels,
+            datasets: [{
+              data: engagement.data,
+              backgroundColor: ['#4CAF50', '#7eb7e0', '#FFC107', '#9C27B0']
+            }]
+          }" />
       </div>
     </div>
 
@@ -389,6 +508,73 @@ const changeTimeFilter = (filter) => {
         </div>
       </div>
     </div>
+    </div><!-- 关闭 v-else -->
+    
+    <!-- 薄弱知识点详情模态框 -->
+    <div v-if="showWeakPointsModal" class="modal fade show" style="display: block; background-color: rgba(0,0,0,0.5);" @click.self="closeWeakPointsModal">
+      <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">
+              <i class="ni ni-alert-circle text-warning me-2"></i>
+              薄弱知识点详情
+            </h5>
+            <button type="button" class="btn-close" @click="closeWeakPointsModal"></button>
+          </div>
+          <div class="modal-body">
+            <div v-if="weakPoints.length === 0" class="text-center py-5">
+              <i class="ni ni-check-bold text-success" style="font-size: 3rem;"></i>
+              <p class="mt-3 text-muted">太棒了！目前没有薄弱知识点</p>
+              <p class="text-sm text-muted">所有作业的平均分都在80分以上</p>
+            </div>
+            <div v-else>
+              <div class="alert alert-warning mb-3">
+                <i class="ni ni-bell-55 me-2"></i>
+                共发现 <strong>{{ weakPoints.length }}</strong> 个薄弱知识点（平均分低于80分），建议重点关注！
+              </div>
+              
+              <div v-for="(point, index) in weakPoints" :key="index" class="card mb-3">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between align-items-start mb-2">
+                    <div>
+                      <h6 class="mb-1">
+                        <span class="badge bg-gradient-secondary me-2">{{ point.subject }}</span>
+                        {{ point.title }}
+                      </h6>
+                    </div>
+                    <span class="badge" :class="point.avgScore < 50 ? 'bg-gradient-danger' : point.avgScore < 60 ? 'bg-gradient-warning' : 'bg-gradient-info'">
+                      {{ point.avgScore }}分
+                    </span>
+                  </div>
+                  
+                  <div class="row mt-3">
+                    <div class="col-md-6">
+                      <p class="text-sm mb-1 text-muted">平均分</p>
+                      <p class="text-lg font-weight-bold mb-0" :class="point.avgScore < 50 ? 'text-danger' : point.avgScore < 60 ? 'text-warning' : 'text-info'">
+                        {{ point.avgScore }} 分
+                      </p>
+                    </div>
+                    <div class="col-md-6">
+                      <p class="text-sm mb-1 text-muted">提交人数</p>
+                      <p class="text-lg font-weight-bold mb-0">{{ point.submissionCount }} 人</p>
+                    </div>
+                  </div>
+                  
+                  <div class="mt-3 p-2 bg-light rounded">
+                    <p class="text-sm mb-1 text-dark"><strong>改进建议：</strong></p>
+                    <p class="text-sm mb-0 text-muted">{{ point.suggestion }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" @click="closeWeakPointsModal">关闭</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
   </div>
 </template>
 

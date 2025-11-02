@@ -1,7 +1,10 @@
 <script setup>
 import MiniStatisticsCard from "@/examples/Cards/MiniStatisticsCard.vue";
-import {computed, ref} from "vue";
+import {computed, ref, onMounted} from "vue";
 import { useRouter } from 'vue-router';
+import { baseRequest } from '@/utils/api';
+
+const router = useRouter();
 
 // 选项卡状态管理
 const activeTab = ref('all');
@@ -12,37 +15,9 @@ const tabs = [
   {id: 'ended', label: '已结束'}
 ];
 
-// 作业数据示例
-const assignments = ref([
-  {
-    id: 1,
-    title: "古诗词阅读",
-    class: "三年一班语文",
-    time: "2024/03/10 08:00 ~ 2024/03/15 20:00",
-    status: 'progress'
-  },
-  {
-    id: 2,
-    title: "解方程",
-    class: "三年一班数学",
-    time: "2024/03/18 09:00 ~ 2024/03/25 17:00",
-    status: 'pending'
-  },
-  {
-    id: 3,
-    title: "第三章单词检测",
-    class: "三年一班英语",
-    time: "2024/03/05 10:00 ~ 2024/03/08 18:00",
-    status: 'ended'
-  },
-  {
-    id: 4,
-    title: "100以内乘除口算练习",
-    class: "三年一班数学",
-    time: "2024/03/15 08:00 ~ 2024/03/19 20:00",
-    status: 'progress'
-  },
-]);
+// 作业数据
+const assignments = ref([]);
+const loading = ref(false);
 
 // 过滤作业列表
 const filteredAssignments = computed(() => {
@@ -56,7 +31,114 @@ const statusStyles = {
   pending: {class: 'bg-secondary', text: '未开始'},
   ended: {class: 'bg-danger', text: '已结束'}
 };
-const router = useRouter();
+
+// 格式化时间
+const formatDateTime = (dateTimeStr) => {
+  if (!dateTimeStr) return '';
+  
+  try {
+    const date = new Date(dateTimeStr);
+    if (isNaN(date.getTime())) return dateTimeStr;
+    
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    
+    return `${year}/${month}/${day} ${hours}:${minutes}`;
+  } catch (error) {
+    return dateTimeStr;
+  }
+};
+
+// 加载作业列表
+const loadAssignments = async () => {
+  loading.value = true;
+  try {
+    const response = await baseRequest.post('/homework/assignment/list', {
+      currentPage: 1,
+      pageSize: 100
+    });
+    
+    if (response.status === 200 && response.data && response.data.list) {
+      assignments.value = response.data.list.map(item => ({
+        ...item,
+        class: `${item.subject || ''}`,
+        time: `${formatDateTime(item.startTime)} ~ ${formatDateTime(item.endTime)}`
+      }));
+    }
+  } catch (error) {
+    console.error('加载作业列表失败:', error);
+  } finally {
+    loading.value = false;
+  }
+};
+
+// 跳转到布置作业页面
+const goToAssignHomework = () => {
+  router.push('/teacher/assign-homework');
+};
+
+// 跳转到批改作业页面
+const goToGradeHomework = () => {
+  router.push('/teacher/grade-homework');
+};
+
+// 跳转到AI出题页面
+const goToAIQuiz = () => {
+  router.push('/teacher/ai-quiz');
+};
+
+// 更改作业状态
+const changeStatus = async (assignment, newStatus) => {
+  // 如果状态没有变化，不做处理
+  if (assignment.status === newStatus) {
+    return;
+  }
+  
+  const statusText = {
+    'pending': '未开始',
+    'progress': '进行中',
+    'ended': '已结束'
+  };
+  
+  // 确认提示
+  const confirmMsg = `确定要将作业"${assignment.title}"的状态改为"${statusText[newStatus]}"吗？`;
+  if (!confirm(confirmMsg)) {
+    // 用户取消，需要手动重置select的值
+    // 通过重新加载列表来恢复原值
+    await loadAssignments();
+    return;
+  }
+  
+  try {
+    const response = await baseRequest.post('/homework/assignment/updateStatus', {
+      id: assignment.id,
+      status: newStatus,
+      version: assignment.version
+    });
+    
+    if (response.status === 200) {
+      alert(`作业状态已更新为"${statusText[newStatus]}"`);
+      // 重新加载列表
+      await loadAssignments();
+    } else {
+      alert(response.msg || '更新状态失败');
+      // 恢复原状态
+      await loadAssignments();
+    }
+  } catch (error) {
+    console.error('更新状态失败:', error);
+    alert('更新状态失败，请稍后重试');
+    // 恢复原状态
+    await loadAssignments();
+  }
+};
+
+onMounted(() => {
+  loadAssignments();
+});
 </script>
 
 <template>
@@ -75,7 +157,7 @@ const router = useRouter();
                 background: 'bg-gradient-primary',
                 shape: 'rounded-circle',
               }"
-                @click="router.push('/assign-homework')"
+                @click="goToAssignHomework"
                 style="cursor: pointer;"
             />
           </div>
@@ -89,7 +171,7 @@ const router = useRouter();
                 background: 'bg-gradient-danger',
                 shape: 'rounded-circle',
               }"
-                @click="router.push('/grade-homework')"
+                @click="goToGradeHomework"
                 style="cursor: pointer;"
             />
           </div>
@@ -103,7 +185,7 @@ const router = useRouter();
                 background: 'bg-gradient-success',
                 shape: 'rounded-circle',
               }"
-                @click="router.push('/teacher/ai-quiz')"
+                @click="goToAIQuiz"
                 style="cursor: pointer;"
             />
           </div>
@@ -133,24 +215,48 @@ const router = useRouter();
                 <table class="table table-hover align-items-center">
                   <tbody>
                   <tr v-for="assignment in filteredAssignments" :key="assignment.id">
-                    <td class="w-50">
+                    <td class="w-40">
                       <div class="ps-3 py-2">
                         <h6 class="mb-1 text-dark">{{ assignment.title }}</h6>
                         <p class="text-sm text-muted mb-0">{{ assignment.class }}</p>
                       </div>
                     </td>
-                    <td class="w-40">
+                    <td class="w-30">
                       <p class="text-sm text-muted mb-0">
                         起止时间：{{ assignment.time }}
                       </p>
                     </td>
-                    <td class="text-end pe-4">
+                    <td class="w-20 text-center">
                         <span
                             class="badge badge-pill"
                             :class="statusStyles[assignment.status].class"
                         >
                           {{ statusStyles[assignment.status].text }}
                         </span>
+                    </td>
+                    <td class="w-10 text-end pe-4">
+                      <select 
+                        class="form-select form-select-sm status-select" 
+                        :value="assignment.status"
+                        @change="changeStatus(assignment, $event.target.value)"
+                        style="min-width: 100px;"
+                      >
+                        <option value="pending">未开始</option>
+                        <option value="progress">进行中</option>
+                        <option value="ended">已结束</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr v-if="loading">
+                    <td colspan="4" class="text-center py-4">
+                      <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">加载中...</span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr v-if="!loading && filteredAssignments.length === 0">
+                    <td colspan="4" class="text-center py-4">
+                      <p class="text-muted mb-0">暂无作业</p>
                     </td>
                   </tr>
                   </tbody>
@@ -182,7 +288,6 @@ const router = useRouter();
 
 .table-hover tbody tr:hover {
   background-color: #f8f9fa;
-  cursor: pointer;
 }
 
 .text-muted {
@@ -192,5 +297,23 @@ const router = useRouter();
 
 .card-header {
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.status-select {
+  cursor: pointer;
+  font-size: 0.875rem;
+  padding: 0.375rem 0.75rem;
+  border: 1px solid #d2d6da;
+  border-radius: 0.375rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.status-select:hover {
+  border-color: #5e72e4;
+}
+
+.status-select:focus {
+  border-color: #5e72e4;
+  box-shadow: 0 0 0 0.2rem rgba(94, 114, 228, 0.25);
 }
 </style>

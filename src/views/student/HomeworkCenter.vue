@@ -3,6 +3,7 @@ import { ref, computed, onMounted } from "vue";
 import ArgonButton from "@/components/ArgonButton.vue";
 import ArgonBadge from "@/components/ArgonBadge.vue";
 import ArgonInput from "@/components/ArgonInput.vue";
+import { baseRequest } from '@/utils/api';
 
 // 搜索和筛选
 const searchQuery = ref('');
@@ -34,88 +35,19 @@ const subjects = [
 
 // 作业状态
 const homeworkStatuses = [
-  { id: 'pending', label: '未开始', color: 'secondary' },
-  { id: 'progress', label: '进行中', color: 'success' },
+  { id: 'pending', label: '待提交', color: 'secondary' },
   { id: 'submitted', label: '已提交', color: 'info' },
-  { id: 'graded', label: '已批改', color: 'primary' },
-  { id: 'expired', label: '已过期', color: 'danger' }
+  { id: 'graded', label: '已批改', color: 'primary' }
 ];
 
-// 我的作业数据
-const myHomeworks = ref([
-  {
-    id: 1,
-    title: "古诗词阅读与赏析",
-    subject: "语文",
-    description: "阅读《静夜思》《望岳》《春望》三首诗，完成赏析题目",
-    startTime: "2023-10-10 08:00",
-    endTime: "2023-10-15 20:00",
-    status: "progress",
-    teacher: "李老师",
-    grade: null,
-    feedback: null
-  },
-  {
-    id: 2,
-    title: "二次函数应用题",
-    subject: "数学",
-    description: "完成课本P78-79的应用题1-10题，要求写出完整解题过程",
-    startTime: "2023-10-08 10:00",
-    endTime: "2023-10-12 18:00",
-    status: "submitted",
-    teacher: "张老师",
-    grade: null,
-    feedback: null
-  },
-  {
-    id: 3,
-    title: "Unit 3 单词测验",
-    subject: "英语",
-    description: "背诵并默写Unit 3的单词表，完成相关练习",
-    startTime: "2023-10-05 09:00",
-    endTime: "2023-10-08 17:00",
-    status: "graded",
-    teacher: "王老师",
-    grade: 92,
-    feedback: "整体掌握良好，注意几个易混淆单词的拼写"
-  },
-  {
-    id: 4,
-    title: "力学实验报告",
-    subject: "物理",
-    description: "根据课堂实验数据，完成力学实验报告，包括数据分析和误差计算",
-    startTime: "2023-09-28 14:00",
-    endTime: "2023-10-05 20:00",
-    status: "graded",
-    teacher: "赵老师",
-    grade: 85,
-    feedback: "实验数据记录完整，但误差分析部分需要更加深入"
-  },
-  {
-    id: 5,
-    title: "元素周期表背诵",
-    subject: "化学",
-    description: "背诵元素周期表中主族元素的名称、符号和原子序数",
-    startTime: "2023-10-12 08:00",
-    endTime: "2023-10-18 20:00",
-    status: "pending",
-    teacher: "刘老师",
-    grade: null,
-    feedback: null
-  },
-  {
-    id: 6,
-    title: "中国近代史论文",
-    subject: "历史",
-    description: "选择一个中国近代史上的重要事件，撰写一篇不少于1000字的论文",
-    startTime: "2023-09-20 08:00",
-    endTime: "2023-09-30 20:00",
-    status: "expired",
-    teacher: "陈老师",
-    grade: null,
-    feedback: null
-  }
-]);
+// 我的作业数据（包含作业发布和提交信息）
+const myHomeworks = ref([]);
+
+// 作业发布列表
+const assignmentList = ref([]);
+
+// 提交记录映射
+const submissionMap = ref({});
 
 // 获取状态对应的颜色
 const getStatusColor = (status) => {
@@ -252,7 +184,7 @@ const removeFile = (index) => {
 };
 
 // 提交作业
-const submitHomework = () => {
+const submitHomework = async () => {
   if (!homeworkSubmission.value.content && fileList.value.length === 0) {
     alert('请提供作业内容或上传附件');
     return;
@@ -260,23 +192,52 @@ const submitHomework = () => {
   
   uploading.value = true;
   
-  // 模拟API调用延迟
-  setTimeout(() => {
-    // 这里应该有API调用来提交作业
-    if (selectedHomework.value) {
-      // 更新作业状态
-      const index = myHomeworks.value.findIndex(h => h.id === selectedHomework.value.id);
-      if (index !== -1) {
-        myHomeworks.value[index].status = 'submitted';
-      }
+  try {
+    // 处理文件上传（这里简化处理，实际应该上传到服务器）
+    let fileAddress = '';
+    if (fileList.value.length > 0) {
+      // 实际应该调用文件上传API
+      fileAddress = `/uploads/${fileList.value[0].name}`;
     }
     
-    uploading.value = false;
-    closeSubmitDialog();
+    // 判断是新建还是编辑
+    const isEdit = selectedHomework.value.submissionId;
     
-    // 显示成功消息
-    alert('作业提交成功');
-  }, 1000);
+    const submitData = {
+      assignmentId: selectedHomework.value.id,
+      content: homeworkSubmission.value.content,
+      fileAddress: fileAddress
+    };
+    
+    let response;
+    if (isEdit) {
+      // 编辑已提交的作业
+      response = await baseRequest.post('/homework/submission/edit', {
+        ...submitData,
+        id: selectedHomework.value.submissionId,
+        version: selectedHomework.value.submissionVersion
+      });
+    } else {
+      // 新建提交
+      response = await baseRequest.post('/homework/submission/add', submitData);
+    }
+    
+    if (response.status === 200) {
+      alert('作业提交成功！');
+      closeSubmitDialog();
+      
+      // 重新加载数据
+      await loadSubmissions();
+      mergeHomeworkData();
+    } else {
+      alert(response.msg || '提交失败');
+    }
+  } catch (error) {
+    console.error('提交作业失败:', error);
+    alert('提交失败，请稍后重试');
+  } finally {
+    uploading.value = false;
+  }
 };
 
 // 格式化日期时间，改进成实际功能
@@ -305,6 +266,49 @@ const formatDateTime = (dateTimeStr) => {
   }
 };
 
+// 格式化文本为HTML（支持简单的markdown格式）
+const formatText = (text) => {
+  if (!text) return '';
+  
+  let formatted = text;
+  
+  // 转义HTML特殊字符
+  formatted = formatted
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+  
+  // 处理标题（### 、## 、# ）
+  formatted = formatted.replace(/^### (.+)$/gm, '<h5 class="mt-3 mb-2 fw-bold">$1</h5>');
+  formatted = formatted.replace(/^## (.+)$/gm, '<h4 class="mt-3 mb-2 fw-bold">$1</h4>');
+  formatted = formatted.replace(/^# (.+)$/gm, '<h3 class="mt-3 mb-2 fw-bold">$1</h3>');
+  
+  // 处理粗体 **text**
+  formatted = formatted.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  
+  // 处理【标题】格式
+  formatted = formatted.replace(/【(.+?)】/g, '<strong class="text-primary">【$1】</strong>');
+  
+  // 处理列表项（数字列表和点列表）
+  formatted = formatted.replace(/^(\d+)\.\s+(.+)$/gm, '<div class="list-item"><span class="list-number">$1.</span> $2</div>');
+  formatted = formatted.replace(/^[•·]\s+(.+)$/gm, '<div class="list-item"><span class="list-bullet">•</span> $1</div>');
+  
+  // 处理换行
+  formatted = formatted.replace(/\n/g, '<br>');
+  
+  // 处理分数格式（例如：20分、(20分)）
+  formatted = formatted.replace(/（(\d+)分）/g, '<span class="score-tag">（$1分）</span>');
+  formatted = formatted.replace(/(\d+)分/g, '<span class="score-tag">$1分</span>');
+  
+  // 处理✓和✗符号
+  formatted = formatted.replace(/✓/g, '<i class="fas fa-check text-success"></i>');
+  formatted = formatted.replace(/✗/g, '<i class="fas fa-times text-danger"></i>');
+  formatted = formatted.replace(/[✅]/g, '<i class="fas fa-check-circle text-success"></i>');
+  formatted = formatted.replace(/[❌]/g, '<i class="fas fa-times-circle text-danger"></i>');
+  
+  return formatted;
+};
+
 // 检查截止日期状态，添加即将到期警告
 const getDeadlineStatus = (endTime) => {
   const now = new Date();
@@ -330,13 +334,89 @@ const getDeadlineStatus = (endTime) => {
   return { warning: false };
 };
 
+// 加载作业发布列表
+const loadAssignments = async () => {
+  try {
+    const response = await baseRequest.post('/homework/assignment/list', {
+      currentPage: 1,
+      pageSize: 100
+      // 不筛选status，加载所有作业
+    });
+    
+    if (response.status === 200 && response.data && response.data.list) {
+      // 只保留未开始和进行中的作业，过滤掉已结束的作业
+      assignmentList.value = response.data.list.filter(item => 
+        item.status === 'pending' || item.status === 'progress'
+      );
+    }
+  } catch (error) {
+    console.error('加载作业列表失败:', error);
+  }
+};
+
+// 加载学生的提交记录
+const loadSubmissions = async () => {
+  try {
+    const response = await baseRequest.post('/homework/submission/list', {
+      currentPage: 1,
+      pageSize: 100
+    });
+    
+    if (response.status === 200 && response.data && response.data.list) {
+      // 创建提交记录映射
+      submissionMap.value = {};
+      response.data.list.forEach(submission => {
+        submissionMap.value[submission.assignmentId] = submission;
+      });
+    }
+  } catch (error) {
+    console.error('加载提交记录失败:', error);
+  }
+};
+
+// 合并作业和提交数据
+const mergeHomeworkData = () => {
+  myHomeworks.value = assignmentList.value.map(assignment => {
+    const submission = submissionMap.value[assignment.id];
+    
+    // 确定作业状态
+    let status = 'pending'; // 待提交
+    let grade = null;
+    let feedback = null;
+    
+    if (submission) {
+      status = submission.status; // submitted 或 graded
+      grade = submission.grade;
+      feedback = submission.feedback;
+    }
+    
+    return {
+      id: assignment.id,
+      title: assignment.title,
+      subject: assignment.subject || '其他',
+      description: assignment.content,
+      startTime: assignment.startTime,
+      endTime: assignment.endTime,
+      status: status,
+      teacher: assignment.teacherName || '未知教师',
+      grade: grade,
+      feedback: feedback,
+      submissionId: submission?.id,
+      submissionVersion: submission?.version
+    };
+  });
+};
+
 // 页面加载时获取作业数据
-onMounted(() => {
-  // 模拟加载数据
+onMounted(async () => {
   loading.value = true;
-  setTimeout(() => {
+  try {
+    await loadAssignments();
+    await loadSubmissions();
+    mergeHomeworkData();
+  } finally {
     loading.value = false;
-  }, 500);
+  }
 });
 </script>
 
@@ -529,11 +609,13 @@ onMounted(() => {
             </div>
             
             <div class="card mb-3" v-if="selectedHomework.status === 'graded' && selectedHomework.feedback">
-              <div class="card-header pb-0 pt-3">
-                <h6 class="mb-0">教师反馈</h6>
+              <div class="card-header pb-0 pt-3 bg-light">
+                <h6 class="mb-0">
+                  <i class="fas fa-comment-dots me-2 text-primary"></i>教师反馈
+                </h6>
               </div>
               <div class="card-body">
-                <p class="text-sm">{{ selectedHomework.feedback }}</p>
+                <div class="formatted-feedback" v-html="formatText(selectedHomework.feedback)"></div>
               </div>
             </div>
           </div>
@@ -813,5 +895,62 @@ h4 {
 
 .uploaded-file-item:hover {
   background-color: #f0f2ff;
+}
+
+/* 格式化内容样式 */
+.formatted-feedback {
+  line-height: 1.8;
+  color: #344767;
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border-left: 4px solid #5e72e4;
+}
+
+.formatted-feedback h3,
+.formatted-feedback h4,
+.formatted-feedback h5 {
+  color: #344767;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.formatted-feedback .list-item {
+  margin: 0.5rem 0;
+  padding-left: 0.5rem;
+  display: flex;
+  align-items: flex-start;
+}
+
+.formatted-feedback .list-number {
+  color: #5e72e4;
+  font-weight: 600;
+  min-width: 2rem;
+  margin-right: 0.5rem;
+}
+
+.formatted-feedback .list-bullet {
+  color: #5e72e4;
+  font-weight: 600;
+  min-width: 1.5rem;
+  margin-right: 0.5rem;
+}
+
+.formatted-feedback .score-tag {
+  color: #f53939;
+  font-weight: 600;
+  background: rgba(245, 57, 57, 0.1);
+  padding: 0.1rem 0.3rem;
+  border-radius: 0.25rem;
+}
+
+.formatted-feedback strong {
+  color: #344767;
+  font-weight: 600;
+}
+
+.formatted-feedback .text-primary {
+  color: #5e72e4 !important;
+  font-weight: 600;
 }
 </style>
