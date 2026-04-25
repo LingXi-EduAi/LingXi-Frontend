@@ -18,7 +18,7 @@ const store = useStore();
               href="https://www.creative-tim.com"
               class="font-weight-bold"
               target="_blank"
-              >LESSON X EduAI</a
+              >灵犀 EduAI</a
             >
           </div>
         </div>
@@ -31,7 +31,7 @@ const store = useStore();
                 href="https://gitee.com/HexWarrior6/ling-xi-edu-ai-ui"
                 class="nav-link text-muted"
                 target="_blank"
-                >LESSON X EduAI</a
+                >灵犀 EduAI</a
               >
             </li>
             <li class="nav-item">

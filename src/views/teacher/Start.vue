@@ -144,7 +144,7 @@ const statusStyles = {
                       labels: ['已完成', '未完成'],
                       datasets: [{
                         data: [35, 28],
-                        backgroundColor: ['#1e537f','#86b9e3']
+                        backgroundColor: ['#4BB543', '#FF6B6B']
                       }]
                     }"
                   />
@@ -158,7 +158,7 @@ const statusStyles = {
                       labels: ['已完成', '未完成'],
                       datasets: [{
                         data: [34, 38],
-                        backgroundColor: ['#1e537f','#86b9e3']
+                        backgroundColor: ['#4BB543', '#FF6B6B']
                       }]
                     }"
                   />
@@ -172,7 +172,7 @@ const statusStyles = {
                       labels: ['已完成', '未完成'],
                       datasets: [{
                         data: [12, 23],
-                        backgroundColor: ['#1e537f','#86b9e3']
+                        backgroundColor: ['#4BB543', '#FF6B6B']
                       }]
                     }"
                   />
@@ -185,7 +185,7 @@ const statusStyles = {
                       labels: ['已完成', '未完成'],
                       datasets: [{
                         data: [31, 24],
-                        backgroundColor: ['#1e537f','#86b9e3']
+                        backgroundColor: ['#4BB543', '#FF6B6B']
                       }]
                     }"
                   />

@@ -4,8 +4,8 @@ import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 import SidenavList from "./SidenavList.vue";
 import StudentSidenavList from "./StudentSidenavList.vue";
-import logo from "@/assets/img/LESSON-X.png";
-import logoWhite from "@/assets/img/LESSON-X.png";
+import logo from "@/assets/img/logo-ct-dark.png";
+import logoWhite from "@/assets/img/logo-ct.png";
 
 const store = useStore();
 const route = useRoute();
@@ -24,7 +24,7 @@ const isStudentPage = computed(() => {
   <div
     v-show="layout === 'default'"
     class="min-height-300 position-absolute w-100"
-    :class="`${darkMode ? 'bg-transparent' : 'bg-primary'}`"
+    :class="`${darkMode ? 'bg-transparent' : 'bg-success'}`"
   />
 
   <aside

@@ -9,7 +9,7 @@ const config = {
   development: {
     baseAPI: 'http://localhost:5678',
     aiAPI: 'https://cloud.dify.ai', // 默认Dify云服务地址，请根据实际情况修改
-    title: 'Lesson X 教育 - 开发环境',
+    title: '灵犀教育 - 开发环境',
     debug: true,
     websocketURL: 'ws://localhost:5678/ws',
     uploadURL: 'http://localhost:5678/upload',
@@ -19,7 +19,7 @@ const config = {
   production: {
     baseAPI: process.env.VUE_APP_BASE_API || 'https://api.yourdomain.com',
     aiAPI: process.env.VUE_APP_AI_API || 'https://ai.yourdomain.com',
-    title: 'Lesson X 教育',
+    title: '灵犀教育',
     debug: false,
     websocketURL: process.env.VUE_APP_WS_URL || 'wss://api.yourdomain.com/ws',
     uploadURL: process.env.VUE_APP_UPLOAD_URL || 'https://api.yourdomain.com/upload',
@@ -29,7 +29,7 @@ const config = {
   testing: {
     baseAPI: 'http://test-api.yourdomain.com',
     aiAPI: 'http://test-ai.yourdomain.com',
-    title: 'Lesson X 教育 - 测试环境',
+    title: '灵犀教育 - 测试环境',
     debug: true,
     websocketURL: 'ws://test-api.yourdomain.com/ws',
     uploadURL: 'http://test-api.yourdomain.com/upload',

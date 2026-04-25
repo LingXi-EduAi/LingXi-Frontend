@@ -139,7 +139,7 @@ const rankingPercentage = Math.round((classComparison.ranking / classComparison.
             labels: ['已完成', '未完成'],
             datasets: [{
               data: [personalStats.completionRate.completed, personalStats.completionRate.incomplete],
-              backgroundColor: ['#7eb7e0', '#FF6B6B']
+              backgroundColor: ['#4BB543', '#FF6B6B']
             }]
           }"
         />
