@@ -2,13 +2,13 @@
 
 ![logo](public/logo.png)
 
-
-
 ## 项目简介
 
 随着人工智能技术的飞速发展，我们深信 AI 在教育领域，尤其是在教师备课过程中，蕴含着巨大的潜力。"灵犀教育"应运而生，我们致力于利用前沿的 AI 技术，为教师提供一站式的智能备课解决方案。
 
 "灵犀教育"的核心使命是：**减轻教师备课负担，优化教学流程，提升教学效果，最终助力学生获得更优质、更个性化的学习体验与成果。**
+
+![alt text](docs/screenshot/screenshot1.png)
 
 ## 核心功能
 
@@ -76,42 +76,32 @@ src/views/
 ## 快速开始
 
 ### 1. 克隆项目
+
 ```bash
 git clone https://github.com/LingXi-EduAi/LingXi-Frontend.git
 cd LingXi-Frontend
 ```
 
 ### 2. 安装依赖
+
 ```bash
 npm install
-# 或使用yarn
-yarn install
 ```
 
 ### 3. 环境配置
 
-项目支持多种配置方式：
+根据 `.env.example` 创建 `.env.local` 文件：
 
-#### 方式一：使用环境变量（推荐）
-创建 `.env.local` 文件：
 ```bash
 # 后端API地址
-VUE_APP_BASE_API=http://localhost:5678
-# AI服务API地址  
-VUE_APP_AI_API=https://cloud.dify.ai
-```
-
-#### 方式二：修改配置文件
-直接修改 `src/config/env.js` 中的配置：
-```javascript
-development: {
-  baseAPI: 'http://localhost:5678',
-  aiAPI: 'https://cloud.dify.ai',
-  // 其他配置...
-}
+VUE_APP_BASE_API=YOUR_BASE_API_URL
+# AI服务（dify）API 地址及密钥
+VUE_APP_AI_API=YOUR_AI_API_URL
+VUE_APP_AI_KEY=YOUR_AI_KEY
 ```
 
 ### 4. 启动开发服务器
+
 ```bash
 npm run serve
 # 或使用yarn
@@ -119,9 +109,11 @@ yarn serve
 ```
 
 ### 5. 访问应用
+
 在浏览器中打开 `http://localhost:8080`
 
 ### 6. 构建生产版本
+
 ```bash
 npm run build
 # 或使用yarn
@@ -168,12 +160,14 @@ src/
 ### 开发规范
 
 #### 命名规范
+
 - **组件文件**: 使用PascalCase，如 `UserProfile.vue`
 - **页面文件**: 使用PascalCase，如 `StudentDashboard.vue`
 - **工具文件**: 使用camelCase，如 `apiUtils.js`
 - **样式类**: 使用kebab-case，如 `.user-profile-card`
 
 #### 代码规范
+
 - 使用ES6+语法
 - 组件使用Composition API
 - 统一使用2个空格缩进
@@ -181,6 +175,7 @@ src/
 - 提交前进行代码格式化
 
 #### API调用规范
+
 ```javascript
 // 推荐使用封装的API方法
 import { baseRequest } from '@/utils/api';
@@ -201,21 +196,25 @@ try {
 ### 主要特性
 
 #### 响应式设计
+
 - 支持移动端、平板和桌面端
 - 使用Bootstrap 5响应式栅格系统
 - 适配主流分辨率和设备
 
 #### 主题定制
+
 - 支持浅色/深色主题切换
 - 可自定义主题色彩
 - 支持组件级别的样式覆盖
 
 #### 国际化支持
+
 - 预留国际化接口
 - 支持多语言切换
 - 日期、时间本地化处理
 
 #### 性能优化
+
 - 路由懒加载
 - 组件按需加载
 - 图片懒加载
@@ -232,33 +231,12 @@ npm run serve
 
 # 构建生产版本
 npm run build
-
-# 运行单元测试
-npm run test:unit
-
-# 运行端到端测试
-npm run test:e2e
-
-# 代码检查
-npm run lint
-
-# 代码格式化
-npm run lint:fix
 ```
-
-### 浏览器兼容性
-
-| 浏览器 | 支持版本 |
-|--------|----------|
-| Chrome | 90+ |
-| Firefox | 88+ |
-| Safari | 14+ |
-| Edge | 90+ |
-| IE | 不支持 |
 
 ### 部署指南
 
 #### 开发环境部署
+
 ```bash
 # 启动开发服务器
 npm run serve
@@ -267,43 +245,13 @@ npm run serve
 ```
 
 #### 生产环境部署
+
 ```bash
 # 构建生产版本
 npm run build
 
 # 部署到Web服务器
 # 将dist目录内容复制到Web服务器根目录
-```
-
-#### Docker部署
-```bash
-# 构建镜像
-docker build -t lingxi-frontend .
-
-# 运行容器
-docker run -d -p 80:80 lingxi-frontend
-```
-
-#### Nginx配置示例
-```nginx
-server {
-    listen 80;
-    server_name your-domain.com;
-    root /var/www/html;
-    index index.html;
-
-    # 处理Vue Router的history模式
-    location / {
-        try_files $uri $uri/ /index.html;
-    }
-
-    # API代理
-    location /api {
-        proxy_pass http://backend:5678;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-    }
-}
 ```
 
 ### 故障排除
@@ -340,17 +288,20 @@ server {
 我们欢迎所有形式的贡献！
 
 #### 提交Bug报告
+
 1. 在GitHub Issues中搜索是否已有相同问题
 2. 创建新的Issue，详细描述问题
 3. 提供复现步骤和环境信息
 4. 如可能，提供错误截图或日志
 
 #### 提交功能请求
+
 1. 在Issues中描述新功能的需求和用例
 2. 说明功能的预期行为
 3. 考虑功能对现有系统的影响
 
 #### 提交代码
+
 1. Fork项目到个人仓库
 2. 创建功能分支 (`git checkout -b feature/amazing-feature`)
 3. 遵循代码规范进行开发
@@ -389,8 +340,7 @@ server {
 - **项目主页**: [https://github.com/LingXi-EduAi/LingXi-Frontend](https://github.com/LingXi-EduAi/LingXi-Frontend)
 - **问题反馈**: [GitHub Issues](https://github.com/LingXi-EduAi/LingXi-Frontend/issues)
 - **技术交流**: [Discussions](https://github.com/LingXi-EduAi/LingXi-Frontend/discussions)
-- **官方网站**: [https://lingxi-edu.com](https://lingxi-edu.com)
-- **技术支持**: support@lingxi-edu.com
+- **官方网站**: [https://lx.hexwarrior6.top](https://lx.hexwarrior6.top)
 
 ### 致谢
 
