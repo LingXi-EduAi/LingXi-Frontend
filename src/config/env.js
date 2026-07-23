@@ -8,7 +8,7 @@ const env = process.env.NODE_ENV || 'development';
 const config = {
   development: {
     baseAPI: 'http://localhost:5678',
-    aiAPI: 'https://cloud.dify.ai', // 默认Dify云服务地址，请根据实际情况修改
+    aiAPI: process.env.VUE_APP_AI_API || '', // 从环境变量读取，不提供硬编码默认值
     title: '灵犀教育 - 开发环境',
     debug: true,
     websocketURL: 'ws://localhost:5678/ws',

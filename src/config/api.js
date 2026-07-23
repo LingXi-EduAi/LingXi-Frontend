@@ -6,8 +6,8 @@
 // 基础服务 API 地址
 export const BASE_API = process.env.VUE_APP_BASE_API || 'http://localhost:5678';
 
-// AI 服务 API 地址
-export const AI_API = process.env.VUE_APP_AI_API || 'https://cloud.dify.ai';
+// AI 服务 API 地址（必须通过环境变量设置，不提供默认值）
+export const AI_API = process.env.VUE_APP_AI_API;
 
 // 创建 axios 实例的配置
 export const createBaseAPIConfig = () => ({

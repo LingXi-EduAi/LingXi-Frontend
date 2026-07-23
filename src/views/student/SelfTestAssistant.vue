@@ -1,6 +1,6 @@
 <script setup>
 import '@/styles/single-card-common.css';
-const aiApiUrl = process.env.VUE_APP_AI_API || 'http://68.183.234.61';
+const aiApiUrl = process.env.VUE_APP_AI_API;
 const appPath = '/chatbot/pO2LCKEFZiiBm6eA';
 </script>
 
