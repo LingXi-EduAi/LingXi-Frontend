@@ -1,14 +1,14 @@
 <script setup>
 import { ref, onBeforeUnmount, onMounted } from "vue";
-import { AI_API } from "@/config/api"; // 导入配置的 AI API 地址
+import { AI_API } from "@/config/api";
+import { getToken } from "@/utils/request";
 
 // 聊天数据
 const conversations = ref([]);
 const currentConversationId = ref(null);
 const messages = ref([]);
 const newMessage = ref("");
-const apiKey = process.env.VUE_APP_AI_KEY; 
-const userId = "user-123"; // 唯一用户标识符
+const apiKey = process.env.VUE_APP_AI_KEY;
 let eventSource = null; // 用于处理流式响应
 
 // 开始新聊天
@@ -80,7 +80,7 @@ const sendMessage = async () => {
     query: newMessage.value,
     response_mode: "streaming",
     conversation_id: currentConversationId.value || "",
-    user: userId,
+    user: getToken() || "anonymous",
     files: [], // 如果需要，添加文件支持
     auto_generate_name: true,
   };
